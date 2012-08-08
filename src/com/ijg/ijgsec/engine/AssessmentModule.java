@@ -45,6 +45,8 @@ public class AssessmentModule {
 					vulnerabilities.add(vulnerability);
 					engine.addVulnerability(vulnerability);
 					changed++;
+				} else if (engine.vulnerabilities.contains(vulnerability)) {
+					engine.removeVulnerability(vulnerability);
 				}
 			}
 		}

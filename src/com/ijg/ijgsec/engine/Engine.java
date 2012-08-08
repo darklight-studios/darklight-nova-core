@@ -134,6 +134,10 @@ public class Engine implements Runnable {
 		vulnerabilities.add(vulnerability);
 	}
 	
+	public void removeVulnerability(Vulnerability vulnerability) {
+		vulnerabilities.remove(vulnerability);
+	}
+	
 	/*
 	 * Should be used if a GUI is made to view the found vulnerabilities
 	 */
