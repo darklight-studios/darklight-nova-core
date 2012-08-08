@@ -54,6 +54,11 @@ public class Engine implements Runnable {
 					gui.update();
 					timer = System.currentTimeMillis();
 				}
+				try {
+					Thread.sleep(20); // arbitrarily chose 20, runs ok at this
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			} else {
 				System.exit(0);
 			}
