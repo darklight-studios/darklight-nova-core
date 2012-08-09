@@ -16,7 +16,5 @@ public class Module {
 		vulnerabilities = new ArrayList<Vulnerability>();
 	}
 	
-	public ArrayList<Vulnerability> fixed() {
-		return vulnerabilities;
-	}
+	public void fixed() { }
 }

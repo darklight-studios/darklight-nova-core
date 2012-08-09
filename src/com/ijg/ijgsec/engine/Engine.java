@@ -20,6 +20,8 @@ public class Engine implements Runnable {
 	
 	GUI gui;
 	
+	long assessIntervalTimer;
+	
 	public static void main(String[] args) {
 		new Engine();
 	}
@@ -46,13 +48,13 @@ public class Engine implements Runnable {
 	}
 
 	public void run() {
-		long timer = System.currentTimeMillis();
+		assessIntervalTimer = System.currentTimeMillis();
 		while (running) {
 			if (bNotFinished) { // assessment is active
-				if (System.currentTimeMillis() - timer >= 60000L) { // auto check every 60 seconds
+				if (System.currentTimeMillis() - assessIntervalTimer >= 120000L) { // auto check every 120 seconds
 					assessModule.report();
 					gui.update();
-					timer = System.currentTimeMillis();
+					assessIntervalTimer = System.currentTimeMillis();
 				}
 				try {
 					Thread.sleep(20); // arbitrarily chose 20, runs ok at this
@@ -115,11 +117,7 @@ public class Engine implements Runnable {
 	}
 
 	public String getFound() {
-		return "" + found;
-	}
-
-	public void setFound(double found) {
-		this.found = found;
+		return "" + vulnerabilities.size();
 	}
 
 	public String getPercent() {
@@ -136,6 +134,10 @@ public class Engine implements Runnable {
 	
 	public void removeVulnerability(Vulnerability vulnerability) {
 		vulnerabilities.remove(vulnerability);
+	}
+	
+	public void resetIntervalTimer() {
+		assessIntervalTimer = System.currentTimeMillis();
 	}
 	
 	/*

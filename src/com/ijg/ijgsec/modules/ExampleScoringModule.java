@@ -1,7 +1,5 @@
 package com.ijg.ijgsec.modules;
 
-import java.util.ArrayList;
-
 import com.ijg.ijgsec.engine.AssessmentModule;
 import com.ijg.ijgsec.engine.Module;
 import com.ijg.ijgsec.engine.Vulnerability;
@@ -34,17 +32,23 @@ public class ExampleScoringModule extends Module {
 		return false;
 	}
 	
-	public ArrayList<Vulnerability> fixed() {
+	public void fixed() {
 		/*
-		 * The fixed() method inherited from the superclass
+		 * The fixed() method, inherited from the superclass,
 		 * should be overridden in every scoring module class.
-		 * This method should include a call to clear the 
-		 * vulnerabilities ArrayList, add any found vulnerabilities,
-		 * and finally return the vulnerabilities ArrayList
+		 * This method should:
+		 * 1. Check what vulnerabilities are found, if they are
+		 *    found set their found boolean to true, if not set
+		 *    it to false
+		 * 2. Clear the inherited vulnerablities array list
+		 * 3. Add all vulnerabilities contained in the module
+		 *    to the vulnerabilities array list
 		 */
 		
+		if (fixedExampleVulnerability()) exampleVulnerability.found = true;
+		else exampleVulnerability.found = false;
+		
 		vulnerabilities.clear();
-		if (fixedExampleVulnerability()) vulnerabilities.add(exampleVulnerability);
-		return vulnerabilities;
+		vulnerabilities.add(exampleVulnerability);
 	}
 }

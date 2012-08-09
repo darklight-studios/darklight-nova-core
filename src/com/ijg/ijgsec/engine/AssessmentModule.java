@@ -39,14 +39,18 @@ public class AssessmentModule {
 		 */
 		int changed = 0;
 		for (Module module : modules) {
-			ArrayList<Vulnerability> modVulns = module.fixed(); // add all fixed vulnerabilities for the given module
-			for (Vulnerability vulnerability : modVulns) {
-				if (!vulnerabilities.contains(vulnerability)) { // check for vulnerabilities not yet found
-					vulnerabilities.add(vulnerability);
-					engine.addVulnerability(vulnerability);
-					changed++;
-				} else if (engine.vulnerabilities.contains(vulnerability)) {
-					engine.removeVulnerability(vulnerability);
+			module.fixed();
+			for (Vulnerability vulnerability : module.vulnerabilities) {
+				if (!vulnerabilities.contains(vulnerability)) {
+					if (vulnerability.found && vulnerability != null) {
+						addVulnerability(vulnerability);
+						changed++;
+					}
+				} else {
+					if (!vulnerability.found) {
+						removeVulnerability(vulnerability);
+						changed++;
+					}
 				}
 			}
 		}
@@ -54,13 +58,22 @@ public class AssessmentModule {
 	}
 	
 	private void update() {
-		engine.setFound(vulnerabilities.size());
 		engine.setPercent(((double) vulnerabilities.size()) / total);
 	}
 	
 	public void report() {
 		assess();
 		update();
+	}
+	
+	private void addVulnerability(Vulnerability vulnerability) {
+		vulnerabilities.add(vulnerability);
+		engine.addVulnerability(vulnerability);
+	}
+	
+	private void removeVulnerability(Vulnerability vulnerability) {
+		vulnerabilities.remove(vulnerability);
+		engine.removeVulnerability(vulnerability);
 	}
 	
 	public String toString() {
