@@ -12,7 +12,8 @@ public class Engine implements Runnable {
 	
 	boolean running, bNotFinished;
 	
-	public double total, found;
+	public double pFound;
+	public double total;
 	public double percent;
 	public ArrayList<Vulnerability> vulnerabilities;
 	
@@ -56,19 +57,34 @@ public class Engine implements Runnable {
 					gui.update();
 					assessIntervalTimer = System.currentTimeMillis();
 				}
-				try {
-					Thread.sleep(20); // arbitrarily chose 20, runs ok at this
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			} else {
-				System.exit(0);
 			}
+			try {
+				Thread.sleep(20); // arbitrarily chose 20, runs ok at this
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.exit(0);
+	}
+	
+	public void update() {
+		/*
+		 * Instead of placing this in add/remove
+		 * vulnerability methods, made an update
+		 * method to be run from AssessmentModule
+		 * in report()
+		 */
+		pFound = vulnerabilities.size();
+		
+		if (vulnerabilities.size() == total) {
+			bNotFinished = false;
+		} else if (vulnerabilities.size() < total) {
+			bNotFinished = true;
 		}
 	}
 	
 	public void finishSession() {
-		bNotFinished = false;
+		running = false;
 	}
 	
 	public void writeFoundList() {
@@ -129,11 +145,19 @@ public class Engine implements Runnable {
 	}
 	
 	public void addVulnerability(Vulnerability vulnerability) {
-		vulnerabilities.add(vulnerability);
+		if (vulnerability != null) {
+			vulnerabilities.add(vulnerability);
+		}
 	}
 	
 	public void removeVulnerability(Vulnerability vulnerability) {
-		vulnerabilities.remove(vulnerability);
+		if (vulnerability != null) {
+			vulnerabilities.remove(vulnerability);
+		}
+	}
+	
+	public boolean finished() {
+		return !bNotFinished;
 	}
 	
 	public void resetIntervalTimer() {

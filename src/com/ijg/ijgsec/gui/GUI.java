@@ -1,5 +1,6 @@
 package com.ijg.ijgsec.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -107,6 +108,18 @@ public class GUI {
 	}
 	
 	public void update() {
+		// Customizing the color based on progress/changes
+		if (engine.finished()) {
+			found.setForeground(Color.green);
+			percent.setForeground(Color.green);
+		} else if (engine.pFound > engine.vulnerabilities.size()) {
+			found.setForeground(Color.red);
+			percent.setForeground(Color.red);
+		} else {
+			found.setForeground(Color.black);
+			percent.setForeground(Color.black);
+		}
+		
 		found.setText(engine.getFound());
 		percent.setText(engine.getPercent());
 	}

@@ -62,6 +62,7 @@ public class AssessmentModule {
 	}
 	
 	public void report() {
+		engine.update();
 		assess();
 		update();
 	}
