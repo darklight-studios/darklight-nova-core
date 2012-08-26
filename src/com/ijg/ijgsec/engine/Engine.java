@@ -21,8 +21,6 @@ public class Engine implements Runnable {
 	
 	GUI gui;
 	
-	long assessIntervalTimer;
-	
 	public static void main(String[] args) {
 		new Engine();
 	}
@@ -49,38 +47,14 @@ public class Engine implements Runnable {
 	}
 
 	public void run() {
-		assessIntervalTimer = System.currentTimeMillis();
 		while (running) {
-			if (bNotFinished) { // assessment is active
-				if (System.currentTimeMillis() - assessIntervalTimer >= 120000L) { // auto check every 120 seconds
-					assessModule.report();
-					gui.update();
-					assessIntervalTimer = System.currentTimeMillis();
-				}
-			}
 			try {
-				Thread.sleep(20); // arbitrarily chose 20, runs ok at this
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		System.exit(0);
-	}
-	
-	public void update() {
-		/*
-		 * Instead of placing this in add/remove
-		 * vulnerability methods, made an update
-		 * method to be run from AssessmentModule
-		 * in report()
-		 */
-		pFound = vulnerabilities.size();
-		
-		if (vulnerabilities.size() == total) {
-			bNotFinished = false;
-		} else if (vulnerabilities.size() < total) {
-			bNotFinished = true;
-		}
 	}
 	
 	public void finishSession() {
@@ -125,7 +99,7 @@ public class Engine implements Runnable {
 	 */
 	
 	public String getTotal() {
-		return "" + total;
+		return "" + (int) total;
 	}
 
 	public void setTotal(double total) {
@@ -145,23 +119,27 @@ public class Engine implements Runnable {
 	}
 	
 	public void addVulnerability(Vulnerability vulnerability) {
+		pFound = vulnerabilities.size();
 		if (vulnerability != null) {
 			vulnerabilities.add(vulnerability);
+		}
+		if (vulnerabilities.size() == total) {
+			bNotFinished = false;
 		}
 	}
 	
 	public void removeVulnerability(Vulnerability vulnerability) {
+		pFound = vulnerabilities.size();
 		if (vulnerability != null) {
 			vulnerabilities.remove(vulnerability);
+		}
+		if (vulnerabilities.size() == total) {
+			bNotFinished = false;
 		}
 	}
 	
 	public boolean finished() {
 		return !bNotFinished;
-	}
-	
-	public void resetIntervalTimer() {
-		assessIntervalTimer = System.currentTimeMillis();
 	}
 	
 	/*

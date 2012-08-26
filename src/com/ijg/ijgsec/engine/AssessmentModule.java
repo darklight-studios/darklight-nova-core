@@ -62,19 +62,22 @@ public class AssessmentModule {
 	}
 	
 	public void report() {
-		engine.update();
 		assess();
 		update();
 	}
 	
 	private void addVulnerability(Vulnerability vulnerability) {
-		vulnerabilities.add(vulnerability);
-		engine.addVulnerability(vulnerability);
+		if (!vulnerabilities.contains(vulnerability)) {
+			vulnerabilities.add(vulnerability);
+			engine.addVulnerability(vulnerability);
+		}
 	}
 	
 	private void removeVulnerability(Vulnerability vulnerability) {
-		vulnerabilities.remove(vulnerability);
-		engine.removeVulnerability(vulnerability);
+		if (vulnerabilities.contains(vulnerability)) {
+			vulnerabilities.remove(vulnerability);
+			engine.removeVulnerability(vulnerability);
+		}
 	}
 	
 	public String toString() {
