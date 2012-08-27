@@ -1,6 +1,7 @@
 package com.ijg.ijgsec.gui;
 
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.JButton;
 
@@ -21,6 +22,12 @@ public class MouseListener implements java.awt.event.MouseListener {
 				gui.update();
 			} else if (button.getActionCommand().equals("finish")) {
 				gui.engine.finishSession();
+			} else if (button.getActionCommand().equals("view")) {
+				try {
+					Runtime.getRuntime().exec("pythonw VulnView.pyw " + gui.engine.progressFile);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 	}

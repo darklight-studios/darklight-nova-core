@@ -17,6 +17,8 @@ public class Engine implements Runnable {
 	public double percent;
 	public ArrayList<Vulnerability> vulnerabilities;
 	
+	public String progressFile = "/home/blank/Desktop/progress";
+	
 	public AssessmentModule assessModule;
 	
 	GUI gui;
@@ -69,7 +71,7 @@ public class Engine implements Runnable {
 		 */
 		BufferedWriter out = null;
 		try {
-			out = new BufferedWriter(new FileWriter(new File("progress")));
+			out = new BufferedWriter(new FileWriter(new File(progressFile)));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -25,7 +25,7 @@ public class GUI {
 	
 	JFrame frame;
 	JPanel panel;
-	JButton refresh, finish;
+	JButton refresh, finish, view;
 	JLabel totalLabel, foundLabel, percentLabel;
 	JLabel total, found, percent;
 	
@@ -50,6 +50,10 @@ public class GUI {
 		finish = new JButton("End Session");
 		finish.setActionCommand("finish");
 		new MouseListener(this, finish);
+		
+		view = new JButton("View Found Vulnerabilities");
+		view.setActionCommand("view");
+		new MouseListener(this, view);
 		
 		totalLabel = new JLabel(TOTAL_TEXT);
 		foundLabel = new JLabel(FOUND_TEXT);
@@ -96,6 +100,12 @@ public class GUI {
 		c.ipadx = 0;
 		c.insets = new Insets(0, 5, 0, 5);
 		panel.add(finish, c);
+		
+		c.weightx = 0;
+		c.gridwidth = 4;
+		c.gridx = 0;
+		c.gridy = 4;
+		panel.add(view, c);
 
 		frame.setContentPane(panel);
 		frame.setTitle(title);
