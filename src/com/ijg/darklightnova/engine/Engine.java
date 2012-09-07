@@ -1,4 +1,4 @@
-package com.ijg.ijgsec.engine;
+package com.ijg.darklightnova.engine;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.ijg.ijgsec.gui.GUI;
+import com.ijg.darklightnova.gui.GUI;
 
 public class Engine implements Runnable {
 	

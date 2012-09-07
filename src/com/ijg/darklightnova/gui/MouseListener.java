@@ -1,4 +1,4 @@
-package com.ijg.ijgsec.gui;
+package com.ijg.darklightnova.gui;
 
 import java.awt.event.MouseEvent;
 import java.io.IOException;

@@ -8,7 +8,7 @@ class view:
         self.progress_file = progress_file
         
         self.root = Tk()
-        self.root.title('IJGSec VulnView')
+        self.root.title('Darklight-Nova VulnView')
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(0, weight=1)
 

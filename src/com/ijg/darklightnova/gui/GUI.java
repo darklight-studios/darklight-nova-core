@@ -1,4 +1,4 @@
-package com.ijg.ijgsec.gui;
+package com.ijg.darklightnova.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,12 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.ijg.ijgsec.engine.Engine;
+import com.ijg.darklightnova.engine.Engine;
 
 public class GUI {
 	Engine engine;
 	
-	static String title = "IJGSec ";
+	static String title = "Darklight-Nova";
 	static final int WIDTH = 300;
 	static final int HEIGHT = 200;
 	
@@ -37,7 +37,7 @@ public class GUI {
 	public GUI(Engine engine) {
 		this.engine = engine;
 		
-		title += engine.assessModule.toString();
+		//title += engine.assessModule.toString(); part of old IJGSec
 		
 		frame = new JFrame();
 		panel = (JPanel) frame.getContentPane();

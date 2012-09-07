@@ -1,8 +1,8 @@
-package com.ijg.ijgsec.modules;
+package com.ijg.darklightnova.modules;
 
-import com.ijg.ijgsec.engine.AssessmentModule;
-import com.ijg.ijgsec.engine.Module;
-import com.ijg.ijgsec.engine.Vulnerability;
+import com.ijg.darklightnova.engine.AssessmentModule;
+import com.ijg.darklightnova.engine.Module;
+import com.ijg.darklightnova.engine.Vulnerability;
 
 public class ExampleScoringModule extends Module {
 	/*

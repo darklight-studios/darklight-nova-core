@@ -41,9 +41,9 @@ class Worker:
 
     def INSTALL(self, args):
         print('INSTALL: {0}'.format(args))
-        dest_dir = 'C:\Program Files\IJGSec' if 'win' in sys.platform else '/usr/local/IJGSec'
+        dest_dir = 'C:\Program Files\Darklight-Nova' if 'win' in sys.platform else '/usr/local/Darklight-Nova'
         self.CMD(['mkdir', dest_dir])
-        self.PUSH(['IJGSec.jar', dest_dir])
+        self.PUSH(['Darklight-Nova.jar', dest_dir])
 
     def REPL(self, args):
         print('REPL: {0}'.format(args))

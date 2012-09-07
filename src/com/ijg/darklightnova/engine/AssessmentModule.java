@@ -1,4 +1,4 @@
-package com.ijg.ijgsec.engine;
+package com.ijg.darklightnova.engine;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,7 @@ public class AssessmentModule {
 	private Engine engine;
 	
 	// Accessed with toString(), used in the title of the GUI window
-	protected String name = "INSERT IMAGE NAME HERE";
+	final protected String name = "INSERT IMAGE NAME HERE";
 	
 	// Total vulnerabilities
 	public double total;
