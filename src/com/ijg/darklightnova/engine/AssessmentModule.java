@@ -12,10 +12,10 @@ public class AssessmentModule {
 	public double total;
 	
 	// List of all found vulnerabilities
-	public ArrayList<Vulnerability> vulnerabilities = new ArrayList<Vulnerability>();
+	public ArrayList<Issue> issues = new ArrayList<Issue>();
 	
 	// List of the scoring modules used
-	public ArrayList<Module> modules = new ArrayList<Module>();
+	public ArrayList<ScoreModule> modules = new ArrayList<ScoreModule>();
 	
 	public AssessmentModule(Engine engine) {
 		this.engine = engine;
@@ -25,59 +25,13 @@ public class AssessmentModule {
 		 * here.
 		 * Example:
 		modules.add(new ExampleScoreingModule(this));*/
-		
-		engine.setTotal(total);
 	}
 	
-	protected void assess() {
-		/*
-		 * changed variable used so that the engine
-		 * only writes to the progress file if
-		 * there have been any changes, so no time is
-		 * wasted writing a new progress file when there
-		 * are no changes
-		 */
-		int changed = 0;
-		for (Module module : modules) {
-			module.fixed();
-			for (Vulnerability vulnerability : module.vulnerabilities) {
-				if (!vulnerabilities.contains(vulnerability)) {
-					if (vulnerability.found && vulnerability != null) {
-						addVulnerability(vulnerability);
-						changed++;
-					}
-				} else {
-					if (!vulnerability.found) {
-						removeVulnerability(vulnerability);
-						changed++;
-					}
-				}
-			}
+	public void assess() {
+		for (ScoreModule module : modules) {
+			issues.addAll(module.check());
 		}
-		if (changed > 0) engine.writeFoundList(); // if there are newly found vulnerabilities, rewrite the progress file
-	}
-	
-	private void update() {
-		engine.setPercent(((double) vulnerabilities.size()) / total);
-	}
-	
-	public void report() {
-		assess();
-		update();
-	}
-	
-	private void addVulnerability(Vulnerability vulnerability) {
-		if (!vulnerabilities.contains(vulnerability)) {
-			vulnerabilities.add(vulnerability);
-			engine.addVulnerability(vulnerability);
-		}
-	}
-	
-	private void removeVulnerability(Vulnerability vulnerability) {
-		if (vulnerabilities.contains(vulnerability)) {
-			vulnerabilities.remove(vulnerability);
-			engine.removeVulnerability(vulnerability);
-		}
+		engine.writeFoundList(); // if there are newly found vulnerabilities, rewrite the progress file
 	}
 	
 	public String toString() {

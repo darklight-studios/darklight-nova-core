@@ -59,7 +59,7 @@ public class GUI {
 		foundLabel = new JLabel(FOUND_TEXT);
 		percentLabel = new JLabel(PERCENT_TEXT);
 		
-		total = new JLabel(engine.getTotal());
+		total = new JLabel("" + (int) engine.assessModule.total);
 		found = new JLabel("0");
 		percent = new JLabel("0%");
 		
@@ -122,15 +122,15 @@ public class GUI {
 		if (engine.finished()) {
 			found.setForeground(Color.green);
 			percent.setForeground(Color.green);
-		} else if (engine.pFound > engine.vulnerabilities.size()) {
+		} /*else if (engine.pFound > engine.vulnerabilities.size()) {
 			found.setForeground(Color.red);
 			percent.setForeground(Color.red);
-		} else {
+		}*/ else {
 			found.setForeground(Color.black);
 			percent.setForeground(Color.black);
 		}
 		
-		found.setText(engine.getFound());
-		percent.setText(engine.getPercent());
+		found.setText("" + engine.assessModule.issues.size());
+		percent.setText("" + (int) ((double) (engine.assessModule.issues.size()) / engine.assessModule.total) + "%");
 	}
 }
