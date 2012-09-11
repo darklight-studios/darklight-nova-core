@@ -37,8 +37,6 @@ public class GUI {
 	public GUI(Engine engine) {
 		this.engine = engine;
 		
-		//title += engine.assessModule.toString(); part of old IJGSec
-		
 		frame = new JFrame();
 		panel = (JPanel) frame.getContentPane();
 		panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
