@@ -3,7 +3,15 @@
 import sys
 import os
 
+WINDOWS = 'win' in sys.platform
 INSTRUCTIONS = ['REPL', 'PUSH', 'CMD', 'INSTALL']
+MODES = ['CORE', 'HEADLESS', 'LIVE']
+METHODS = ['COMPILE', 'JAR', 'SOURCE']
+
+'''Compile strings:
+javac -cp src -d bin src\com\ijg\darklightnova\engine\Engine.java
+java -classpath src com.ijg.darklightnova.engine.Engine
+'''
 
 class Parser:
     def __init__(self, build_file):
@@ -17,8 +25,7 @@ class Parser:
                 if len(instruction) == 3:
                     return True
             elif instruction[0] == 'INSTALL':
-                if len(instruction) == 2:
-                    return True
+                return True
             elif instruction[0] == 'CMD':
                 if len(instruction) >= 2:
                     return True
@@ -41,10 +48,40 @@ class Worker:
 
     def INSTALL(self, args):
         print('INSTALL: {0}'.format(args))
+        kwargs = {}
+        for arg in args:
+            if arg in METHODS:
+                kwargs['method'] = arg
+            elif arg in MODES:
+                kwargs['mode'] = arg
         dest_dir = 'C:\Program Files\Darklight-Nova' if 'win' in sys.platform else '/usr/local/Darklight-Nova'
+        
+        if os.path.exists(dest_dir):
+            if WINDOWS:
+                self.CMD(['rmdir', '/S', '/Q', dest_dir])
+            else:
+                self.CMD(['rm', '-rf', dest_dir])
+                
         self.CMD(['mkdir', dest_dir])
-        self.PUSH(['Darklight-Nova.jar', dest_dir])
-        self.REPL(['VulnView.py', os.path.join(dest_dir, 'VulnewView.pyw')])
+        self.CMD(['cp', os.path.realpath('Deploy.py'), dest_dir])
+        self.CMD([os.path.join(dest_dir, 'Deploy.py'), '-compile', MODE])
+
+        if kwargs.has_key('mode') and kwargs.has_key('method'):
+            if kwargs['mode'] == 'CORE':
+                self.REPL(['VulnView.py', os.path.join(dest_dir, 'VulnView.pyw')])
+            if kwargs['method'] == 'COMPILE':
+                if kwargs['mode'] == 'CORE':
+                    self.CMD(['javac', '-classpath', 'src', '-d', os.path.join(dest_dir, 'bin'), 'src\com\ijg\darklightnova\engine\Engine.java'])
+                elif kwargs['mode'] == 'HEADLESS':
+                    self.CMD(['javac', '-classpath', 'src', '-d', os.path.join(dest_dir, 'bin'), 'src\com\ijg\darklightnova\engine\Engine-Headless.java'])
+                elif kwargs['mode'] == 'LIVE':
+                    self.CMD(['javac', '-classpath', 'src', '-d', os.path.join(dest_dir, 'bin'), 'src\com\ijg\darklightnova\engine\Engine-Live.java'])
+        elif kwargs.has_key('method'):
+            if kwargs['method'] == 'SOURCE':
+                if WINDOWS:
+                    self.CMD(['xcopy', 'src', os.path.join(dest_dir, os.path.pathsep), '/S', '/Y'])
+                else:
+                    self.CMD(['cp', '-rf', 'src', dest_dir])
 
     def REPL(self, args):
         print('REPL: {0}'.format(args))
