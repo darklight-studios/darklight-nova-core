@@ -18,11 +18,14 @@ public class MouseListener implements java.awt.event.MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		if (button.contains(e.getPoint())) {
 			if (button.getActionCommand().equals("refresh")) {
+				// Refresh button
 				gui.engine.assessModule.assess();
 				gui.update();
 			} else if (button.getActionCommand().equals("finish")) {
+				// Finish button
 				gui.engine.finishSession();
 			} else if (button.getActionCommand().equals("view")) {
+				// View fixed issues button
 				try {
 					Runtime.getRuntime().exec("pythonw VulnView.pyw " + gui.engine.progressFile);
 				} catch (IOException e1) {

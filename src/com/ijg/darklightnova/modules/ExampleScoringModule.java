@@ -2,8 +2,8 @@ package com.ijg.darklightnova.modules;
 
 import java.util.ArrayList;
 
-import com.ijg.darklightnova.engine.Issue;
-import com.ijg.darklightnova.engine.ScoreModule;
+import com.ijg.darklightnova.core.Issue;
+import com.ijg.darklightnova.core.ScoreModule;
 
 public class ExampleScoringModule extends ScoreModule {
 	/*

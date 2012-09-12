@@ -1,20 +1,23 @@
-package com.ijg.darklightnova.engine;
+package com.ijg.darklightnova.headless;
 
 import java.util.ArrayList;
+
+import com.ijg.darklightnova.core.Issue;
+import com.ijg.darklightnova.core.ScoreModule;
 
 public class AssessmentModule {
 	private Engine engine;
 	
-	// Accessed with toString(), used in the title of the GUI window
+	// What is returned with toString()
 	final protected String name = "INSERT IMAGE NAME HERE";
 	
-	// Total vulnerabilities
+	// Total issues
 	public double total;
 	
-	// List of all found vulnerabilities
+	// List of all fixed issues
 	public ArrayList<Issue> issues = new ArrayList<Issue>();
 	
-	// List of the scoring modules used
+	// List of the scoring modules
 	public ArrayList<ScoreModule> modules = new ArrayList<ScoreModule>();
 	
 	public AssessmentModule(Engine engine) {
@@ -28,6 +31,8 @@ public class AssessmentModule {
 	}
 	
 	public void assess() {
+		// Clear the issues list, add all fixed issues
+		issues.clear();
 		for (ScoreModule module : modules) {
 			issues.addAll(module.check());
 		}

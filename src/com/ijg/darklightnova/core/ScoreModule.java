@@ -1,10 +1,8 @@
-package com.ijg.darklightnova.engine;
+package com.ijg.darklightnova.core;
 
 import java.util.ArrayList;
 
 public class ScoreModule {
-	protected ArrayList<Issue> issues;
-	
 	/*
 	 * All scoring modules are subclassed from
 	 * this

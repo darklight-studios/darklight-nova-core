@@ -1,4 +1,4 @@
-package com.ijg.darklightnova.engine;
+package com.ijg.darklightnova.core;
 
 public class Issue {
 	public String name;

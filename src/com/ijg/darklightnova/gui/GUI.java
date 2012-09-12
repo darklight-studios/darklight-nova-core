@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.ijg.darklightnova.engine.Engine;
+import com.ijg.darklightnova.core.Engine;
 
 public class GUI {
 	Engine engine;
@@ -19,8 +19,8 @@ public class GUI {
 	static final int WIDTH = 300;
 	static final int HEIGHT = 200;
 	
-	static final String TOTAL_TEXT = "Total vulnerabilities:";
-	static final String FOUND_TEXT = "Found vulnerabilities:";
+	static final String TOTAL_TEXT = "Total Issues:";
+	static final String FOUND_TEXT = "Found Issues:";
 	static final String PERCENT_TEXT = "Percent complete:";
 	
 	JFrame frame;
@@ -49,7 +49,7 @@ public class GUI {
 		finish.setActionCommand("finish");
 		new MouseListener(this, finish);
 		
-		view = new JButton("View Found Vulnerabilities");
+		view = new JButton("View Fixed Issues");
 		view.setActionCommand("view");
 		new MouseListener(this, view);
 		
@@ -116,18 +116,16 @@ public class GUI {
 	}
 	
 	public void update() {
-		// Customizing the color based on progress/changes
+		// Customizing the color based on completion status
 		if (engine.finished()) {
 			found.setForeground(Color.green);
 			percent.setForeground(Color.green);
-		} /*else if (engine.pFound > engine.vulnerabilities.size()) {
-			found.setForeground(Color.red);
-			percent.setForeground(Color.red);
-		}*/ else {
+		} else {
 			found.setForeground(Color.black);
 			percent.setForeground(Color.black);
 		}
 		
+		// Update numbers
 		found.setText("" + engine.assessModule.issues.size());
 		percent.setText("" + (int) ((double) (engine.assessModule.issues.size()) / engine.assessModule.total) + "%");
 	}

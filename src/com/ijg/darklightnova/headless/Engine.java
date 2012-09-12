@@ -1,20 +1,25 @@
-package com.ijg.darklightnova.engine;
+package com.ijg.darklightnova.headless;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import com.ijg.darklightnova.gui.GUI;
+
+import com.ijg.darklightnova.core.Issue;
 
 public class Engine implements Runnable {
 	
 	boolean running, bNotFinished;
 	
-	public String progressFile = "/home/blank/Desktop/progress";
+	/*
+	 * If this "kill file" exists, Darklight-Nova
+	 * will terminate
+	 */
+	File killFile = new File("/home/blank/Desktop/killdln");
+	
+	String progressFile = "/usr/local/Darklight-Nova/progress";
 	
 	public AssessmentModule assessModule;
-	
-	GUI gui;
 	
 	public static void main(String[] args) {
 		new Engine();
@@ -28,20 +33,28 @@ public class Engine implements Runnable {
 	
 	public void start() {
 		/*
-		 * Init the gui and the thread, start
-		 * the gears turning, do initial 
-		 * scoring and display...
+		 * Init thread, start the tick,
+		 * do initial assessment
 		 */
 		running = true;
-		gui = new GUI(this);
 		Thread engine = new Thread(this, "engine");
 		engine.start();
 		assessModule.assess();
-		gui.update();
 	}
 
 	public void run() {
+		long last = System.currentTimeMillis();
+		long interval = 5000L; // Assess every 5 seconds
 		while (running) {
+			if (System.currentTimeMillis() - last >= interval) {
+				// Check for kill file
+				if (killFile.exists()) {
+					running = false;
+				} else {
+					assessModule.assess();
+				}
+				last = System.currentTimeMillis();
+			}
 			try {
 				Thread.sleep(20);
 			} catch (InterruptedException e) {
@@ -49,10 +62,6 @@ public class Engine implements Runnable {
 			}
 		}
 		System.exit(0);
-	}
-	
-	public void finishSession() {
-		running = false;
 	}
 	
 	public void writeFoundList() {
@@ -68,7 +77,9 @@ public class Engine implements Runnable {
 			e.printStackTrace();
 		}
 		try {
-			out.write("#Any found (fixed) vulnerabilities are shown here in the format of:\n#Vulnerability name: Vulnerability description\n");
+			out.write("Found: " + assessModule.issues.size() + 
+					"\nTotal: " + assessModule.total + 
+					"\nPercent: " + (int) ((double) (assessModule.issues.size()) / assessModule.total) + "%" + "\n\n");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -84,9 +95,5 @@ public class Engine implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public boolean finished() {
-		return !bNotFinished;
 	}
 }
