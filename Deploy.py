@@ -25,7 +25,8 @@ class Parser:
                 if len(instruction) == 3:
                     return True
             elif instruction[0] == 'INSTALL':
-                return True
+                if len(instruction) >= 2:
+                    return True
             elif instruction[0] == 'CMD':
                 if len(instruction) >= 2:
                     return True
@@ -54,7 +55,7 @@ class Worker:
                 kwargs['method'] = arg
             elif arg in MODES:
                 kwargs['mode'] = arg
-        dest_dir = 'C:\Program Files\Darklight-Nova' if 'win' in sys.platform else '/usr/local/Darklight-Nova'
+        dest_dir = args[0]
         
         if os.path.exists(dest_dir):
             if WINDOWS:
@@ -63,19 +64,18 @@ class Worker:
                 self.CMD(['rm', '-rf', dest_dir])
                 
         self.CMD(['mkdir', dest_dir])
-        self.CMD(['cp', os.path.realpath('Deploy.py'), dest_dir])
-        self.CMD([os.path.join(dest_dir, 'Deploy.py'), '-compile', MODE])
 
         if kwargs.has_key('mode') and kwargs.has_key('method'):
             if kwargs['mode'] == 'CORE':
                 self.REPL(['VulnView.py', os.path.join(dest_dir, 'VulnView.pyw')])
             if kwargs['method'] == 'COMPILE':
+                self.CMD(['mkdir', os.path.join(dest_dir, 'bin')])
                 if kwargs['mode'] == 'CORE':
-                    self.CMD(['javac', '-classpath', 'src', '-d', os.path.join(dest_dir, 'bin'), 'src\com\ijg\darklightnova\engine\Engine.java'])
+                    self.CMD(['javac', '-classpath', 'src', '-d', os.path.join(dest_dir, 'bin'), 'src\com\ijg\darklightnova\core\Engine.java'])
                 elif kwargs['mode'] == 'HEADLESS':
-                    self.CMD(['javac', '-classpath', 'src', '-d', os.path.join(dest_dir, 'bin'), 'src\com\ijg\darklightnova\engine\Engine-Headless.java'])
+                    self.CMD(['javac', '-classpath', 'src', '-d', os.path.join(dest_dir, 'bin'), 'src\com\ijg\darklightnova\headless\Engine.java'])
                 elif kwargs['mode'] == 'LIVE':
-                    self.CMD(['javac', '-classpath', 'src', '-d', os.path.join(dest_dir, 'bin'), 'src\com\ijg\darklightnova\engine\Engine-Live.java'])
+                    self.CMD(['javac', '-classpath', 'src', '-d', os.path.join(dest_dir, 'bin'), 'src\com\ijg\darklightnova\live\Engine.java'])
         elif kwargs.has_key('method'):
             if kwargs['method'] == 'SOURCE':
                 if WINDOWS:
