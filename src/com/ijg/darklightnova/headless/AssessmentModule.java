@@ -27,7 +27,7 @@ public class AssessmentModule {
 		 * to the vulnerability list
 		 * here.
 		 * Example:
-		modules.add(new ExampleScoreingModule(this));*/
+		modules.add(new ExampleScoreingModule());*/
 	}
 	
 	public void assess() {
