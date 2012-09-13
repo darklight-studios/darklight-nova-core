@@ -28,12 +28,22 @@ public class AssessmentModule {
 	}
 	
 	public void assess() {
-		// Clear the issues list, add all fixed issues
-		issues.clear();
+		// Make any modifications necessary to the issues list
+		int changed = 0;
 		for (ScoreModule module : modules) {
-			issues.addAll(module.check());
+			ArrayList<Issue> modIssues = module.check();
+			for (Issue issue : modIssues) {
+				if (issue.fixed && !issues.contains(issue)) {
+					issues.add(issue);
+					changed++;
+				} else if (!issue.fixed && issues.contains(issue)) {
+					issues.remove(issue);
+					changed++;
+				}
+			}
 		}
-		engine.writeFoundList(); // if there are newly found vulnerabilities, rewrite the progress file
+		// If the issues list is changed, write a new progress file
+		if (changed > 0) engine.writeFoundList();
 	}
 	
 	public String toString() {

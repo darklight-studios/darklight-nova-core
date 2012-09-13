@@ -28,10 +28,19 @@ public class AssessmentModule {
 	}
 	
 	public void assess() {
-		// Clear the issues list, add all fixed issues
-		issues.clear();
+		/*
+		 * TODO: Account for score based on issue weight?
+		 */
+		// Make any modifications necessary to the issues list
 		for (ScoreModule module : modules) {
-			issues.addAll(module.check());
+			ArrayList<Issue> modIssues = module.check();
+			for (Issue issue : modIssues) {
+				if (issue.fixed && !issues.contains(issue)) {
+					issues.add(issue);
+				} else if (!issue.fixed && issues.contains(issue)) {
+					issues.remove(issue);
+				}
+			}
 		}
 	}
 	

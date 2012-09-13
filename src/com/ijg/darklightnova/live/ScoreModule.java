@@ -1,4 +1,4 @@
-package com.ijg.darklightnova.core;
+package com.ijg.darklightnova.live;
 
 import java.util.ArrayList;
 
@@ -38,6 +38,11 @@ public class ScoreModule {
 		 * 
 		 * Is there a better way to do this?
 		 */
+		
+		/*
+		 * Different way to do this using the weights?
+		 */
+		
 		return new ArrayList<Issue>();
 	}
 	
