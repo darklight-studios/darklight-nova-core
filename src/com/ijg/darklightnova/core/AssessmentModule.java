@@ -25,6 +25,7 @@ public class AssessmentModule {
 		 * here.
 		 * Example:
 		modules.add(new ExampleScoringModule());*/
+		total = modules.size();
 	}
 	
 	public void assess() {

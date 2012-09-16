@@ -23,7 +23,7 @@ public class ExampleScoringModule extends ScoreModule {
 		 * they are booleans, though sometimes other
 		 * return types are warranted.
 		 */
-		return false;
+		return true;
 	}
 	
 	public ArrayList<Issue> check() {

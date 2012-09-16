@@ -127,6 +127,6 @@ public class GUI {
 		
 		// Update numbers
 		found.setText("" + engine.assessModule.issues.size());
-		percent.setText("" + (int) ((double) (engine.assessModule.issues.size()) / engine.assessModule.total) + "%");
+		percent.setText("" + (int) ((double) ((engine.assessModule.issues.size()) / engine.assessModule.total) * 100) + "%");
 	}
 }

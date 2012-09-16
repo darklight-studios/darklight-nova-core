@@ -10,7 +10,7 @@ public class Engine implements Runnable {
 	
 	boolean running, bNotFinished;
 	
-	public String progressFile = "/usr/local/Darklight-Nova/progress";
+	public String progressFile = "C:\\Users\\Lucas\\AppData\\Roaming\\darklight-progress.dat"; //Should vary with OS installation.
 	
 	public AssessmentModule assessModule;
 	
@@ -60,8 +60,8 @@ public class Engine implements Runnable {
 		 * Write all found vulnerabilities
 		 * to the progress file in the format
 		 * of "name: description"
-		 */
-		BufferedWriter out = null;
+		*/
+		BufferedWriter out = null; //TODO: Declaring things null is never a good idea. If the try/catch below fails, you'll trigger NullPointerExceptions after that.
 		try {
 			out = new BufferedWriter(new FileWriter(new File(progressFile)));
 		} catch (IOException e) {
