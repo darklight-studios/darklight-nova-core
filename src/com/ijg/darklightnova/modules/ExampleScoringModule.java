@@ -17,7 +17,7 @@ public class ExampleScoringModule extends Module {
 		 * the numVulns is assigned in the super constructor
 		 * call to allow for telling the AssessmentModule
 		 * how many vulns this module has without manually
-		 * doing it with a seperate call to the AssessmentModule
+		 * doing it with a separate call to the AssessmentModule
 		 */
 		super(assessModule, numVulns = 2);
 	}
@@ -40,7 +40,7 @@ public class ExampleScoringModule extends Module {
 		 * 1. Check what vulnerabilities are found, if they are
 		 *    found set their found boolean to true, if not set
 		 *    it to false
-		 * 2. Clear the inherited vulnerablities array list
+		 * 2. Clear the inherited vulnerabilities array list
 		 * 3. Add all vulnerabilities contained in the module
 		 *    to the vulnerabilities array list
 		 */
