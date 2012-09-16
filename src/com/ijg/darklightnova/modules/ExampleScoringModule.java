@@ -11,7 +11,7 @@ public class ExampleScoringModule extends ScoreModule {
 	 */
 	
 	// static vulnerability declarations
-	static Issue exampleIssue = new Issue("Example Vulnerability", "This is an example vulnerability for the core IJGSec engine");
+	private Issue exampleIssue = new Issue("Example Vulnerability", "This is an example vulnerability.");
 	
 	public ExampleScoringModule() {
 	}
