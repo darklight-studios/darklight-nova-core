@@ -2,6 +2,8 @@ package com.ijg.darklightnova.engine;
 
 import java.util.ArrayList;
 
+import com.ijg.darklightnova.modules.ExampleScoringModule;
+
 public class AssessmentModule {
 	private Engine engine;
 	
@@ -24,7 +26,9 @@ public class AssessmentModule {
 		 * to the vulnerability list
 		 * here.
 		 * Example:
-		modules.add(new ExampleScoreingModule(this));*/
+		modules.add(new ExampleScoringModule(this));*/
+		
+		modules.add(new ExampleScoringModule(this));
 		
 		engine.setTotal(total);
 	}
