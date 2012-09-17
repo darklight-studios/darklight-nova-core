@@ -36,7 +36,7 @@ class view:
         self.vulns = {}
         lines = []
         with open(self.progress_file, 'r') as f:
-            lines = f.readlines()[2:]
+            lines = f.readlines()
         for i in range(len(lines)):
             if lines[i][-1] == '\n':
                 lines[i] = lines[i][:-1]
