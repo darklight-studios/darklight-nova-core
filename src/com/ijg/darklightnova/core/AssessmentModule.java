@@ -24,26 +24,30 @@ public class AssessmentModule {
 		 * to the vulnerability list
 		 * here.
 		 * Example:
-		modules.add(new ExampleScoreingModule());*/
+		modules.add(new ExampleScoringModule());*/
+		
+		for (ScoreModule m : modules) {
+			total += m.getIssueCount();
+		}
 	}
 	
 	public void assess() {
 		// Make any modifications necessary to the issues list
-		int changed = 0;
+		boolean changed = false;
 		for (ScoreModule module : modules) {
 			ArrayList<Issue> modIssues = module.check();
 			for (Issue issue : modIssues) {
 				if (issue.fixed && !issues.contains(issue)) {
 					issues.add(issue);
-					changed++;
+					changed = true;
 				} else if (!issue.fixed && issues.contains(issue)) {
 					issues.remove(issue);
-					changed++;
+					changed = true;
 				}
 			}
 		}
 		// If the issues list is changed, write a new progress file
-		if (changed > 0) engine.writeFoundList();
+		if (changed == true) engine.writeFoundList();
 	}
 	
 	public String toString() {

@@ -15,13 +15,13 @@ import com.ijg.darklightnova.core.Engine;
 public class GUI {
 	Engine engine;
 	
-	static String title = "Darklight-Nova";
-	static final int WIDTH = 300;
-	static final int HEIGHT = 200;
+	private String title = "Darklight";
+	private final int WIDTH = 300;
+	private final int HEIGHT = 200;
 	
-	static final String TOTAL_TEXT = "Total Issues:";
-	static final String FOUND_TEXT = "Found Issues:";
-	static final String PERCENT_TEXT = "Percent complete:";
+	private final String TOTAL_TEXT = "Total Issues:";
+	private final String FOUND_TEXT = "Found Issues:";
+	private final String PERCENT_TEXT = "Percent complete:";
 	
 	JFrame frame;
 	JPanel panel;
@@ -127,6 +127,6 @@ public class GUI {
 		
 		// Update numbers
 		found.setText("" + engine.assessModule.issues.size());
-		percent.setText("" + (int) ((double) (engine.assessModule.issues.size()) / engine.assessModule.total) + "%");
+		percent.setText("" + (int) ((double) ((engine.assessModule.issues.size()) / engine.assessModule.total) * 100) + "%");
 	}
 }

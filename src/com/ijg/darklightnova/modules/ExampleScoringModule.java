@@ -10,10 +10,15 @@ public class ExampleScoringModule extends ScoreModule {
 	 * This is an example scoring module
 	 */
 	
-	// static vulnerability declarations
-	static Issue exampleIssue = new Issue("Example Vulnerability", "This is an example vulnerability for the core IJGSec engine");
+	private Issue exampleIssue = new Issue("Example Vulnerability", "This is an example vulnerability.");
+	private Issue exampleIssue2 = new Issue("Example Vulnerability", "This is an example vulnerability.");
+	private Issue exampleIssue3 = new Issue("Example Vulnerability", "This is an example vulnerability.");
+	
 	
 	public ExampleScoringModule() {
+		issues.add(exampleIssue);
+		issues.add(exampleIssue2);
+		issues.add(exampleIssue3);
 	}
 	
 	private boolean fixedExampleVulnerability() {
@@ -23,15 +28,34 @@ public class ExampleScoringModule extends ScoreModule {
 		 * they are booleans, though sometimes other
 		 * return types are warranted.
 		 */
+		return true;
+	}
+	
+	private boolean fixed2() {
+		return false;
+	}
+	
+	private boolean fixed3() {
 		return false;
 	}
 	
 	public ArrayList<Issue> check() {
-		ArrayList<Issue> issues = new ArrayList<Issue>();
 		if (fixedExampleVulnerability()) {
-			add(issues, exampleIssue);
+			add(exampleIssue);
 		} else {
-			remove(issues, exampleIssue);
+			remove(exampleIssue);
+		}
+		
+		if (fixed2()) {
+			add(exampleIssue2);
+		} else {
+			remove(exampleIssue3);
+		}
+		
+		if (fixed3()) {
+			add(exampleIssue3);
+		} else {
+			remove(exampleIssue3);
 		}
 		return issues;
 	}
