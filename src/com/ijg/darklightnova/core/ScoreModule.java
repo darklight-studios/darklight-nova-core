@@ -2,15 +2,13 @@ package com.ijg.darklightnova.core;
 
 import java.util.ArrayList;
 
-public class ScoreModule {
+public abstract class ScoreModule {
 	/*
 	 * All scoring modules are subclassed from
 	 * this
 	 */
-	
-	public ScoreModule() {}
-	
-	public ArrayList<Issue> check() {
+	protected ArrayList<Issue> issues = new ArrayList<Issue>();
+	public abstract ArrayList<Issue> check();
 		/*
 		 * Run private methods to check the status
 		 * of the issues, those whose checks returned
@@ -38,16 +36,18 @@ public class ScoreModule {
 		 * 
 		 * Is there a better way to do this?
 		 */
-		return new ArrayList<Issue>();
-	}
 	
-	protected void add(ArrayList<Issue> issues, Issue issue) {
+	protected void add(Issue issue) {
 		if (!issue.fixed) issue.fixed = true;
 		issues.add(issue);
 	}
 	
-	protected void remove(ArrayList<Issue> issues, Issue issue) {
+	protected void remove(Issue issue) {
 		if (issue.fixed) issue.fixed = false;
 		issues.add(issue);
+	}
+	
+	public int getIssueCount() {
+		return issues.size();
 	}
 }
