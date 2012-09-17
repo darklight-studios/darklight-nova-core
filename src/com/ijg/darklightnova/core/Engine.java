@@ -61,20 +61,11 @@ public class Engine implements Runnable {
 		 * to the progress file in the format
 		 * of "name: description"
 		*/
-		BufferedWriter out = null; //TODO: Declaring things null is never a good idea. If the try/catch below fails, you'll trigger NullPointerExceptions after that.
 		try {
-			out = new BufferedWriter(new FileWriter(new File(progressFile)));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		for (Issue issue : assessModule.issues) {
-			try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(new File(progressFile)));
+			for (Issue issue : assessModule.issues) {
 				out.write(issue.name + ": " + issue.description + "\n");
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
-		}
-		try {
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
