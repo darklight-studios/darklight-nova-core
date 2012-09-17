@@ -16,6 +16,7 @@ public class ExampleScoringModule extends ScoreModule {
 	
 	
 	public ExampleScoringModule() {
+		//Escalation? (See check())
 		issues.add(exampleIssue);
 		issues.add(exampleIssue2);
 		issues.add(exampleIssue3);
@@ -40,6 +41,7 @@ public class ExampleScoringModule extends ScoreModule {
 	}
 	
 	public ArrayList<Issue> check() {
+		//Escalation? (See ScoreModule)
 		if (fixedExampleVulnerability()) {
 			add(exampleIssue);
 		} else {
