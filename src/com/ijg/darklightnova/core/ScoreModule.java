@@ -7,7 +7,7 @@ public abstract class ScoreModule {
 	 * All scoring modules are subclassed from
 	 * this
 	 */
-	protected ArrayList<Issue> issues;
+	protected ArrayList<Issue> issues = new ArrayList<Issue>();
 	public abstract ArrayList<Issue> check();
 		/*
 		 * Run private methods to check the status
