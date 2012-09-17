@@ -36,28 +36,29 @@ public abstract class ScoreModule {
 		 * 
 		 * Is there a better way to do this?
 		 */
-	
-	// TODO: escalation?
-	/*
-	 * (See ExampleScoringModule)
-	 * Nothing is ever removed from the issues ArrayList,
-	 * only added. Initially in the constructor, and then 
-	 * every subsequent check all issues are added again
-	 * (see below). This will cause issues to have loads
-	 * of conflicting issue instances(?) Should keep old 
-	 * comparison check to validate the addition or removal
-	 * of an issue instance.
-	 */
+		 
 	protected void add(Issue issue) {
+		purgeIssue(issue);
 		if (!issue.fixed) issue.fixed = true;
 		issues.add(issue);
 	}
 	
 	protected void remove(Issue issue) {
+		purgeIssue(issue);
 		if (issue.fixed) issue.fixed = false;
 		issues.add(issue);
 	}
-	// End escalation
+	
+	protected void purgeIssue(Issue issue) {
+		Iterator<Issue> i = issues.iterator();
+		
+		while (i.hasNext()) {
+			Issue oldIssue = (Issue) i.next();
+			if (oldIssue.name.equals(issue.name)) {
+				i.remove();
+			}
+		}
+	}
 	
 	public int getIssueCount() {
 		return issues.size();
