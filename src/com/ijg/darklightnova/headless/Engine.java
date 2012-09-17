@@ -70,27 +70,15 @@ public class Engine implements Runnable {
 		 * to the progress file in the format
 		 * of "name: description"
 		 */
-		BufferedWriter out = null;
+		
 		try {
-			out = new BufferedWriter(new FileWriter(new File(progressFile)));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(new File(progressFile)));
 			out.write("Found: " + assessModule.issues.size() + 
 					"\nTotal: " + assessModule.total + 
 					"\nPercent: " + (int) ((double) (assessModule.issues.size()) / assessModule.total) + "%" + "\n\n");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		for (Issue issue : assessModule.issues) {
-			try {
+			for (Issue issue : assessModule.issues){
 				out.write(issue.name + ": " + issue.description + "\n");
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
-		}
-		try {
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
