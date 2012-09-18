@@ -1,6 +1,7 @@
 package com.ijg.darklightnova.core;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class ScoreModule {
 	/*
