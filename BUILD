@@ -1,1 +1,1 @@
-INSTALL F:\Darklight-Nova COMPILE LIVE
+INSTALL F:\Darklight-Nova JAR CORE

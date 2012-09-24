@@ -8,10 +8,6 @@ INSTRUCTIONS = ['REPL', 'PUSH', 'CMD', 'INSTALL']
 MODES = ['CORE', 'HEADLESS', 'LIVE']
 METHODS = ['COMPILE', 'JAR', 'SOURCE']
 
-'''Compile strings:
-javac -cp src -d bin src\com\ijg\darklightnova\engine\Engine.java
-java -classpath src com.ijg.darklightnova.engine.Engine
-'''
 
 class Parser:
     def __init__(self, build_file):
@@ -55,19 +51,35 @@ class Worker:
                 kwargs['method'] = arg
             elif arg in MODES:
                 kwargs['mode'] = arg
+        if kwargs['method'] == 'JAR':
+            if os.path.exists(args[-1]):
+                kwargs['manifest'] = args[-1]
+            else:
+                if kwargs['mode'] == 'CORE':
+                    #kwargs['manifest'] = os.path.realpath('Manifest-Core.MF')
+                    kwargs['manifest'] = 'Manifest-Core.MF'
+                elif kwargs['mode'] == 'HEADLESS':
+                    #kwargs['manifest'] = os.path.realpath('Manifest-Headless.MF')
+                    kwargs['manifest'] = 'Manifest-Headless.MF'
+                elif kwargs['mode'] == 'LIVE':
+                    #kwargs['manifest'] = os.path.realpath('Manifest-Live.MF')
+                    kwargs['manifest'] = 'Manifest-Live.MF'
+                    
         dest_dir = args[0]
         
-        if os.path.exists(dest_dir):
+        # EXCLUDE FOR TESTING
+        '''if os.path.exists(dest_dir):
             if WINDOWS:
                 self.CMD(['rmdir', '/S', '/Q', dest_dir])
             else:
-                self.CMD(['rm', '-rf', dest_dir])
+                self.CMD(['rm', '-rf', dest_dir])'''
                 
         self.CMD(['mkdir', dest_dir])
 
         if kwargs.has_key('mode') and kwargs.has_key('method'):
             if kwargs['mode'] == 'CORE':
                 self.REPL(['VulnView.py', os.path.join(dest_dir, 'VulnView.pyw')])
+
             if kwargs['method'] == 'COMPILE':
                 self.CMD(['mkdir', os.path.join(dest_dir, 'bin')])
                 if kwargs['mode'] == 'CORE':
@@ -76,6 +88,24 @@ class Worker:
                     self.CMD(['javac', '-classpath', 'src', '-d', os.path.join(dest_dir, 'bin'), 'src\com\ijg\darklightnova\headless\Engine.java'])
                 elif kwargs['mode'] == 'LIVE':
                     self.CMD(['javac', '-classpath', 'src', '-d', os.path.join(dest_dir, 'bin'), 'src\com\ijg\darklightnova\live\Engine.java'])
+
+            elif kwargs['method'] == 'JAR' and kwargs.has_key('manifest'):
+                self.CMD(['mkdir', os.path.realpath('bin')])
+                if kwargs['mode'] == 'CORE':
+                    self.CMD(['javac', '-classpath', 'src', '-d', os.path.realpath('bin'), 'src\com\ijg\darklightnova\core\Engine.java'])
+                elif kwargs['mode'] == 'HEADLESS':
+                    self.CMD(['javac', '-classpath', 'src', '-d', os.path.realpath('bin'), 'src\com\ijg\darklightnova\headless\Engine.java'])
+                elif kwargs['mode'] == 'LIVE':
+                    self.CMD(['javac', '-classpath', 'src', '-d', os.path.realpath('bin'), 'src\com\ijg\darklightnova\live\Engine.java'])
+                self.CMD(['jar', 'cfm', 'Darklight.jar', kwargs['manifest'], 'bin'])
+                self.PUSH(['Darklight.jar', dest_dir])
+
+                # EXCLUDE FOR TESTING
+                '''if WINDOWS:
+                    self.CMD(['rmdir bin /S /Q'])
+                else:
+                    self.CMD(['rm -rf bin'])'''
+                    
         elif kwargs.has_key('method'):
             if kwargs['method'] == 'SOURCE':
                 if WINDOWS:
