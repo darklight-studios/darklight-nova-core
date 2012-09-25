@@ -47,7 +47,17 @@ public class AssessmentModule {
 			}
 		}
 		// If the issues list is changed, write a new progress file
-		if (changed == true) engine.writeFoundList();
+		if (changed == true) {
+			engine.writeFoundList();
+		}
+		
+		//If somehow you broke the engine when boot happened and had no network, we can still create an account for you regardless of your faulty connection at first.
+		if (!engine.database.userExists(engine.getUserName(), engine.sessionid)) {
+			engine.database.insertNewUser(engine.getUserName(), engine.sessionid);
+		}
+		//Regardless of if it changed or not, send an update. This way, a loss in internet connection won't mean you're locked out until your score changes.
+		engine.database.updateUserScore(engine.getUserName(), engine.sessionid, issues.size());
+		
 	}
 	
 	public String toString() {

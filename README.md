@@ -5,18 +5,20 @@ Basic Vulnerability Scoring Engine
 
 Part of the Darklight Nova suite
 
-## Getting Started (master) ##
+## Live Scores
 
-* Start off by making a new subclass of com.ijg.darklightnova.engine.Module in the com.ijg.darklightnova.modules package, and review the ExampleScoreingModule class to see how it's designed.
-* Write your Module.fixed() function
-	* For the actual logic to check the vulnerability's status, make seperate, private methods that are called in fixed(); as shown in the example module
-* Add your module to the module ArrayList in the constructor of com.ijg.darklightnova.engine.AssessmentModule, as the comment explains
+The new live score system operates by directly writing to a MySQL database. An Internet connection is required for this to succeed.
 
-**Done!**
+To use:
 
-# Getting Started with the Unstable Branch #
-* Scoring modules are subclassed from com.ijg.darklightnova.core.ScoreModule and are perferably placed in the com.ijg.darklightnova.modules package
-* Return fixed issues from the check() method, use private methods to do the actual checking though
-	* Use the add and remove ScoreModule methods to add and/or remove issues from the issue list!! Do not override these
-		* These functions aren't finalized yet...
-* Don't forget to add the modules.add(new MyModule()) statement for all your modules in the AssessmentModule class, **specific to the mode you are building for** (com.ijg.darklightnova.core vs com.ijg.darklightnova.live, etc)
+1. Ensure that your built jar includes the latest manifest and your res/ folder contains both jar files required for MySQL to connect.
+2. Ensure that Engine.java contains an updated sessionid for this session.
+3. Ensure that the path set for the nameFile (also located in Engine.java) is sane and can be written to.
+4. Ensure that the username and password for the MySQL user are up to date and working.
+
+Caveats:
+
+1. Don't open WireShark.
+2. Don't open WireShark.
+3. Don't open WireShark.
+4. Seriously.
