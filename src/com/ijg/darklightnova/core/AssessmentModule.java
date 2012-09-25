@@ -47,7 +47,10 @@ public class AssessmentModule {
 			}
 		}
 		// If the issues list is changed, write a new progress file
-		if (changed == true) engine.writeFoundList();
+		if (changed == true) {
+			engine.writeFoundList();
+			engine.database.updateUserScore(engine.getUserName(), engine.sessionid, issues.size());
+		}
 	}
 	
 	public String toString() {
