@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
 Main-Class: com.ijg.darklightnova.core.Engine
-Class-Path: res/ini4j-0.5.2.jar
+Class-Path: res/ini4j-0.5.2.jar res/mysqlcon.jar
 
