@@ -25,7 +25,7 @@ public class ServiceModule extends ScoreModule {
 					p.getInputStream()));
 			String line;
 			while ((line = br.readLine()) != null) {
-				if (line.contains("1060") || line.contains("1058")) {
+				if (line.contains("1060") || line.contains("1058") || line.contains("1048")) {
 					return false;
 				}
 			}
