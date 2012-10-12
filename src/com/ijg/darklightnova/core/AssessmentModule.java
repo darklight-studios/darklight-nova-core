@@ -52,19 +52,24 @@ public class AssessmentModule {
 			engine.writeFoundList();
 			
 			// Build hash to be converted to JSON for the API
-			HashMap<String, String> issuesHash = new HashMap<String, String>();
-			for (Issue issue : issues) {
-				issuesHash.put(issue.name, issue.description);
-			}
+			HashMap<String, String> issuesMap = generateIssuesHashMap();
 			
 			// If there is not a valid session key try to get one
 			if (engine.SESSION_KEY == null || engine.SESSION_KEY == "") {
 				engine.authUser();
 			}
 			// Send update to server
-			engine.sendUpdate(issues.size(), issuesHash);
+			engine.sendUpdate(issues.size(), issuesMap);
 		}
 		
+	}
+	
+	public HashMap<String, String> generateIssuesHashMap() {
+		HashMap<String, String> issuesMap = new HashMap<String, String>();
+		for (Issue issue : issues) {
+			issuesMap.put(issue.name, issue.description);
+		}
+		return issuesMap;
 	}
 	
 	public String toString() {
