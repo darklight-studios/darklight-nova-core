@@ -1,6 +1,7 @@
 package com.ijg.darklightnova.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AssessmentModule {
 	private Engine engine;
@@ -46,17 +47,23 @@ public class AssessmentModule {
 				}
 			}
 		}
-		// If the issues list is changed, write a new progress file
+		// If the issues list is changed, write a new progress file, and send progress to server
 		if (changed == true) {
 			engine.writeFoundList();
+			
+			// Build hash to be converted to JSON for the API
+			HashMap<String, String> issuesHash = new HashMap<String, String>();
+			for (Issue issue : issues) {
+				issuesHash.put(issue.name, issue.description);
+			}
+			
+			// If there is not a valid session key try to get one
+			if (engine.SESSION_KEY == null || engine.SESSION_KEY == "") {
+				engine.authUser();
+			}
+			// Send update to server
+			engine.sendUpdate(issues.size(), issuesHash);
 		}
-		
-		//If somehow you broke the engine when boot happened and had no network, we can still create an account for you regardless of your faulty connection at first.
-		if (!engine.database.userExists(engine.getUserName(), engine.sessionid)) {
-			engine.database.insertNewUser(engine.getUserName(), engine.sessionid);
-		}
-		//Regardless of if it changed or not, send an update. This way, a loss in internet connection won't mean you're locked out until your score changes.
-		engine.database.updateUserScore(engine.getUserName(), engine.sessionid, issues.size());
 		
 	}
 	

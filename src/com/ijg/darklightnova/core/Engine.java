@@ -4,28 +4,32 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-import me.shanked.nicatronTg.database.DatabaseQueryEngine;
-import me.shanked.nicatronTg.database.SQLDatabase;
-
 import com.ijg.darklightnova.gui.GUI;
+import com.ijg.darklightnova.web.api.DarklightAPI;
 
 public class Engine implements Runnable {
 	
 	boolean running, bNotFinished;
 	
-	public String progressFile = "C:\\Users\\Lucas\\AppData\\Roaming\\darklight-progress.dat"; //Should vary with OS installation.
-	public String nameFile = "C:\\Users\\Lucas\\AppData\\Roaming\\darklight-name.dat";
+	public String progressFile = "F:\\Darklight-Nova\\darklight-progress.dat"; //Should vary with OS installation.
+	public String nameFile = "F:\\Darklight-Nova\\darklight-name.dat";
 	private String bannedWords[] = {"rocks", "amazing", "lol", "rofl", "awesome"}; //Adverb proofing
 	public AssessmentModule assessModule;
 	
+	private String API_PROTOCOL = "http";
+	private String API_SERVER = "localhost:8000";
+	public String SESSION_KEY;
+	public int API_SESSION_ID = 1;
+	
+	public DarklightAPI api;
+	
 	GUI gui;
 	
-	private SQLDatabase sqldb;
-	public int sessionid = 1; // Change this to the current sessionid from Django
 	private String userName = "unset";
 	public String getUserName() {
 		return userName;
@@ -34,8 +38,6 @@ public class Engine implements Runnable {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
-	public DatabaseQueryEngine database;
 	
 	public static void main(String[] args) {
 		new Engine();
@@ -57,8 +59,7 @@ public class Engine implements Runnable {
 		gui = new GUI(this);
 		Thread engine = new Thread(this, "engine");
 		engine.start();
-		sqldb = new SQLDatabase(1, "session1", "NnQQYC74byMXrMrY", "jdbc:mysql://direct.shankshock.com/cyberpatriot");
-		database = new DatabaseQueryEngine(sqldb, sessionid);
+		api = new DarklightAPI(API_PROTOCOL, API_SERVER);
 		promptForName();
 		assessModule.assess();
 		gui.update();
@@ -79,10 +80,18 @@ public class Engine implements Runnable {
 		running = false;
 	}
 	
+	public String authUser() {
+		return (String) api.sessionAuthRequest(API_SESSION_ID, userName).get("sessionkey");
+	}
+	
+	public void sendUpdate(int score, HashMap<String, String> issues) {
+		api.sessionUpdateRequest(API_SESSION_ID, SESSION_KEY, score, issues);
+	}
+	
 	public void promptForName() {
 		if (readName() != null) {
 			if (!userName.equals("unset")) {
-				database.updateUserScore(userName, sessionid, 0);
+				SESSION_KEY = authUser();
 				return;
 			}
 		} else {
@@ -100,19 +109,16 @@ public class Engine implements Runnable {
 				promptForName();
 				return;
 			}
-			for (String s : bannedWords) {
-				if (testName.contains(s)) {
+			
+			for (String word : bannedWords) {
+				if (testName.contains(word)) {
 					promptForName();
 					return;
 				}
 			}
 			userName = localName.trim();
 			writeName();
-			if (database.userExists(userName, sessionid)) {
-				database.updateUserScore(userName, sessionid, 0);
-			} else {
-				database.insertNewUser(userName, sessionid);
-			}
+			SESSION_KEY = (String) api.sessionAuthRequest(API_SESSION_ID, userName).get("sessionkey");
 		}
 	}
 	
