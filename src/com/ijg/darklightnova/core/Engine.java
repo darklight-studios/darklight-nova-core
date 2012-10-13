@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
+import com.ijg.darklight.web.sdk.DarklightSDK;
 import com.ijg.darklightnova.gui.GUI;
-import com.ijg.darklightnova.web.api.DarklightAPI;
 
 public class Engine implements Runnable {
 	
@@ -26,7 +26,8 @@ public class Engine implements Runnable {
 	public String SESSION_KEY;
 	public int API_SESSION_ID = 1;
 	
-	public DarklightAPI api;
+	//public DarklightAPI api;
+	DarklightSDK sdk;
 	
 	GUI gui;
 	
@@ -59,7 +60,8 @@ public class Engine implements Runnable {
 		gui = new GUI(this);
 		Thread engine = new Thread(this, "engine");
 		engine.start();
-		api = new DarklightAPI(API_PROTOCOL, API_SERVER);
+		//api = new DarklightAPI(API_PROTOCOL, API_SERVER);
+		sdk = new DarklightSDK(API_PROTOCOL, API_SERVER, API_SESSION_ID);
 		promptForName();
 		assessModule.assess();
 		gui.update();
@@ -80,18 +82,23 @@ public class Engine implements Runnable {
 		running = false;
 	}
 	
-	public String authUser() {
+	/*public String authUser() {
 		return (String) api.sessionAuthRequest(API_SESSION_ID, userName).get("sessionkey");
+	}*/
+	
+	public void authUser() {
+		sdk.apiAuth(userName);
 	}
 	
 	public void sendUpdate(int score, HashMap<String, String> issues) {
-		api.sessionUpdateRequest(API_SESSION_ID, SESSION_KEY, score, issues);
+		//api.sessionUpdateRequest(API_SESSION_ID, SESSION_KEY, score, issues);
+		sdk.apiUpdate(score, issues);
 	}
 	
 	public void promptForName() {
 		if (readName() != null) {
 			if (!userName.equals("unset")) {
-				SESSION_KEY = authUser();
+				authUser();
 				return;
 			}
 		} else {
@@ -118,7 +125,7 @@ public class Engine implements Runnable {
 			}
 			userName = localName.trim();
 			writeName();
-			SESSION_KEY = (String) api.sessionAuthRequest(API_SESSION_ID, userName).get("sessionkey");
+			//SESSION_KEY = (String) api.sessionAuthRequest(API_SESSION_ID, userName).get("sessionkey");
 		}
 	}
 	

@@ -51,15 +51,12 @@ public class AssessmentModule {
 		if (changed == true) {
 			engine.writeFoundList();
 			
-			// Build hash to be converted to JSON for the API
-			HashMap<String, String> issuesMap = generateIssuesHashMap();
-			
 			// If there is not a valid session key try to get one
 			if (engine.SESSION_KEY == null || engine.SESSION_KEY == "") {
 				engine.authUser();
 			}
 			// Send update to server
-			engine.sendUpdate(issues.size(), issuesMap);
+			engine.sendUpdate(issues.size(), generateIssuesHashMap());
 		}
 		
 	}
