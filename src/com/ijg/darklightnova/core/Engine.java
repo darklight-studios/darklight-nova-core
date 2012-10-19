@@ -22,11 +22,10 @@ public class Engine implements Runnable {
 	public AssessmentModule assessModule;
 	
 	private String API_PROTOCOL = "http";
-	private String API_SERVER = "localhost:8000";
+	private String API_SERVER = "darklight-nova.herokuapp.com";
 	public String SESSION_KEY;
-	public int API_SESSION_ID = 1;
+	public int API_SESSION_ID = 3;
 	
-	//public DarklightAPI api;
 	DarklightSDK sdk;
 	
 	GUI gui;
@@ -60,7 +59,6 @@ public class Engine implements Runnable {
 		gui = new GUI(this);
 		Thread engine = new Thread(this, "engine");
 		engine.start();
-		//api = new DarklightAPI(API_PROTOCOL, API_SERVER);
 		sdk = new DarklightSDK(API_PROTOCOL, API_SERVER, API_SESSION_ID);
 		promptForName();
 		assessModule.assess();
@@ -82,16 +80,11 @@ public class Engine implements Runnable {
 		running = false;
 	}
 	
-	/*public String authUser() {
-		return (String) api.sessionAuthRequest(API_SESSION_ID, userName).get("sessionkey");
-	}*/
-	
 	public void authUser() {
 		sdk.apiAuth(userName);
 	}
 	
 	public void sendUpdate(int score, HashMap<String, String> issues) {
-		//api.sessionUpdateRequest(API_SESSION_ID, SESSION_KEY, score, issues);
 		sdk.apiUpdate(score, issues);
 	}
 	
@@ -124,8 +117,14 @@ public class Engine implements Runnable {
 				}
 			}
 			userName = localName.trim();
-			writeName();
-			//SESSION_KEY = (String) api.sessionAuthRequest(API_SESSION_ID, userName).get("sessionkey");
+			try {
+				writeName();
+				authUser();
+			} catch (IOException e) {
+				System.err.println("IOException! Can't write name file!");
+				promptForName();
+				return;
+			}
 		}
 	}
 	
@@ -163,34 +162,21 @@ public class Engine implements Runnable {
 		return null;
 	}
 	
-	public boolean writeName() {
+	public boolean writeName() throws IOException {
 		if(!userName.equals("unset")) {
 			File f = new File(nameFile);
 			if (!f.exists()) {
-				try {
-					f.createNewFile();
-					return true;
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				f.createNewFile();
+				return true;
 			} else {
 				f.delete();
-				try {
-					f.createNewFile();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				f.createNewFile();
 			}
 			FileWriter fw;
-			try {
-				fw = new FileWriter(f);
-				System.out.println("Writing name file with contents: " + userName);
-				fw.write(userName);
-				fw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
+			fw = new FileWriter(f);
+			System.out.println("Writing name file with contents: " + userName);
+			fw.write(userName);
+			fw.close();
 		}
 		return false;
 	}

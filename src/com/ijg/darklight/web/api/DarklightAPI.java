@@ -1,4 +1,4 @@
-package com.ijg.darklightnova.web.api;
+package com.ijg.darklight.web.api;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -68,7 +68,7 @@ public class DarklightAPI {
 	 * boolean success = true ? status == 200 || status == 201 : false;
 	 */
 	
-	public APIRequest individualSessionRequest(int sessionID, String endpoint, HashMap<String, String> parameters) {
+	public APIRequest individualSessionRequest(long sessionID, String endpoint, HashMap<String, String> parameters) {
 		String query = makeQueryString(parameters);
 		APIRequest request = new APIRequest(PROTOCOL, SERVER, BASE_URL + sessionID + endpoint, query);
 		return request;

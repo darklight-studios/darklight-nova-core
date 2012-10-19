@@ -4,14 +4,14 @@ import java.util.HashMap;
 
 import org.json.simple.JSONObject;
 
-import com.ijg.darklightnova.web.api.APIRequest;
-import com.ijg.darklightnova.web.api.DarklightAPI;
+import com.ijg.darklight.web.api.APIRequest;
+import com.ijg.darklight.web.api.DarklightAPI;
 
 public class DarklightSDK {
 	String APIProtocol;
 	String APIServer;
 	
-	int API_SESSION_ID;
+	long API_SESSION_ID;
 	String API_SESSION_KEY;
 	
 	private DarklightAPI api;
@@ -26,7 +26,7 @@ public class DarklightSDK {
 	public DarklightSDK() {}
 	
 	// API constructor: creates API without having to explicitly call createAPI()
-	public DarklightSDK(String APIProtocol, String APIServer, int APISessionID) {
+	public DarklightSDK(String APIProtocol, String APIServer, long APISessionID) {
 		this.APIProtocol = APIProtocol;
 		this.APIServer = APIServer;
 		API_SESSION_ID = APISessionID;
@@ -74,10 +74,10 @@ public class DarklightSDK {
 	public void setAPIServer(String APIServer) {
 		this.APIServer = APIServer;
 	}
-	public int getAPISessionID() {
+	public long getAPISessionID() {
 		return API_SESSION_ID;
 	}
-	public void setAPISessionID(int id) {
+	public void setAPISessionID(long id) {
 		API_SESSION_ID = id;
 	}
 	
@@ -101,8 +101,8 @@ public class DarklightSDK {
 		
 		lastRequestResponse = authRequest.getResponse();
 		
-		int statusCode = (int) authRequest.get("status_code");
-		if (statusCode == 200 || statusCode == 201) {
+		long statusCode = (long) authRequest.get("status_code");
+		if (statusCode == 200L || statusCode == 201L) {
 			API_SESSION_KEY = (String) authRequest.get("sessionkey");
 			return true;
 		}
@@ -122,8 +122,8 @@ public class DarklightSDK {
 		
 		lastRequestResponse = updateRequest.getResponse();
 		
-		int statusCode = (int) updateRequest.get("status_code");
-		if (statusCode == 200 || statusCode == 201) {
+		long statusCode = (long) updateRequest.get("status_code");
+		if (statusCode == 200L || statusCode == 201L) {
 			return true;
 		}
 		

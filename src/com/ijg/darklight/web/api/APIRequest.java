@@ -1,4 +1,4 @@
-package com.ijg.darklightnova.web.api;
+package com.ijg.darklight.web.api;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
