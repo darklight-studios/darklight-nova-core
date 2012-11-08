@@ -5,39 +5,33 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Scanner;
-
-import javax.swing.JOptionPane;
-
 import com.ijg.darklight.web.sdk.DarklightSDK;
-import com.ijg.darklightnova.gui.GUI;
 
 public class Engine implements Runnable {
 	
 	boolean running, bNotFinished;
 	
-	public String progressFile = "F:\\Darklight-Nova\\darklight-progress.dat"; //Should vary with OS installation.
-	public String nameFile = "F:\\Darklight-Nova\\darklight-name.dat";
-	private String bannedWords[] = {"rocks", "amazing", "lol", "rofl", "awesome"}; //Adverb proofing
+	public String progressFile = "C:\\Darklight\\darklight-progress.dat"; //Should vary with OS installation.
+	
 	public AssessmentModule assessModule;
 	
 	private String API_PROTOCOL = "http";
 	private String API_SERVER = "darklight-nova.herokuapp.com";
 	public String SESSION_KEY;
-	public int API_SESSION_ID = 3;
+	
+	// Change per session
+	public int API_SESSION_ID = 0;
 	
 	DarklightSDK sdk;
 	
-	GUI gui;
+	Frontend frontend;
 	
-	private String userName = "unset";
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+	//GUI gui;
+	
+	// VERY IMPORTANT!!!!
+	// Change this to switch between team/individual name entry and stuff
+	final private boolean team = false;
+	
 	
 	public static void main(String[] args) {
 		new Engine();
@@ -56,13 +50,12 @@ public class Engine implements Runnable {
 		 * scoring and display
 		 */
 		running = true;
-		gui = new GUI(this);
+		frontend = new Frontend(this);
 		Thread engine = new Thread(this, "engine");
 		engine.start();
 		sdk = new DarklightSDK(API_PROTOCOL, API_SERVER, API_SESSION_ID);
-		promptForName();
+		frontend.promptForName();
 		assessModule.assess();
-		gui.update();
 	}
 
 	public void run() {
@@ -81,51 +74,15 @@ public class Engine implements Runnable {
 	}
 	
 	public void authUser() {
-		sdk.apiAuth(userName);
+		sdk.apiAuth(frontend.getUserName());
 	}
 	
 	public void sendUpdate(int score, HashMap<String, String> issues) {
 		sdk.apiUpdate(score, issues);
 	}
 	
-	public void promptForName() {
-		if (readName() != null) {
-			if (!userName.equals("unset")) {
-				authUser();
-				return;
-			}
-		} else {
-			String localName = "";
-			String testName = "";
-			try {
-				localName = JOptionPane.showInputDialog(null, "Enter your full name. This must match your full name or the process will fail.", "It's all about identity.", 1);
-				testName = localName.toLowerCase().trim();
-			} catch (Exception e) {
-				promptForName();
-				return;
-			}
-			
-			if (testName.length() < 3) {
-				promptForName();
-				return;
-			}
-			
-			for (String word : bannedWords) {
-				if (testName.contains(word)) {
-					promptForName();
-					return;
-				}
-			}
-			userName = localName.trim();
-			try {
-				writeName();
-				authUser();
-			} catch (IOException e) {
-				System.err.println("IOException! Can't write name file!");
-				promptForName();
-				return;
-			}
-		}
+	public boolean teamSession() {
+		return team;
 	}
 	
 	public void writeFoundList() {
@@ -143,42 +100,6 @@ public class Engine implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public String readName() {
-		File f = new File(nameFile);
-		
-		if (f.exists()) {
-			try {
-				Scanner s = new Scanner(f);
-				userName = s.nextLine().trim();
-				s.close();
-				System.out.println("Read name file with contents: " + userName);
-				return userName;
-			} catch (Exception e) {
-				return null;
-			}
-		}
-		return null;
-	}
-	
-	public boolean writeName() throws IOException {
-		if(!userName.equals("unset")) {
-			File f = new File(nameFile);
-			if (!f.exists()) {
-				f.createNewFile();
-				return true;
-			} else {
-				f.delete();
-				f.createNewFile();
-			}
-			FileWriter fw;
-			fw = new FileWriter(f);
-			System.out.println("Writing name file with contents: " + userName);
-			fw.write(userName);
-			fw.close();
-		}
-		return false;
 	}
 	
 	public boolean finished() {
