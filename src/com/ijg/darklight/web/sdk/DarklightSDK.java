@@ -30,7 +30,9 @@ public class DarklightSDK {
 		this.APIProtocol = APIProtocol;
 		this.APIServer = APIServer;
 		API_SESSION_ID = APISessionID;
-		createAPI();
+		if(!createAPI()) {
+			System.out.println("[DarklightSDK] error creating API");
+		}
 	}
 	
 	
@@ -106,6 +108,13 @@ public class DarklightSDK {
 			API_SESSION_KEY = (String) authRequest.get("sessionkey");
 			return true;
 		}
+		System.out
+				.println("[DarklightSDK] api auth error, returned with status code: "
+						+ statusCode);
+		try {
+			System.out.println("[DarklightSDK] error description: "
+				+ authRequest.get("desc"));
+		} catch (Exception e) {}
 		
 		return false;
 	}
@@ -126,6 +135,13 @@ public class DarklightSDK {
 		if (statusCode == 200L || statusCode == 201L) {
 			return true;
 		}
+		System.out
+		.println("[DarklightSDK] api update error, returned with status code: "
+				+ statusCode);
+		try {
+			System.out.println("[DarklightSDK] error description: "
+					+ updateRequest.get("desc"));
+		} catch (Exception e) {}
 		
 		return false;
 	}
