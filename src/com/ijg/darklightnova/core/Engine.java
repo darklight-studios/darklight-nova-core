@@ -20,7 +20,7 @@ public class Engine implements Runnable {
 	public String SESSION_KEY;
 	
 	// Change per session
-	public int API_SESSION_ID = 0;
+	public int API_SESSION_ID = 9;
 	
 	DarklightSDK sdk;
 	
@@ -30,6 +30,7 @@ public class Engine implements Runnable {
 	
 	// VERY IMPORTANT!!!!
 	// Change this to switch between team/individual name entry and stuff
+	// ----Not fully implemented----
 	final private boolean team = false;
 	
 	
@@ -59,7 +60,18 @@ public class Engine implements Runnable {
 	}
 
 	public void run() {
+		long start = System.currentTimeMillis();
 		while (running) {
+			if (System.currentTimeMillis() - start >= 30000) {
+				if (sdk.apiIndividualKill()) {
+					System.out
+							.println("WARNING: Terminating...");
+					File progress = new File(progressFile);
+					progress.delete();
+					running = false;
+				}
+				start = System.currentTimeMillis();
+			}
 			try {
 				Thread.sleep(20);
 			} catch (InterruptedException e) {

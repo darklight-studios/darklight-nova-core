@@ -145,4 +145,35 @@ public class DarklightSDK {
 		
 		return false;
 	}
+	
+	public boolean apiIndividualStatus() {
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		parameters.put("sessionkey", API_SESSION_KEY);
+		
+		APIRequest statusRequest = api().individualSessionRequest(API_SESSION_ID, DarklightAPI.STATUS_ENDPOINT, parameters);
+		statusRequest.send();
+		
+		lastRequestResponse = statusRequest.getResponse();
+		
+		long statusCode = (long) statusRequest.get("status_code");
+		if (statusCode == 200L) {
+			return true;
+		}
+		
+		System.out.println("[DarklightSDK] api status request error, returned with status code: " + statusCode);
+		
+		try {
+			System.out.println("[DarklightSDK] error description: "
+					+ statusRequest.get("desc"));
+		} catch (Exception e) {}
+		
+		return false;
+	}
+	
+	public boolean apiIndividualKill() {
+		apiIndividualStatus();
+		if ((long) lastRequestResponse.get("kill") == 1L) return true;
+		
+		return false;
+	}
 }

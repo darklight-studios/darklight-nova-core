@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 public class DarklightAPI {
 	public static String AUTH_ENDPOINT = "/api/auth";
 	public static String UPDATE_ENDPOINT = "/api/score";
+	public static String STATUS_ENDPOINT = "/api/status";
 	public static String BASE_URL = "/session/";
 	
 	String PROTOCOL;
