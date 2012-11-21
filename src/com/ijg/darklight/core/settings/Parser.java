@@ -6,9 +6,9 @@ import java.io.IOException;
 import org.ini4j.Wini;
 
 public class Parser {
-	static String configFile = System.getProperty("user.dir");
-	static int progress = 0;
-	static Wini config;
+	private static String configFile = System.getProperty("user.dir");
+	private static int progress = 0;
+	private static Wini config;
 	
 	public static void start() {
 		try {
