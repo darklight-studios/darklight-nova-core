@@ -10,5 +10,6 @@ protocol=http
 server=darklight-nova.herokuapp.com
 
 [verification]
+active=true
 names="keegan arnold", "michelle hulongbayan", "andrew williams", "chris wotortsi", "do park", "jacob johnson", "jeffrey rael", "luke robinson", "nathan teeter", "savannah clemente", "tyler tilford-hamlin", "leeann wilson", "andrew card", "isaac grant", "lucas nicodemus"
 teams="any key", "team other"
