@@ -1,38 +1,44 @@
 package com.ijg.darklight.core.settings;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-
-import org.ini4j.Wini;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 public class Parser {
-	private static String configFile = System.getProperty("user.dir");
-	private static int progress = 0;
-	private static Wini config;
+	private static File configFile = new File(new File("."), "config");
+	private static boolean parsed = false;
+	private static JSONObject config;
 	
 	public static void start() {
 		try {
-			config = new Wini(new File(configFile));
-			++progress;
+			config = (JSONObject) JSONValue.parse(new FileReader(configFile));
+			parsed = true;
 		} catch (IOException e) {
-			System.out.println("Error reading config file, stack trace:\n" + e.getStackTrace());
-			// Better way to kill?
-			System.exit(1);
+			System.out
+					.println("Error parsing config file, dumping stack trace...");
+			e.printStackTrace();
 		}
 	}
 	
-	public static String getValue(String category, String key) {
-		if (progress == 0) {
+	public static Object getValue(String category, String key) {
+		if (!parsed) {
 			start();
-		} else if (progress == 10) {
-			return destroyAndReturn(config.get(category, key));
 		}
-		++progress;
-		return config.get(category, key);
+		return (Object) ((JSONObject) config.get(category)).get(key);
 	}
 	
-	private static String destroyAndReturn(String value) {
+	public static void destroy() {
 		config = null;
-		return value;
+		parsed = false;
+	}
+	
+	public static JSONObject getConfig() {
+		return config;
+	}
+	
+	public static boolean getParsed() {
+		return parsed;
 	}
 }
