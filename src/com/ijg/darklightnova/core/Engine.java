@@ -6,21 +6,22 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import com.ijg.darklight.web.sdk.DarklightSDK;
+import com.ijg.darklight.core.settings.Settings;
 
 public class Engine implements Runnable {
 	
 	boolean running, bNotFinished;
 	
-	public String progressFile = "C:\\Darklight\\darklight-progress.dat"; //Should vary with OS installation.
+	public String progressFile = Settings.get("progressfile");
 	
 	public AssessmentModule assessModule;
 	
+	// Constant for our images, upon release hard coding will be removed
 	private String API_PROTOCOL = "http";
 	private String API_SERVER = "darklight-nova.herokuapp.com";
 	public String SESSION_KEY;
 	
-	// Change per session
-	public int API_SESSION_ID = 0;
+	public int API_SESSION_ID = Integer.parseInt(Settings.get("api.id"));
 	
 	DarklightSDK sdk;
 	
@@ -30,7 +31,7 @@ public class Engine implements Runnable {
 	
 	// VERY IMPORTANT!!!!
 	// Change this to switch between team/individual name entry and stuff
-	final private boolean team = false;
+	final private boolean team = (Settings.get("sessiontype") == "individual") ? false : true;
 	
 	
 	public static void main(String[] args) {

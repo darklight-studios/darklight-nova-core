@@ -8,19 +8,17 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
+import org.json.simple.JSONArray;
+
+import com.ijg.darklight.core.settings.Settings;
 import com.ijg.darklightnova.gui.GUI;
 
 public class Frontend {
-	final private String[] validNames = { "keegan arnold", "michelle hulongbayan", "andrew williams", 
-			"chris wotortsi", "do park", "jacob johnson", 
-			"jeffrey rael", "luke robinson", "nathan teeter", 
-			"savannah clemente", "tyler tilford-hamlin", "leeann wilson", 
-			"andrew card", "isaac grant", "lucas nicodemus" };
+
+	private JSONArray validEntry;
+	private boolean entryVerification = Settings.getBool("verification.active");
 	
-	// TODO: fix other team once they come up with an actual team name
-	final private String[] validTeams = { "any key", "team other" };
-	
-	final public String nameFile = "C:\\Darklight\\darklight-name.dat";
+	final public String nameFile = Settings.get("namefile");
 	
 	private String userName = "unset";
 	
@@ -54,21 +52,15 @@ public class Frontend {
 				return;
 			}
 			
-			if (engine.teamSession()) {
-				if (!validTeam(testName)) {
-					System.out.println("Invalid team entered: "
-							+ localName.trim());
-					promptForName();
-					return;
-				}
-			} else {
-				if (!validName(testName)) {
-					System.out.println("Invalid name entered: "
-							+ localName.trim());
+			if (entryVerification) {
+				validEntry = (engine.teamSession()) ? Settings.getJSON("verification.teams") : Settings.getJSON("verification.names");
+				if (!validEntry.contains(testName)) {
+					System.out.println("Invalid entry: " + localName.trim());
 					promptForName();
 					return;
 				}
 			}
+
 			setUserName(localName.trim());
 			try {
 				if (!writeName()) {
@@ -83,20 +75,6 @@ public class Frontend {
 				return;
 			}
 		}
-	}
-	
-	public boolean validName(String name) {
-		for (String validName : validNames) {
-			if (validName.contains(name)) return true;
-		}
-		return false;
-	}
-	
-	public boolean validTeam(String team) {
-		for (String validTeam : validTeams) {
-			if (validTeam.contains(team)) return true;
-		}
-		return false;
 	}
 	
 	public String readName() {
