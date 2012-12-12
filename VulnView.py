@@ -19,7 +19,7 @@ class view:
 
         self.list_box = Listbox(self.main_frame, width=100, height=20, selectmode=SINGLE, activestyle='none')
         self.list_box.grid(column=0, row=0, sticky=(N, W, E, S))
-        self.list_box.bind('<Button-1>', self.load_desc)
+        self.list_box.bind('<ButtonRelease-1>', self.load_desc)
 
         self.refresh()
 
@@ -28,6 +28,9 @@ class view:
         self.load_desc()
         
         Button(self.main_frame, text='Refresh', command=self.refresh, width=20).grid(column=0, row=3, padx=10, pady=5, sticky=(S, W))
+        
+        self.main_frame.pack()
+        self.main_frame.focus_set()
 
         self.root.mainloop()
 
@@ -41,7 +44,8 @@ class view:
             if lines[i][-1] == '\n':
                 lines[i] = lines[i][:-1]
         for line in lines:
-            self.vulns[line[:line.find(': ')]] = line[line.find(': ')+2:]
+            if not line.isspace() and not line == '':
+                self.vulns[line[:line.find(': ')]] = line[line.find(': ')+2:]
         i = 0
         for key in sorted(self.vulns):
             self.list_box.insert(i, key)
