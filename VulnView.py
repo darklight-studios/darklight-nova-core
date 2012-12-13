@@ -17,7 +17,7 @@ class view:
         self.main_frame.columnconfigure(0, weight=3)
         self.main_frame.columnconfigure(1, weight=1)
 
-        self.list_box = Listbox(self.main_frame, width=100, height=20, selectmode=SINGLE, activestyle='none')
+        self.list_box = Listbox(self.main_frame, width=75, height=20, selectmode=SINGLE, activestyle='none')
         self.list_box.grid(column=0, row=0, sticky=(N, W, E, S))
         self.list_box.bind('<ButtonRelease-1>', self.load_desc)
 
@@ -28,6 +28,7 @@ class view:
         self.load_desc()
         
         Button(self.main_frame, text='Refresh', command=self.refresh, width=20).grid(column=0, row=3, padx=10, pady=5, sticky=(S, W))
+        Button(self.main_frame, text='Exit', command=sys.exit, width=20).grid(column=1, row=3, padx=10, pady=5, sticky=(S, E))
         
         self.main_frame.pack()
         self.main_frame.focus_set()
