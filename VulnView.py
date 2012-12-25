@@ -3,6 +3,9 @@
 import os, sys
 from Tkinter import *
 
+def exit(event=None):
+    sys.exit(0)
+
 class view:
     def __init__(self, progress_file):
         self.progress_file = progress_file
@@ -16,6 +19,8 @@ class view:
         self.main_frame.grid(column=0, row=0, sticky=(N, W, E, S))
         self.main_frame.columnconfigure(0, weight=3)
         self.main_frame.columnconfigure(1, weight=1)
+
+        self.main_frame.bind('<Escape>', exit)
 
         self.list_box = Listbox(self.main_frame, width=75, height=20, selectmode=SINGLE, activestyle='none')
         self.list_box.grid(column=0, row=0, sticky=(N, W, E, S))
@@ -73,4 +78,7 @@ class view:
         
 
 if __name__ == '__main__':
-    view(sys.argv[1])
+    if len(sys.argv) == 2:
+        view(sys.argv[1])
+    else:
+        sys.exit(0)

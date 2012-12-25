@@ -1,0 +1,20 @@
+{
+    "general": {
+        "progress": "/home/isaac/workspace/darklight-core/exampleprogress.txt",
+        "sessiontype": "individual"
+    },
+    
+    "api": {
+	"active": "false",
+        "id": 9,
+        "name": "/home/isaac/workspace/darklight-core/examplename.dat",
+        "protocol": "http",
+        "server": "darklight-nova.herokuapp.com"
+    },
+    
+    "verification": {
+        "active": "false",
+        "names": [ "keegan arnold", "michelle hulongbayan", "andrew williams", "chris wotortsi", "do park", "jacob johnson", "jeffrey rael", "luke robinson", "nathan teeter", "savannah clemente", "tyler tilford-hamlin", "leeann wilson", "andrew card", "isaac grant", "lucas nicodemus" ],
+        "teams": [ "any key", "team other" ]
+    }
+}

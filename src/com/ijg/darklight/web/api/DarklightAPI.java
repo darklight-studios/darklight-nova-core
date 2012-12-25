@@ -3,6 +3,14 @@ package com.ijg.darklight.web.api;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+/**
+ * Used by the Darklight SDK, acts as a middle man instead of dealing directly with {@link com.ijg.darklight.web.api.APIRequest}
+ * @author Isaac Grant
+ * @author Lucas Nicodemus
+ * @version .1
+ * @see com.ijg.darklight.web.sdk.DarklightSDK
+ */
+
 public class DarklightAPI {
 	public static String AUTH_ENDPOINT = "/api/auth";
 	public static String UPDATE_ENDPOINT = "/api/score";
@@ -11,69 +19,36 @@ public class DarklightAPI {
 	String PROTOCOL;
 	String SERVER;
 	
+	/**
+	 * 
+	 * @param protocol The protocol the API server is on, usually http
+	 * @param server The http address of the API server
+	 */
 	public DarklightAPI(String protocol, String server) {
 		this.PROTOCOL = protocol;
 		this.SERVER = server;
 	}
 	
-	/*
-	 * ==============================
-	 * = Individual Session Request =
-	 * ==============================
-	 * Requires:
-	 * 	session ID
-	 * 		ID of session to work with
-	 * 	API endpoint
-	 * 		endpoint to query
-	 * 	query parameters (HashMap<String, String>)
-	 * 		parameters of HTTP GET query
-	 * 
-	 * ~~~~~~~~~~~~~~~~
-	 * Request Schemes~
-	 * ~~~~~~~~~~~~~~~~
-	 * Auth
-	 * 	Required parameters:
-	 * 		name
-	 * 	Returns:
-	 * 		Session key
-	 * 		initial vulnerabilities if individual already exists
-	 * 
-	 * Update
-	 * 	Required parameters:
-	 * 		sessionkey
-	 * 		score
-	 * 		desc
-	 * 			All found issues as JSON
-	 * 	Returns:
-	 * 		status_code
-	 * 
-	 * =================
-	 * = Example Usage =
-	 * =================
-	 * |Auth|
-	 * HashMap<String, String> parameters = new HashMap<String, String>();
-	 * parameters.put("name", "Test Dummy");
-	 * APIRequest authRequest = individualSessionRequest(sessionID, DarklightAPI.AUTH_ENDPOINT, parameters);
-	 * authRequest.send();
-	 * String sessionKey = authRequest.get("sessionkey");
-	 * 
-	 * |Update|
-	 * HashMap<String, String> updateParameters = new HashMap<String, String>();
-	 * updateParameters.put("sessionkey", sessionkey);
-	 * updateParameters.put("score", "" + engine.assessModule.issues.size());
-	 * updateParameters.put("desc", JSONObject.toJSONString(engine.assessModule.generateIssuesHashMap()));
-	 * APIRequest updateRequest = individualSessionRequest(sessionID, DarklightAPI.UPDATE_ENDPOINT, updateParameters);
-	 * updateRequest.send();
-	 * int status = (int) updateRequest.get("status_code");
-	 * boolean success = true ? status == 200 || status == 201 : false;
+	/**
+	 * Create a request for the individual session API
+	 * @param sessionID The ID of the session
+	 * @param endpoint The endpoint to query
+	 * @param parameters The parameters of the actual query
+	 * @return The generated {@link com.ijg.darklight.web.api.APIRequest}
+	 * @see com.ijg.darklight.web.api.APIRequest
+	 * @see com.ijg.darklight.web.sdk.DarklightSDK
 	 */
-	
 	public APIRequest individualSessionRequest(long sessionID, String endpoint, HashMap<String, String> parameters) {
 		String query = makeQueryString(parameters);
 		APIRequest request = new APIRequest(PROTOCOL, SERVER, BASE_URL + sessionID + endpoint, query);
 		return request;
 	}
 	
+	/**
+	 * Generate a query string suitable to pass to the APIRequest constructor
+	 * @param parameters The parameters from which the query string will be created
+	 * @return A query string suitable to pass to the {@link com.ijg.darklight.web.api.APIRequest} constructor
+	 */
 	private String makeQueryString(HashMap<String, String> parameters) {
 		StringBuilder query = new StringBuilder();
 		for (Entry<String, String> pair : parameters.entrySet()) {

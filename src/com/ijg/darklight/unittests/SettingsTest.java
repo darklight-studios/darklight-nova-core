@@ -7,6 +7,13 @@ import org.junit.Test;
 import com.ijg.darklight.core.settings.Parser;
 import com.ijg.darklight.core.settings.Settings;
 
+/**
+ * @author Isaac Grant
+ * @author Lucas Nicodemus
+ * @version .1
+ *
+ */
+
 public class SettingsTest {
 
 	@Test
