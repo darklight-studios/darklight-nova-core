@@ -22,16 +22,16 @@ public class DarklightLoader {
 	
 	/**
 	 * This method is to load and instantiate classes with constructors
-	 * @param classToLoad The desired class to load
-	 * @param initargs Constructor arguments
-	 * @param args Argument classes for constructor
-	 * @return New class instance
+	 * @param classToLoad The class to load
+	 * @param constructorArgs The arguments for the class constructor
+	 * @param constructorArgTypes The argument types for the class constructor
+	 * @return A new instance of the class
 	 */
-	public static Object loadAndInstantiateClass(String classToLoad, Object[] initargs, Class<?>... args) {
+	public static Object loadAndInstantiateClass(String classToLoad, Object[] constructorArgs, Class<?>... constructorArgTypes) {
 		Class<?> loadedClass = loadClass(classToLoad);
 		try {
-			Constructor<?> classConstructor = loadedClass.getConstructor(args);
-			return classConstructor.newInstance(initargs);
+			Constructor<?> classConstructor = loadedClass.getConstructor(constructorArgTypes);
+			return classConstructor.newInstance(constructorArgs);
 		} catch (Exception e) {
 			System.out
 					.println("[DarklightLoader] There was an error loading class \""
@@ -42,6 +42,11 @@ public class DarklightLoader {
 		return null;
 	}
 	
+	/**
+	 * This method is to load and instantiate class without constructors
+	 * @param classToLoad The class to load
+	 * @return A new instance of the class
+	 */
 	public static Object loadAndInstantiateClass(String classToLoad) {
 		Class<?> loadedClass = loadClass(classToLoad);
 		try {
