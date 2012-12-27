@@ -2,6 +2,14 @@ package com.ijg.darklight.core.loader;
 
 import java.lang.reflect.Constructor;
 
+/**
+ * Dynamically load and instantiate classes
+ * @author Isaac Grant
+ * @author Lucas Nicodemus
+ * @version .1
+ *
+ */
+
 public class DarklightLoader {
 	/**
 	 * 

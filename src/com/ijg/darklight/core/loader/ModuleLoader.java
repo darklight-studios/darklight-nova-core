@@ -4,6 +4,14 @@ import java.io.File;
 
 import com.ijg.darklight.core.ScoreModule;
 
+/**
+ * Dynamically load all scoring modules placed in the "plugins" folder
+ * @author Isaac Grant
+ * @author Lucas Nicodemus
+ * @version .1
+ *
+ */
+
 public class ModuleLoader {
 	
 	/**
