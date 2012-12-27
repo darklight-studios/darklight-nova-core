@@ -1,4 +1,4 @@
-package com.ijg.darklight.modules;
+package plugins;
 
 import java.util.ArrayList;
 

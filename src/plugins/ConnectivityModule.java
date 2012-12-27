@@ -1,4 +1,4 @@
-package com.ijg.darklight.modules;
+package plugins;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
