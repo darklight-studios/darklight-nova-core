@@ -3,6 +3,8 @@ package com.ijg.darklight.core;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.ijg.darklight.core.loader.ModuleLoader;
+
 /**
  * Handles the scoring modules
  * @author Isaac Grant
@@ -26,11 +28,10 @@ public class ModuleHandler {
 	public ModuleHandler(Engine engine) {
 		this.engine = engine;
 		
-		/*
-		 * Add modules here, like:
-		 * 
-		 * modules.add(new ScoringModule());
-		 */
+		ScoreModule[] loadedModules = ModuleLoader.loadAllModules();
+		for (ScoreModule loadedModule : loadedModules) {
+			modules.add(loadedModule);
+		}
 		
 		for (ScoreModule module : modules) {
 			total += module.getIssueCount();
