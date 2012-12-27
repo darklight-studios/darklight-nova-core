@@ -6,7 +6,7 @@ public class DarklightLoader {
 	/**
 	 * 
 	 * @param classToLoad The desired class to load
-	 * @return The loaded class returned by classLoader.loadClass
+	 * @return The loaded class returned by classLoader.loadClass or null if there was an error
 	 */
 	public static Class<?> loadClass(String classToLoad) {
 		ClassLoader classLoader = DarklightLoader.class.getClassLoader();
@@ -25,7 +25,7 @@ public class DarklightLoader {
 	 * @param classToLoad The class to load
 	 * @param constructorArgs The arguments for the class constructor
 	 * @param constructorArgTypes The argument types for the class constructor
-	 * @return A new instance of the class
+	 * @return A new instance of the class or null if there was an error
 	 */
 	public static Object loadAndInstantiateClass(String classToLoad, Object[] constructorArgs, Class<?>... constructorArgTypes) {
 		Class<?> loadedClass = loadClass(classToLoad);
@@ -45,7 +45,7 @@ public class DarklightLoader {
 	/**
 	 * This method is to load and instantiate class without constructors
 	 * @param classToLoad The class to load
-	 * @return A new instance of the class
+	 * @return A new instance of the class or null if there was an error
 	 */
 	public static Object loadAndInstantiateClass(String classToLoad) {
 		Class<?> loadedClass = loadClass(classToLoad);
