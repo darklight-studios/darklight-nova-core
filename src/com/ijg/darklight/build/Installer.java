@@ -19,8 +19,17 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileFilter;
+
+/**
+ * Darklight Installation candidate
+ * @author Isaac Grant
+ * @author Lucas Nicodemus
+ * @version .1
+ *
+ */
 
 public class Installer {
 	
@@ -29,13 +38,17 @@ public class Installer {
 	private Point center = new Point(screenSize.width / 2, screenSize.height / 2);
 	
 	private final String title = "Darklight Installer";
-	private final int WIDTH = 800;
-	private final int HEIGHT = 600;
 	
 	JFrame frame;
 	JPanel welcome;
-	JPanel panel2, panel3;
+	JPanel terms, chooseBuild, installPanel;
 	
+	private Parser buildParser;
+	private String installPath;
+	
+	/**
+	 * GUI constructor
+	 */
 	public Installer() {
 		frame = new JFrame();
 		
@@ -49,16 +62,120 @@ public class Installer {
 		frame.pack();
 	}
 	
-	public static void main(String[] args) {
-		new Installer();
+	/**
+	 * CLI constructor
+	 * @param buildFile The file in which the installation settings are found
+	 */
+	public Installer(String buildFile) {
+		install(new File(buildFile));
 	}
 	
+	/**
+	 * 
+	 * @param args CLI arguments
+	 */
+	public static void main(String[] args) {
+		if (args.length == 2) {
+			if (args[0] == "-build") {
+				new Installer(args[1]);
+			}
+		} else {
+			new Installer();
+		}
+	}
+	
+	/**
+	 * Non-GUI installation method
+	 * @param buildFile The file in which the installation settings are found
+	 */
+	public void install(File buildFile) {
+		initParser(buildFile);
+		createFileSystem();
+		copyJar((String) buildParser.get("jar"));
+		copyModules();
+		buildParser.destroy();
+	}
+	
+	/**
+	 * Initiate the build file parser
+	 * @param buildFile The fild in which the installation settings are found
+	 */
+	private void initParser(File buildFile) {
+		buildParser = new Parser(buildFile);
+		buildParser.parse();
+		installPath = (String) buildParser.get("installpath");
+	}
+	
+	/**
+	 * Create the installation
+	 */
+	private void createFileSystem() {
+		File installFolder = new File(installPath);
+		File pluginsFolder = new File(installFolder.getAbsolutePath(), "plugins");
+		
+		if (installFolder.exists()) {
+			installFolder.delete();
+		}
+		
+		if (pluginsFolder.exists()) {
+			pluginsFolder.delete();
+		}
+		
+		if (installFolder.mkdir()) {
+			if (pluginsFolder.mkdir()) {
+				System.out
+						.println("[DarklightInstaller] Successfully created file system in "
+								+ installFolder.getAbsolutePath());
+				return;
+			} else {
+				System.out
+						.println("[DarklightInstaller] Error creating plugins folder");
+			}
+		} else {
+			System.out
+					.println("[DarklightInstaller] Error creating install path");
+		}
+	}
+	
+	/**
+	 * Copy the Darklight jar to the install directory
+	 * @param jarPath The path of the Darklight jar
+	 */
+	private void copyJar(String jarPath) {
+		File darklightJar = new File(jarPath);
+		
+		if (darklightJar.exists()) {
+			if (darklightJar.isFile()) {
+				darklightJar.renameTo(new File(installPath, "Darklight.jar"));
+				return;
+			}
+		}
+		System.out
+				.println("[DarklightInstaller] Error, jar does not exist");
+	}
+	
+	/**
+	 * Copy the modules to be used into the plugins folder
+	 */
+	private void copyModules() {
+		File pluginsFolder = new File("plugins");
+		
+		File[] modules = pluginsFolder.listFiles();
+		
+		for (File module : modules) {
+			module.renameTo(new File(new File(installPath, "plugins"), module.getName()));
+		}
+	}
+	
+	/**
+	 * Safely kill the installation
+	 */
 	private void kill() {
 		System.exit(0);
 	}
 	
 	/**
-	 * 
+	 * Create and display the welcome panel
 	 */
 	private void initWelcomeFrame() {
 		welcome = new JPanel();
@@ -71,7 +188,7 @@ public class Installer {
 		
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loadpanel2();
+				loadTerms();
 			}
 		});
 		
@@ -110,11 +227,14 @@ public class Installer {
 		frame.pack();
 	}
 	
-	private void loadpanel2() {
+	/**
+	 * Create and display the terms of service panel
+	 */
+	private void loadTerms() {
 		welcome.removeAll();
 		frame.remove(welcome);
 		
-		panel2 = (JPanel) frame.getContentPane();
+		terms = (JPanel) frame.getContentPane();
 		
 		final JButton next = new JButton("Next");
 		next.setEnabled(false);
@@ -135,7 +255,7 @@ public class Installer {
 		
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loadFrame3();
+				loadChooseBuild();
 			}
 		});
 		
@@ -155,50 +275,53 @@ public class Installer {
 			}
 		});
 		
-		panel2.setLayout(new GridBagLayout());
+		terms.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
 		c.gridx = 0;
 		c.gridy = 0;
 		c.insets = new Insets(5, 5, 5, 5);
-		panel2.add(conditions, c);
+		terms.add(conditions, c);
 		
 		c.gridy = 1;
-		panel2.add(agree, c);
+		terms.add(agree, c);
 		
 		c.gridy = 2;
 		c.insets = new Insets(0, 5, 5, 0);
 		c.anchor = GridBagConstraints.WEST;
-		panel2.add(close, c);
+		terms.add(close, c);
 		
 		c.gridx = 1;
 		c.insets = new Insets(0, 0, 5, 5);
 		c.anchor = GridBagConstraints.EAST;
-		panel2.add(next, c);
+		terms.add(next, c);
 		
-		frame.setContentPane(panel2);
+		frame.setContentPane(terms);
 		frame.pack();
 	}
 	
-	private void loadFrame3() {
-		panel2.removeAll();
-		frame.remove(panel2);
+	/**
+	 * Load and display the panel to choose the build file
+	 */
+	private void loadChooseBuild() {
+		terms.removeAll();
+		frame.remove(terms);
 		
-		panel3 = (JPanel) frame.getContentPane();
+		chooseBuild = (JPanel) frame.getContentPane();
 		
 		JButton next = new JButton("Next");
 		next.setSize(new Dimension(30, 15));
 		JButton close = new JButton("Quit");
 		close.setSize(new Dimension(30, 15));
-		JFileChooser buildFileChooser = new JFileChooser(new File("."));
-		buildFileChooser.setSelectedFile(new File(new File("."), "install.dbuild"));
+		final JFileChooser buildFileChooser = new JFileChooser(new File("."));
+		buildFileChooser.setSelectedFile(new File(new File("."), "install.json"));
 		buildFileChooser.setFileFilter(new FileFilter() {
 			public String getDescription() {
-				return "dbuild";
+				return "json";
 			}
 			public boolean accept(File f) {
 				try {
-					if (f.getName().substring(f.getName().indexOf(".")).equals(".dbuild")) {
+					if (f.getName().substring(f.getName().indexOf(".")).equals(".json")) {
 						return true;
 					}
 				} catch (Exception e) {}
@@ -209,7 +332,7 @@ public class Installer {
 		
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loadFrame4();
+				loadInstallPanel(buildFileChooser.getSelectedFile());
 			}
 		});
 		
@@ -219,27 +342,75 @@ public class Installer {
 			}
 		});
 		
-		panel3.setLayout(new GridBagLayout());
+		chooseBuild.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
 		c.gridx = 0;
 		c.gridy = 0;
-		panel3.add(buildFileChooser);
+		chooseBuild.add(buildFileChooser);
 		
 		c.gridy = 1;
 		c.insets = new Insets(0, 5, 5, 0);
 		c.anchor = GridBagConstraints.WEST;
-		panel3.add(close, c);
+		chooseBuild.add(close, c);
 		
 		c.insets = new Insets(0, 0, 5, 5);
 		c.anchor = GridBagConstraints.EAST;
-		panel3.add(next, c);
+		chooseBuild.add(next, c);
 		
-		frame.setContentPane(panel3);
+		frame.setContentPane(chooseBuild);
 		frame.pack();
 	}
 	
-	private void loadFrame4() {
+	/**
+	 * Load and display the panel that show installation progress
+	 * @param buildFile The file in which the installation settings are found
+	 */
+	private void loadInstallPanel(File buildFile) {
+		chooseBuild.removeAll();
+		frame.remove(chooseBuild);
 		
+		installPanel = (JPanel) frame.getContentPane();
+		
+		JButton next = new JButton("Finish");
+		next.setSize(new Dimension(30, 15));
+		next.setEnabled(false);
+		next.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				kill();
+			}
+		});
+		
+		JLabel installText = new JLabel("Installing Darklight using the settings in: " + buildFile.getName());
+		JProgressBar progress = new JProgressBar();
+		
+		installPanel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.gridx = 0;
+		c.gridy = 0;
+		c.insets = new Insets(5, 5, 5, 5);
+		installPanel.add(installText, c);
+		
+		c.gridy = 1;
+		installPanel.add(progress, c);
+		
+		c.gridy = 2;
+		c.anchor = GridBagConstraints.EAST;
+		installPanel.add(next, c);
+		
+		frame.setContentPane(installPanel);
+		frame.pack();
+		
+		initParser(buildFile);
+		progress.setValue(10);
+		createFileSystem();
+		progress.setValue(30);
+		copyJar((String) buildParser.get("jar"));
+		progress.setValue(50);
+		copyModules();
+		progress.setValue(100);
+		next.setEnabled(true);
+		buildParser.destroy();
 	}
 }
