@@ -69,8 +69,10 @@ public class Installer {
 		frame.setContentPane(welcome);
 		frame.pack();
 		
-		File logFile = new File("log.txt");
 		try {
+			File logFile = new File("log.txt");
+			if (logFile.exists())
+				logFile.delete();
 			logFile.createNewFile();
 			PrintStream printStream = new PrintStream(new FileOutputStream(logFile));
 			System.setOut(printStream);
