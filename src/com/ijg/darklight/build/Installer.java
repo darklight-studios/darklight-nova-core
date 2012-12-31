@@ -11,7 +11,12 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Stack;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -44,6 +49,8 @@ public class Installer {
 	
 	private Parser buildParser;
 	private String installPath;
+	
+	private Stack<String> errorStack = new Stack<String>();
 	
 	/**
 	 * GUI constructor
@@ -94,6 +101,26 @@ public class Installer {
 		copyJar((String) buildParser.get("jar"));
 		copyModules();
 		buildParser.destroy();
+		dumpErrorStack();
+	}
+	
+	private void dumpErrorStack() {
+		File errorFile = new File("errors.txt");
+		
+		try {
+			FileWriter fileWriter = new FileWriter(errorFile);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			
+			for (String error : errorStack) {
+				bufferedWriter.write(error + "\r\n");
+			}
+			
+			bufferedWriter.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**
@@ -130,10 +157,12 @@ public class Installer {
 			} else {
 				System.out
 						.println("[DarklightInstaller] Error creating plugins folder");
+				errorStack.add("Error creating plugins folder");
 			}
 		} else {
 			System.out
 					.println("[DarklightInstaller] Error creating install path");
+			errorStack.add("Error creating install path");
 		}
 		return false;
 	}
@@ -153,6 +182,7 @@ public class Installer {
 		}
 		System.out
 				.println("[DarklightInstaller] Error, jar does not exist");
+		errorStack.add("Error copying jar file");
 	}
 	
 	/**
@@ -164,7 +194,8 @@ public class Installer {
 		File[] modules = pluginsFolder.listFiles();
 		
 		for (File module : modules) {
-			module.renameTo(new File(new File(installPath, "plugins"), module.getName()));
+			if (!module.renameTo(new File(new File(installPath, "plugins"), module.getName())))
+				errorStack.add("Error moving " + module.getName());
 		}
 	}
 	
@@ -414,5 +445,6 @@ public class Installer {
 		progress.setValue(100);
 		next.setEnabled(true);
 		buildParser.destroy();
+		dumpErrorStack();
 	}
 }
