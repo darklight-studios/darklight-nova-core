@@ -13,8 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Stack;
 
 import javax.swing.JButton;
@@ -66,6 +68,18 @@ public class Installer {
 		frame.setVisible(true);
 		frame.setContentPane(welcome);
 		frame.pack();
+		
+		File logFile = new File("log.txt");
+		try {
+			logFile.createNewFile();
+			PrintStream printStream = new PrintStream(new FileOutputStream(logFile));
+			System.setOut(printStream);
+			System.setErr(printStream);
+		} catch (Exception e) {
+			System.out
+					.println("[DarklightInstaller] Error redirecting STDOUT/STDERR");
+		}
+		
 	}
 	
 	/**
