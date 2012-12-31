@@ -12,7 +12,6 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -90,7 +89,8 @@ public class Installer {
 	 */
 	public void install(File buildFile) {
 		initParser(buildFile);
-		createFileSystem();
+		if (!createFileSystem())
+			createFileSystem();
 		copyJar((String) buildParser.get("jar"));
 		copyModules();
 		buildParser.destroy();
@@ -109,7 +109,7 @@ public class Installer {
 	/**
 	 * Create the installation
 	 */
-	private void createFileSystem() {
+	private boolean createFileSystem() {
 		File installFolder = new File(installPath);
 		File pluginsFolder = new File(installFolder.getAbsolutePath(), "plugins");
 		
@@ -126,7 +126,7 @@ public class Installer {
 				System.out
 						.println("[DarklightInstaller] Successfully created file system in "
 								+ installFolder.getAbsolutePath());
-				return;
+				return true;
 			} else {
 				System.out
 						.println("[DarklightInstaller] Error creating plugins folder");
@@ -135,6 +135,7 @@ public class Installer {
 			System.out
 					.println("[DarklightInstaller] Error creating install path");
 		}
+		return false;
 	}
 	
 	/**
@@ -404,7 +405,8 @@ public class Installer {
 		
 		initParser(buildFile);
 		progress.setValue(10);
-		createFileSystem();
+		if (!createFileSystem())
+			createFileSystem();
 		progress.setValue(30);
 		copyJar((String) buildParser.get("jar"));
 		progress.setValue(50);
