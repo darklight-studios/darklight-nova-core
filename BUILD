@@ -1,1 +1,0 @@
-INSTALL F:\Darklight-Nova JAR CORE
