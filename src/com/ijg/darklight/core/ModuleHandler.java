@@ -3,6 +3,8 @@ package com.ijg.darklight.core;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.shanked.nicatronTg.darklight.view.VulnerabilityOutput;
+
 import com.ijg.darklight.core.loader.ModuleLoader;
 
 /**
@@ -21,12 +23,15 @@ public class ModuleHandler {
 	private ArrayList<Issue> issues = new ArrayList<Issue>();
 	private ArrayList<ScoreModule> modules = new ArrayList<ScoreModule>();
 	
+	private VulnerabilityOutput outputManager;
+	
 	/**
 	 * 
 	 * @param engine The instance of engine to which this module handler will belong
 	 */
 	public ModuleHandler(Engine engine) {
 		this.engine = engine;
+		outputManager = new VulnerabilityOutput(this);
 		
 		ScoreModule[] loadedModules = ModuleLoader.loadAllModules();
 		for (ScoreModule loadedModule : loadedModules) {
@@ -69,7 +74,7 @@ public class ModuleHandler {
 		}
 		
 		if (changed) {
-			engine.writeFoundList();
+			outputManager.writeNewOutput();
 			
 			engine.authUser();
 			engine.sendUpdate(issues.size(), getFixedIssues());

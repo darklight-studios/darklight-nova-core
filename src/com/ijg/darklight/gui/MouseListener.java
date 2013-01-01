@@ -1,8 +1,6 @@
 package com.ijg.darklight.gui;
 
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-
 import javax.swing.JButton;
 
 /**
@@ -37,13 +35,6 @@ public class MouseListener implements java.awt.event.MouseListener {
 			} else if (button.getActionCommand().equals("finish")) {
 				// Finish button
 				gui.engine.finishSession();
-			} else if (button.getActionCommand().equals("view")) {
-				// View fixed issues button
-				try {
-					Runtime.getRuntime().exec("python VulnView.py " + gui.engine.PROGRESS_FILE);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
 			}
 		}
 	}
