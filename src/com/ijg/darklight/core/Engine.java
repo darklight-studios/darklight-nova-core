@@ -73,7 +73,7 @@ public class Engine implements Runnable {
 		if (API_ACTIVE)
 				sdk = new DarklightSDK(API_PROTOCOL, API_SERVER, API_SESSION_ID);
 		frontend.promptForName();
-		moduleHandler.assess();
+		moduleHandler.checkAllVulnerabilities();
 	}
 
 	/**

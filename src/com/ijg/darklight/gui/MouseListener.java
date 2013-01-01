@@ -32,7 +32,7 @@ public class MouseListener implements java.awt.event.MouseListener {
 		if (button.contains(e.getPoint())) {
 			if (button.getActionCommand().equals("refresh")) {
 				// Refresh button
-				gui.engine.moduleHandler.assess();
+				gui.engine.moduleHandler.checkAllVulnerabilities();
 				gui.update();
 			} else if (button.getActionCommand().equals("finish")) {
 				// Finish button
