@@ -1,9 +1,5 @@
 package com.ijg.darklight.core;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import com.ijg.darklight.web.sdk.DarklightSDK;
 import com.ijg.darklight.core.settings.Settings;
@@ -73,7 +69,7 @@ public class Engine implements Runnable {
 		if (API_ACTIVE)
 				sdk = new DarklightSDK(API_PROTOCOL, API_SERVER, API_SESSION_ID);
 		frontend.promptForName();
-		moduleHandler.assess();
+		moduleHandler.checkAllVulnerabilities();
 	}
 
 	/**
@@ -144,21 +140,6 @@ public class Engine implements Runnable {
 		return TEAM_SESSION;
 	}
 	
-	/**
-	 * Write all fixed issues to the progress file
-	 */
-	public void writeFoundList() {
-		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter(new File(PROGRESS_FILE)));
-			
-			for (Issue issue : moduleHandler.getIssues()) {
-				out.write(issue.getName() + ":" + issue.getDescription() + "\n");
-			}
-			out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	/**
 	 * Check if the current session is finished

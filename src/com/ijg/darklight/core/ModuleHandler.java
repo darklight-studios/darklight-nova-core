@@ -3,6 +3,8 @@ package com.ijg.darklight.core;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.shanked.nicatronTg.darklight.view.VulnerabilityOutput;
+
 import com.ijg.darklight.core.loader.ModuleLoader;
 
 /**
@@ -21,12 +23,15 @@ public class ModuleHandler {
 	private ArrayList<Issue> issues = new ArrayList<Issue>();
 	private ArrayList<ScoreModule> modules = new ArrayList<ScoreModule>();
 	
+	private VulnerabilityOutput outputManager;
+	
 	/**
 	 * 
 	 * @param engine The instance of engine to which this module handler will belong
 	 */
 	public ModuleHandler(Engine engine) {
 		this.engine = engine;
+		outputManager = new VulnerabilityOutput(this);
 		
 		ScoreModule[] loadedModules = ModuleLoader.loadAllModules();
 		for (ScoreModule loadedModule : loadedModules) {
@@ -42,7 +47,7 @@ public class ModuleHandler {
 	 * Generate a hash map of fixed issues
 	 * @return A hash map of fixed issues
 	 */
-	public HashMap<String, String> generateIssuesHashMap() {
+	public HashMap<String, String> getFixedIssues() {
 		HashMap<String, String> issuesMap = new HashMap<String, String>();
 		for (Issue issue : issues) {
 			issuesMap.put(issue.getName(), issue.getDescription());
@@ -53,7 +58,7 @@ public class ModuleHandler {
 	/**
 	 * Update the status of all issues
 	 */
-	public void assess() {
+	public void checkAllVulnerabilities() {
 		boolean changed = false;
 		for (ScoreModule module : modules) {
 			ArrayList<Issue> modifiedIssues = module.check();
@@ -69,10 +74,10 @@ public class ModuleHandler {
 		}
 		
 		if (changed) {
-			engine.writeFoundList();
+			outputManager.writeNewOutput();
 			
 			engine.authUser();
-			engine.sendUpdate(issues.size(), generateIssuesHashMap());
+			engine.sendUpdate(issues.size(), getFixedIssues());
 		}
 	}
 	
@@ -88,7 +93,7 @@ public class ModuleHandler {
 	 * Get the total number of issues
 	 * @return The total number of issues
 	 */
-	public int getTotal() {
+	public int getTotalIssueCount() {
 		return (int) total;
 	}
 	
@@ -96,7 +101,7 @@ public class ModuleHandler {
 	 * Get number of issues that have been fixed
 	 * @return Number of issues that have been fixed
 	 */
-	public int getFixedIssues() {
+	public int getFixedIssueCount() {
 		return issues.size();
 	}
 	
@@ -104,7 +109,7 @@ public class ModuleHandler {
 	 * Get the percentage of fixed issues
 	 * @return The percentage of fixed issues
 	 */
-	public String getPercentFixed() {
+	public String getFixedIssuePercent() {
 		return "" + ((int) (((double) issues.size()) / total) * 100) + "%";
 	}
 }

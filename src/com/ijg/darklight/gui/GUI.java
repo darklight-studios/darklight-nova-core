@@ -33,7 +33,7 @@ public class GUI {
 	
 	JFrame frame;
 	JPanel panel;
-	JButton refresh, finish, view;
+	JButton refresh, finish;
 	JLabel totalLabel, foundLabel, percentLabel;
 	JLabel total, found, percent;
 	
@@ -61,15 +61,11 @@ public class GUI {
 		finish.setActionCommand("finish");
 		new MouseListener(this, finish);
 		
-		view = new JButton("View Fixed Issues");
-		view.setActionCommand("view");
-		new MouseListener(this, view);
-		
 		totalLabel = new JLabel(TOTAL_TEXT);
 		foundLabel = new JLabel(FOUND_TEXT);
 		percentLabel = new JLabel(PERCENT_TEXT);
 		
-		total = new JLabel("" + engine.moduleHandler.getTotal());
+		total = new JLabel("" + engine.moduleHandler.getTotalIssueCount());
 		found = new JLabel("0");
 		percent = new JLabel("0%");
 		
@@ -110,12 +106,6 @@ public class GUI {
 		c.ipadx = 0;
 		c.insets = new Insets(0, 5, 0, 5);
 		panel.add(finish, c);
-		
-		c.weightx = 0;
-		c.gridwidth = 4;
-		c.gridx = 0;
-		c.gridy = 4;
-		panel.add(view, c);
 
 		frame.setContentPane(panel);
 		frame.setTitle(title);
@@ -141,7 +131,7 @@ public class GUI {
 		}
 		
 		// Update numbers
-		found.setText("" + engine.moduleHandler.getFixedIssues());
-		percent.setText(engine.moduleHandler.getPercentFixed());
+		found.setText("" + engine.moduleHandler.getFixedIssueCount());
+		percent.setText(engine.moduleHandler.getFixedIssuePercent());
 	}
 }
