@@ -16,6 +16,7 @@ public class ExampleScoringModule extends ScoreModule {
 	private Issue exampleIssue3 = new Issue("Example Vulnerability", "This is an example vulnerability.");
 	
 	public ExampleScoringModule() {
+		loadSettings();
 		issues.add(exampleIssue);
 		issues.add(exampleIssue2);
 		issues.add(exampleIssue3);
@@ -39,6 +40,17 @@ public class ExampleScoringModule extends ScoreModule {
 		return false;
 	}
 	
+	@Override
+	protected void loadSettings() {
+		/*
+		 * Load any settings from the config file here.
+		 * The only convention is to get the settings specific to this module
+		 * using the following statement:
+		 * JSONObject moduleSettings = (JSONObject) ConfigParser.getConfig().get("ExampleScoringModule");
+		 */
+	}
+	
+	@Override
 	public ArrayList<Issue> check() {
 		if (fixedExampleVulnerability()) {
 			add(exampleIssue);
