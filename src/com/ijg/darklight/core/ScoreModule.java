@@ -15,7 +15,7 @@ public abstract class ScoreModule {
 
 	protected ArrayList<Issue> issues = new ArrayList<Issue>();
 	public abstract ArrayList<Issue> check();
-		 
+
 	/**
 	 * Add a fixed issue to the list of fixed issues
 	 * @param issue An issue that has been fixed
