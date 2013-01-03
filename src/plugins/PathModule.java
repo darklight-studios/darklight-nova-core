@@ -5,15 +5,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import com.ijg.darklight.core.Issue;
 import com.ijg.darklight.core.ScoreModule;
+import com.ijg.darklight.core.settings.ConfigParser;
 
 public class PathModule extends ScoreModule {
 
 	private Issue fakePath = new Issue("Malicious PATH",
-			"Path variable no longer contains the invalid 'C:\\Program Files (x86)\\Windows NT' path.");
+			"Path variable no longer contains malicious and false paths.");
 
+	private String[] badPaths;
+	
 	public PathModule() {
+		loadSettings();
 		issues.add(fakePath);
 	}
 
@@ -28,9 +35,13 @@ public class PathModule extends ScoreModule {
 			while ((line = br.readLine()) != null) {
 				path += line;
 			}
-			if (path.contains("C:\\Program Files (x86)\\Windows NT")) {
-				return false;
+			
+			for (String badPath : badPaths) {
+				if (path.contains(badPath)) {
+					return false;
+				}
 			}
+
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -38,6 +49,18 @@ public class PathModule extends ScoreModule {
 		}
 	}
 
+	@Override
+	protected void loadSettings() {
+		JSONObject moduleSettings = (JSONObject) ConfigParser.getConfig().get("PathModule");
+		JSONArray rawBadPaths = (JSONArray) moduleSettings.get("bad paths");
+		badPaths = new String[rawBadPaths.size()];
+		System.out.println("PathModule loaded the following bad paths:");
+		for (int i = 0; i < badPaths.length; ++i) {
+			badPaths[i] = (String) rawBadPaths.get(i);
+			System.out.println(badPaths[i]);
+		}
+	}
+	
 	@Override
 	public ArrayList<Issue> check() {
 		if (isPathClean()) {
