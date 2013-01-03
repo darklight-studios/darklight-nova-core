@@ -31,5 +31,20 @@
 
     "PathModule": {
         "bad paths": [ "C:\\Program Files (x86)\\Windows NT", "C:\\KeyLogger" ]
+    },
+
+    "SecEditModule": {
+        "Guest Disabled": {
+            "custom": "false"
+        },
+        "Password Age": {
+            "custom": "false"
+        },
+        "Password Requirements": {
+            "custom": "false"
+        },
+        "Auditing": {
+            "custom": "false"
+        }
     }
 }
