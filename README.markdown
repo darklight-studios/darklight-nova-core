@@ -5,7 +5,7 @@ The Darklight Nova Core installation is an open source security vulnerability si
 
 The server is designed to operate on a smaller scale, potentially any number of clients sending updates to NodeJS powered web backend, which then parses the results and displays them in a variety of formats.
 
-In addition, the client informs the user of the current state of the simulation through a Java & generated HTML file, independently of the server. This can allow a server module to be entirely non-existent, while maintaining critical functionality.
+In addition, the client informs the user of the current state of the simulation through a Java graphical interface & generated HTML file, independently of the server. This can allow a server module to be entirely non-existent, while maintaining critical functionality.
 
 ### Code Contributions
 
