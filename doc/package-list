@@ -1,7 +1,10 @@
+com.ijg.darklight.build
 com.ijg.darklight.core
+com.ijg.darklight.core.loader
 com.ijg.darklight.core.settings
 com.ijg.darklight.gui
-com.ijg.darklight.modules
 com.ijg.darklight.unittests
 com.ijg.darklight.web.api
 com.ijg.darklight.web.sdk
+me.shanked.nicatronTg.darklight.view
+plugins
