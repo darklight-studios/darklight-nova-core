@@ -16,5 +16,16 @@
         "active": "false",
         "names": [ "keegan arnold", "michelle hulongbayan", "andrew williams", "chris wotortsi", "do park", "jacob johnson", "jeffrey rael", "luke robinson", "nathan teeter", "savannah clemente", "tyler tilford-hamlin", "leeann wilson", "andrew card", "isaac grant", "lucas nicodemus" ],
         "teams": [ "any key", "team other" ]
+    },
+
+    "FileModule": {
+        "Malicious System Files": {
+            "files": [ "C:\\Program Files (x86)\\Fail.exe", "C:\\Windows\\System32\\Virus.exe" ],
+            "description": "Removed bad system files"
+        },
+        "Malicious My Documents Files": {
+            "files": [ "C:\\Users\\Dude\\My Documents\\Bad.exe", "C:\\Users\\Dude\\My Music\\KeyLogger.exe" ],
+            "description": "Removed malicious files in My Documents folder"
+        }
     }
 }
