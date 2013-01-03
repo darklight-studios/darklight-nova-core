@@ -63,14 +63,17 @@ public class FileModule extends ScoreModule {
 		
 		@SuppressWarnings("unchecked")
 		Iterator<String> iter = fileSettings.keySet().iterator();
+		System.out.println("FileModule has loaded the following issues:");
 		while (iter.hasNext()) {
 			String issueName = iter.next();
 			JSONArray rawIssueFiles = (JSONArray) ((JSONObject) fileSettings.get(issueName)).get("files");
 			String issueDescription = (String) ((JSONObject) fileSettings.get(issueName)).get("description");
 			File[] issueFiles = new File[rawIssueFiles.size()];
 			
+			System.out.println(issueName + ": " + issueDescription + ", with the following associated files:");
 			for (int i = 0; i < issueFiles.length; ++i) {
 				issueFiles[i] = new File((String) rawIssueFiles.get(i));
+				System.out.println(issueFiles[i]);
 			}
 			
 			issueMap.put(new Issue(issueName, issueDescription), issueFiles);
