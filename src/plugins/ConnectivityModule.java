@@ -44,6 +44,9 @@ public class ConnectivityModule extends ScoreModule {
 	}
 	
 	@Override
+	protected void loadSettings() {}
+	
+	@Override
 	public ArrayList<Issue> check() {
 		if (isInternetReachable()) {
 			add(connectivity);
