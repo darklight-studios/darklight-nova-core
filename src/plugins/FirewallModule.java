@@ -37,6 +37,9 @@ public class FirewallModule extends ScoreModule {
 	}
 	
 	@Override
+	protected void loadSettings() {}
+	
+	@Override
 	public ArrayList<Issue> check() {
 		if (isFirewallEnabled()) {
 			add(firewallDisabledIssue);
