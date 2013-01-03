@@ -57,6 +57,7 @@ public class FileModule extends ScoreModule {
 	/**
 	 * Load issues from the config file
 	 */
+	@Override
 	protected void loadSettings() {
 		JSONObject fileSettings = (JSONObject) ConfigParser.getConfig().get("FileModule");
 		
