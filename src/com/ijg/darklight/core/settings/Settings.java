@@ -3,7 +3,7 @@ package com.ijg.darklight.core.settings;
 import org.json.simple.JSONArray;
 
 /**
- * Handles the settings parsed by {@link com.ijg.darklight.core.settings.Parser}
+ * Handles the settings parsed by {@link com.ijg.darklight.core.settings.ConfigParser}
  * @author Isaac Grant
  * @author Lucas Nicodemus
  * @version .1
@@ -11,16 +11,16 @@ import org.json.simple.JSONArray;
  */
 
 public enum Settings {
-	PROGRESS_FILE        (Parser.getValue("general", "progress")),
-	SESSION_TYPE         (Parser.getValue("general", "sessiontype")),
-	API_ACTIVE			 (Parser.getValue("api", "active")),
-	API_ID               (Parser.getValue("api", "id")),
-	NAME_FILE            (Parser.getValue("api", "name")),
-	API_PROTOCOL         (Parser.getValue("api", "protocol")),
-	API_SERVER           (Parser.getValue("api", "server")),
-	VERIFICATION_ACTIVE  (Parser.getValue("verification", "active")),
-	VERIFICATION_NAMES   (Parser.getValue("verification", "names")),
-	VERIFICATION_TEAMS   (Parser.getValue("verification", "teams"));
+	PROGRESS_FILE        (ConfigParser.getValue("general", "progress")),
+	SESSION_TYPE         (ConfigParser.getValue("general", "sessiontype")),
+	API_ACTIVE			 (ConfigParser.getValue("api", "active")),
+	API_ID               (ConfigParser.getValue("api", "id")),
+	NAME_FILE            (ConfigParser.getValue("api", "name")),
+	API_PROTOCOL         (ConfigParser.getValue("api", "protocol")),
+	API_SERVER           (ConfigParser.getValue("api", "server")),
+	VERIFICATION_ACTIVE  (ConfigParser.getValue("verification", "active")),
+	VERIFICATION_NAMES   (ConfigParser.getValue("verification", "names")),
+	VERIFICATION_TEAMS   (ConfigParser.getValue("verification", "teams"));
 	
 	private Object value;
 	

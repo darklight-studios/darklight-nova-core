@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.ijg.darklight.core.settings.Parser;
+import com.ijg.darklight.core.settings.ConfigParser;
 import com.ijg.darklight.core.settings.Settings;
 
 /**
@@ -21,7 +21,7 @@ public class SettingsTest {
 		// General
 		assertTrue(Settings.get("progressfile").contains(System.getProperty("path.separator")));
 		
-		assertTrue(Parser.getParsed());
+		assertTrue(ConfigParser.getParsed());
 		
 		// General
 		assertNotNull(Settings.getBool("idverification"));
@@ -40,9 +40,9 @@ public class SettingsTest {
 		assertNotNull(Settings.getJSON("verification.teams"));
 		
 		
-		Parser.destroy();
-		assertNull(Parser.getConfig());
-		assertFalse(Parser.getParsed());
+		ConfigParser.destroy();
+		assertNull(ConfigParser.getConfig());
+		assertFalse(ConfigParser.getParsed());
 	}
 
 }

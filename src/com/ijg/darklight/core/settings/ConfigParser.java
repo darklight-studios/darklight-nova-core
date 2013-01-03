@@ -14,7 +14,7 @@ import org.json.simple.JSONValue;
  *
  */
 
-public class Parser {
+public class ConfigParser {
 	private static File configFile = new File(new File("."), "config.json");
 	private static boolean parsed = false;
 	private static JSONObject config;
