@@ -1,9 +1,9 @@
 Darklight Nova: Core
 ====
 
-The Darklight Nova Core installation is an open source security vulnerability simulation platform.
+The Darklight Nova Core installation is an open source security vulnerability simulation platform. It's similar to CyberNEXS or the CyberPatriot Scoring System, though open source & free.
 
-The server is designed to operate on a smaller scale, potentially with 15-20 clients sending updates to NodeJS powered web backend, which then parses the results and displays them in a variety of formats.
+The server is designed to operate on a smaller scale, potentially any number of clients sending updates to NodeJS powered web backend, which then parses the results and displays them in a variety of formats.
 
 In addition, the client informs the user of the current state of the simulation through a Java & generated HTML file, independently of the server. This can allow a server module to be entirely non-existent, while maintaining critical functionality.
 
