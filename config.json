@@ -27,5 +27,9 @@
             "files": [ "C:\\Users\\Dude\\My Documents\\Bad.exe", "C:\\Users\\Dude\\My Music\\KeyLogger.exe" ],
             "description": "Removed malicious files in My Documents folder"
         }
+    },
+
+    "PathModule": {
+        "bad paths": [ "C:\\Program Files (x86)\\Windows NT", "C:\\KeyLogger" ]
     }
 }
