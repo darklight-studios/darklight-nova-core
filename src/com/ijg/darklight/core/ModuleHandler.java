@@ -63,7 +63,7 @@ public class ModuleHandler {
 		for (ScoreModule module : modules) {
 			ArrayList<Issue> modifiedIssues = module.check();
 			for (Issue issue : modifiedIssues) {
-				if (issue.getFixed() && issues.contains(issue)) {
+				if (issue.getFixed() && !issues.contains(issue)) {
 					issues.add(issue);
 					changed = true;
 				} else if (!issue.getFixed() && issues.contains(issue)) {
