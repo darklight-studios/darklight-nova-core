@@ -14,6 +14,7 @@ import java.util.Iterator;
 public abstract class ScoreModule {
 
 	protected ArrayList<Issue> issues = new ArrayList<Issue>();
+	protected abstract void loadSettings();
 	public abstract ArrayList<Issue> check();
 
 	/**
