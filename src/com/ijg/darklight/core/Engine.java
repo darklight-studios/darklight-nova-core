@@ -66,9 +66,10 @@ public class Engine implements Runnable {
 		frontend = new Frontend(this);
 		Thread engine = new Thread(this, "engine");
 		engine.start();
-		if (API_ACTIVE)
+		if (API_ACTIVE) {
 				sdk = new DarklightSDK(API_PROTOCOL, API_SERVER, API_SESSION_ID);
-		frontend.promptForName();
+				frontend.promptForName();
+		}
 		moduleHandler.checkAllVulnerabilities();
 	}
 
