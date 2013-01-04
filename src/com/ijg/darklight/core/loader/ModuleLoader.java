@@ -18,7 +18,8 @@ public class ModuleLoader {
 	
 	/**
 	 * 
-	 * @return An array of loaded scoring modules or null if there was an error/plugins folder doesn't exist
+	 * @return An array of score module instances loaded from the plugins folder
+	 * @throws IOException If plugins folder is not present
 	 */
 	public static ScoreModule[] loadAllModules() throws IOException {
 		File root = new File(new File("."), "plugins");
