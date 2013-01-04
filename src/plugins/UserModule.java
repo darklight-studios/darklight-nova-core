@@ -13,6 +13,7 @@ public class UserModule extends ScoreModule {
 	private Issue fakeAccountIsAdmin = new Issue("Fake Account Removed", "The fake account IWAM_WIN-1L7O4K56QTM no longer has administrative rights, is disabled, or is entirely gone.");
 	
 	public UserModule() {
+		loadSettings();
 		issues.add(fakeAccountIsAdmin);
 	}
 	
@@ -69,6 +70,11 @@ public class UserModule extends ScoreModule {
 		} else {
 			return true;
 		}
+	}
+	
+	@Override
+	protected void loadSettings() {
+		//JSONObject moduleSettings = (JSONObject) ConfigParser.getConfig().get("UserModule");
 	}
 	
 	@Override
