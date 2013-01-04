@@ -1,4 +1,5 @@
 bin
-*.pyc
 *.*~
 *~
+errors.txt
+log.txt
