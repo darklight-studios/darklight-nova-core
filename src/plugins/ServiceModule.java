@@ -4,17 +4,26 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import org.json.simple.JSONObject;
 
 import com.ijg.darklight.core.Issue;
 import com.ijg.darklight.core.ScoreModule;
+import com.ijg.darklight.core.settings.ConfigParser;
 
 public class ServiceModule extends ScoreModule {
 
-	private Issue telnetEnabled = new Issue("Telnet Disabled", "The Telnet service has been removed or disabled.");
-	private Issue updatesEnabled = new Issue("Windows Update Service started", "The Windows Update service is now online.");
+	private HashMap<Issue, String> issueMap = new HashMap<Issue, String>();
 	
 	public ServiceModule() {
-		issues.add(telnetEnabled);
+		loadSettings();
+		
+		Iterator<Issue> iter = issueMap.keySet().iterator();
+		while (iter.hasNext()) {
+			issues.add(iter.next());
+		}
 	}
 	
 	private boolean isServiceOperational(String service) {
@@ -37,17 +46,31 @@ public class ServiceModule extends ScoreModule {
 	}
 	
 	@Override
-	public ArrayList<Issue> check() {
-		if (!isServiceOperational("TlntSvr")) {
-			add(telnetEnabled);
-		} else {
-			remove(telnetEnabled);
-		}
+	protected void loadSettings() {
+		JSONObject moduleSettings = (JSONObject) ConfigParser.getConfig().get("ServiceModule");
 		
-		if (!isServiceOperational("wuauserv")) {
-			add(updatesEnabled);
-		} else {
-			remove(updatesEnabled);
+		@SuppressWarnings("unchecked")
+		Iterator<String> iter = moduleSettings.keySet().iterator();
+		while (iter.hasNext()) {
+			String issueName = iter.next();
+			JSONObject issueData = (JSONObject) moduleSettings.get(issueName);
+			String issueDescription = (String) issueData.get("description");
+			String serviceName = (String) issueData.get("service");
+			
+			issueMap.put(new Issue(issueName, issueDescription), serviceName);
+		}
+	}
+	
+	@Override
+	public ArrayList<Issue> check() {
+		Iterator<Issue> iter = issueMap.keySet().iterator();
+		while (iter.hasNext()) {
+			Issue curIssue = iter.next();
+			if (!isServiceOperational(issueMap.get(curIssue))) {
+				add(curIssue);
+			} else {
+				remove(curIssue);
+			}
 		}
 		return issues;
 	}
