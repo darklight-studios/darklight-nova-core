@@ -289,15 +289,20 @@ public class Installer {
 		next.setSize(new Dimension(30, 15));
 		JButton close = new JButton("Quit");
 		close.setSize(new Dimension(30, 15));
-		final JCheckBox agree = new JCheckBox("I have read and agree to the above terms of use");
+		final JCheckBox agree = new JCheckBox("I agree to the aforementioned Terms of Service.");
 		
 		JTextArea conditions = new JTextArea(
 				"By installing Darklight you agree to the following terms:\n" +
-				"[1] Darklight is not to be distributed by any person or third party\n" +
-				"[2] Darklight may not be redistributed under another name\n" +
-				"[3] An attempt to reverse engineer any Darklight Security Tools is prohibited and punishable by law\n" +
-				"Darklight Core contains tamper protection that may damage your computer " +
-				"if it detects an attempt\n to reverse engineer or modify Darklight Core in any way");
+				"[1] This specific Darklight Installation should not be redistributed in executable form.\n" +
+				"[2] Darklight's Core Source Code may be redistributed under the terms set by the GNU GPL V3.\n" +
+				"[3] Reverse engineering proprietary modules produced for Darklight is in violation of the\nUnited States Digital Millennium Copyright Act of 1998, as well as the copyright held by Isaac Grant and Lucas Nicodemus.\n" +
+				"For more information, refer to the COPYING file packaged with your downloaded installation.\n\n" +
+				"WARNING: Darklight's Core contains tamper protection that may damage your computer if an attempt is made\n" +
+				"to retroactively tamper with the Darklight modules & core. Proceed at your own risk.\n\n" +
+				"Darklight is distributed in the hope that it will be useful, " +
+				"but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
+				"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the " + 
+				"GNU General Public License for more details.");
 		conditions.setEditable(false);
 		conditions.setBackground(Color.white);
 		
