@@ -1,5 +1,6 @@
 package com.ijg.darklight.core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -33,9 +34,14 @@ public class ModuleHandler {
 		this.engine = engine;
 		outputManager = new VulnerabilityOutput(this);
 		
-		ScoreModule[] loadedModules = ModuleLoader.loadAllModules();
-		for (ScoreModule loadedModule : loadedModules) {
-			modules.add(loadedModule);
+		ScoreModule[] loadedModules;
+		try {
+			loadedModules = ModuleLoader.loadAllModules();
+			for (ScoreModule loadedModule : loadedModules) {
+				modules.add(loadedModule);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 		for (ScoreModule module : modules) {
