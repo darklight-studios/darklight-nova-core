@@ -20,7 +20,7 @@ public class DarklightSDK {
 	String APIProtocol;
 	String APIServer;
 	
-	long APISessionId;
+	int APISessionId;
 	String APISessionKey;
 	
 	private DarklightAPI api;
@@ -40,7 +40,7 @@ public class DarklightSDK {
 	 * @param APIServer Server to be used by the DarklightAPI
 	 * @param APISessionId The API session ID used by the DarklightAPI
 	 */
-	public DarklightSDK(String APIProtocol, String APIServer, long APISessionId) {
+	public DarklightSDK(String APIProtocol, String APIServer, int APISessionId) {
 		this.APIProtocol = APIProtocol;
 		this.APIServer = APIServer;
 		this.APISessionId = APISessionId;
@@ -125,7 +125,7 @@ public class DarklightSDK {
 	 * 
 	 * @return The session ID used by DarklightAPI
 	 */
-	public long getAPISessionID() {
+	public int getAPISessionID() {
 		return APISessionId;
 	}
 	
@@ -133,7 +133,7 @@ public class DarklightSDK {
 	 * 
 	 * @param id The session ID to be used by DarklightAPI
 	 */
-	public void setAPISessionID(long id) {
+	public void setAPISessionID(int id) {
 		APISessionId = id;
 	}
 	
