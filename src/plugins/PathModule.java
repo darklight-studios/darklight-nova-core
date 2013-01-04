@@ -5,9 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.ijg.darklight.core.Issue;
 import com.ijg.darklight.core.ScoreModule;
 import com.ijg.darklight.core.settings.ConfigParser;
@@ -51,12 +50,12 @@ public class PathModule extends ScoreModule {
 
 	@Override
 	protected void loadSettings() {
-		JSONObject moduleSettings = (JSONObject) ConfigParser.getConfig().get("PathModule");
-		JSONArray rawBadPaths = (JSONArray) moduleSettings.get("bad paths");
+		JsonObject moduleSettings = (JsonObject) ConfigParser.getConfig().get("PathModule");
+		JsonArray rawBadPaths = (JsonArray) moduleSettings.get("bad paths");
 		badPaths = new String[rawBadPaths.size()];
 		System.out.println("PathModule loaded the following bad paths:");
 		for (int i = 0; i < badPaths.length; ++i) {
-			badPaths[i] = (String) rawBadPaths.get(i);
+			badPaths[i] = rawBadPaths.get(i).getAsString();
 			System.out.println(badPaths[i]);
 		}
 	}

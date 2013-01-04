@@ -6,9 +6,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
-import org.json.simple.JSONObject;
-
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.ijg.darklight.core.Issue;
 import com.ijg.darklight.core.ScoreModule;
 import com.ijg.darklight.core.settings.ConfigParser;
@@ -47,17 +48,16 @@ public class ServiceModule extends ScoreModule {
 	
 	@Override
 	protected void loadSettings() {
-		JSONObject moduleSettings = (JSONObject) ConfigParser.getConfig().get("ServiceModule");
+		JsonObject moduleSettings = (JsonObject) ConfigParser.getConfig().get("ServiceModule");
 		
-		@SuppressWarnings("unchecked")
-		Iterator<String> iter = moduleSettings.keySet().iterator();
+		Iterator<Entry<String, JsonElement>> iter = moduleSettings.entrySet().iterator();
 		while (iter.hasNext()) {
-			String issueName = iter.next();
-			JSONObject issueData = (JSONObject) moduleSettings.get(issueName);
-			String issueDescription = (String) issueData.get("description");
-			String serviceName = (String) issueData.get("service");
+			Entry<String, JsonElement> issue = iter.next();
+			JsonObject issueData = (JsonObject) moduleSettings.get(issue.getKey());
+			String issueDescription = issueData.get("description").getAsString();
+			String serviceName = issueData.get("service").getAsString();
 			
-			issueMap.put(new Issue(issueName, issueDescription), serviceName);
+			issueMap.put(new Issue(issue.getKey(), issueDescription), serviceName);
 		}
 	}
 	

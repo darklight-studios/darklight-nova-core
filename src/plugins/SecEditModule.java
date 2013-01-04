@@ -4,9 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.ini4j.Wini;
-import org.json.simple.JSONObject;
+import java.util.Map.Entry;
 
+import org.ini4j.Wini;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.ijg.darklight.core.Issue;
 import com.ijg.darklight.core.ScoreModule;
 import com.ijg.darklight.core.settings.ConfigParser;
@@ -92,21 +95,21 @@ public class SecEditModule extends ScoreModule {
 	
 	@Override
 	protected void loadSettings() {
-		JSONObject moduleSettings = (JSONObject) ConfigParser.getConfig().get("SecEditModule");
+		JsonObject moduleSettings = (JsonObject) ConfigParser.getConfig().get("SecEditModule");
 		
-		@SuppressWarnings("unchecked")
-		Iterator<String> iter = moduleSettings.keySet().iterator();
+		Iterator<Entry<String, JsonElement>> iter = moduleSettings.entrySet().iterator();
 		while (iter.hasNext()) {
-			String issueName = iter.next();
-			JSONObject issueData = (JSONObject) moduleSettings.get(issueName);
-			String custom = (String) issueData.get("custom");
+			Entry<String, JsonElement> issue = iter.next();
+			String issueName = issue.getKey();
+			JsonObject issueData = (JsonObject) moduleSettings.get(issue.getKey());
+			String custom = issueData.get("custom").getAsString();
 			
 			if (custom.equals("true")) {
-				String issueDescription = (String) issueData.get("description");
-				String category = (String) issueData.get("category");
-				String key = (String) issueData.get("key");
-				String value = (String) issueData.get("value");
-				String specifier = (String) issueData.get("specifier");
+				String issueDescription = issueData.get("description").getAsString();
+				String category = issueData.get("category").getAsString();
+				String key = issueData.get("key").getAsString();
+				String value = issueData.get("value").getAsString();
+				String specifier = issueData.get("specifier").getAsString();
 				issueMap.put(new Issue(issueName, issueDescription), new String[] { category, key, value, specifier });
 			} else {
 				if (KnownIssues.contains(issueName)) {

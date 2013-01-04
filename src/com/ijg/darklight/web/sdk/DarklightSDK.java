@@ -2,8 +2,9 @@ package com.ijg.darklight.web.sdk;
 
 import java.util.HashMap;
 
-import org.json.simple.JSONObject;
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.ijg.darklight.web.api.APIRequest;
 import com.ijg.darklight.web.api.DarklightAPI;
 
@@ -24,7 +25,7 @@ public class DarklightSDK {
 	
 	private DarklightAPI api;
 	
-	JSONObject lastRequestResponse;
+	JsonObject lastRequestResponse;
 	
 	/**
 	 * Empty constructor
@@ -142,8 +143,8 @@ public class DarklightSDK {
 	 * @return A JSON string generated from the passed hash map
 	 */
 	public String toJSONString(HashMap<?, ?> map) {
-		// Easier than importing JSONObject elsewhere
-		return JSONObject.toJSONString(map);
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		return gson.toJson(map);
 	}
 	
 	

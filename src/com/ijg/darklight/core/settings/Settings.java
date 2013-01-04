@@ -1,6 +1,7 @@
 package com.ijg.darklight.core.settings;
 
-import org.json.simple.JSONArray;
+import com.google.gson.JsonArray;
+
 
 /**
  * Handles the settings parsed by {@link com.ijg.darklight.core.settings.ConfigParser}
@@ -96,12 +97,12 @@ public enum Settings {
 	 * @param setting The setting for the value to be returned
 	 * @return The value of the setting, returns null if the passed setting string is invalid
 	 */
-	public static JSONArray getJSON(String setting) {
+	public static JsonArray getJSON(String setting) {
 		switch (setting) {
 			case "verification.names":
-				return (JSONArray) VERIFICATION_NAMES.value();
+				return (JsonArray) VERIFICATION_NAMES.value();
 			case "verification.teams":
-				return (JSONArray) VERIFICATION_TEAMS.value();
+				return (JsonArray) VERIFICATION_TEAMS.value();
 			default:
 				System.out
 						.println("JSON setting does not exist: " + setting);

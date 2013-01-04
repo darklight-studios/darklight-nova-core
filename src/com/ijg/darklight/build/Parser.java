@@ -2,10 +2,10 @@ package com.ijg.darklight.build;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.util.Scanner;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  * Darklight build file parser
@@ -17,7 +17,7 @@ import org.json.simple.JSONValue;
 
 public class Parser {
 	private File buildFile;
-	private JSONObject rawData;
+	private JsonObject rawData;
 	private boolean dataReady = false;
 	
 	/**
@@ -29,11 +29,18 @@ public class Parser {
 	}
 	
 	/**
-	 * Parse the file into a JSONObject
+	 * Parse the file into a JsonObject
 	 */
 	public void parse() {
 		try {
-			rawData = (JSONObject) JSONValue.parse(new FileReader(buildFile));
+			Scanner s = new Scanner(buildFile);
+			String rawJson = "";
+			while (s.hasNextLine()) {
+				rawJson += s.nextLine();
+			}
+			s.close();
+			JsonParser jsonParser = new JsonParser();			
+			rawData = (JsonObject) jsonParser.parse(rawJson);
 			dataReady = true;
 		} catch (FileNotFoundException e) {
 			dataReady = false;
@@ -43,7 +50,7 @@ public class Parser {
 	}
 	
 	/**
-	 * Query the JSONObject parsed from the build file
+	 * Query the JsonObject parsed from the build file
 	 * @param key The key of the desired value
 	 * @return The value given the key
 	 */

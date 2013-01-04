@@ -4,12 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-import org.json.simple.JSONArray;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.ijg.darklight.core.settings.Settings;
 import com.ijg.darklight.gui.GUI;
 
@@ -24,7 +25,7 @@ import com.ijg.darklight.gui.GUI;
 
 public class Frontend {
 
-	private JSONArray validEntry;
+	private JsonArray validEntry;
 	final private boolean ENTERY_VERIFICATION = Settings.getBool("verification.active");
 	
 	final public String NAME_FILE = Settings.get("namefile");
@@ -75,7 +76,18 @@ public class Frontend {
 			
 			if (ENTERY_VERIFICATION) {
 				validEntry = (engine.teamSession()) ? Settings.getJSON("verification.teams") : Settings.getJSON("verification.names");
-				if (!validEntry.contains(testName)) {
+				
+				Iterator<JsonElement> iterator = validEntry.iterator();
+				boolean promptForName = false;
+				while (iterator.hasNext()) {
+					JsonElement jsonElement = iterator.next();
+					
+					if (jsonElement.getAsString().contains(testName)) {
+						promptForName = true;
+					}
+				}
+				
+				if (promptForName) {
 					System.out.println("Invalid entry: " + localName.trim());
 					promptForName();
 					return;

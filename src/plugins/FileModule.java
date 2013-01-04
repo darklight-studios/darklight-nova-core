@@ -4,10 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.ijg.darklight.core.Issue;
 import com.ijg.darklight.core.ScoreModule;
 import com.ijg.darklight.core.settings.ConfigParser;
@@ -59,20 +60,19 @@ public class FileModule extends ScoreModule {
 	 */
 	@Override
 	protected void loadSettings() {
-		JSONObject fileSettings = (JSONObject) ConfigParser.getConfig().get("FileModule");
+		JsonObject fileSettings = (JsonObject) ConfigParser.getConfig().get("FileModule");
 		
-		@SuppressWarnings("unchecked")
-		Iterator<String> iter = fileSettings.keySet().iterator();
+		Iterator<Entry<String, JsonElement>> iter = fileSettings.entrySet().iterator();
 		System.out.println("FileModule has loaded the following issues:");
 		while (iter.hasNext()) {
-			String issueName = iter.next();
-			JSONArray rawIssueFiles = (JSONArray) ((JSONObject) fileSettings.get(issueName)).get("files");
-			String issueDescription = (String) ((JSONObject) fileSettings.get(issueName)).get("description");
+			String issueName = iter.next().getKey();
+			JsonArray rawIssueFiles = (JsonArray) ((JsonObject) fileSettings.get(issueName)).get("files");
+			String issueDescription = ((JsonObject) fileSettings.get(issueName)).get("description").getAsString();
 			File[] issueFiles = new File[rawIssueFiles.size()];
 			
 			System.out.println(issueName + ": " + issueDescription + ", with the following associated files:");
 			for (int i = 0; i < issueFiles.length; ++i) {
-				issueFiles[i] = new File((String) rawIssueFiles.get(i));
+				issueFiles[i] = new File(rawIssueFiles.get(i).getAsString());
 				System.out.println(issueFiles[i]);
 			}
 			

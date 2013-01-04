@@ -1,11 +1,11 @@
 package com.ijg.darklight.core.settings;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import java.util.Scanner;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 /**
  * Configuration file parser
  * @author Isaac Grant
@@ -17,14 +17,22 @@ import org.json.simple.JSONValue;
 public class ConfigParser {
 	private static File configFile = new File(new File("."), "config.json");
 	private static boolean parsed = false;
-	private static JSONObject config;
+	private static JsonObject config;
 	
 	/**
 	 * Parse the config file
 	 */
 	public static void start() {
 		try {
-			config = (JSONObject) JSONValue.parse(new FileReader(configFile));
+			
+			Scanner s = new Scanner(configFile);
+			String configRaw = "";
+			while (s.hasNextLine()) {
+				configRaw += s.nextLine();
+			}
+			s.close();
+			JsonParser jsonParser = new JsonParser();			
+			config = (JsonObject) jsonParser.parse(configRaw);
 			parsed = true;
 		} catch (IOException e) {
 			System.out
@@ -43,7 +51,7 @@ public class ConfigParser {
 		if (!parsed) {
 			start();
 		}
-		return (Object) ((JSONObject) config.get(category)).get(key);
+		return (Object) ((JsonObject) config.get(category)).get(key);
 	}
 	
 	/**
@@ -55,10 +63,10 @@ public class ConfigParser {
 	}
 	
 	/**
-	 * Get the config file as a JSONObject
-	 * @return The config file as a JSONObject
+	 * Get the config file as a JsonObject
+	 * @return The config file as a JsonObject
 	 */
-	public static JSONObject getConfig() {
+	public static JsonObject getConfig() {
 		return config;
 	}
 	

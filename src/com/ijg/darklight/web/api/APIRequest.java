@@ -8,8 +8,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  * Used by the DarklightAPI, acts as a container for an API request
@@ -27,7 +27,7 @@ public class APIRequest {
 	private URL requestURL;
 	private URLConnection connection;
 	
-	private JSONObject response;
+	private JsonObject response;
 	
 	/**
 	 * 
@@ -61,8 +61,8 @@ public class APIRequest {
 				rawResponse.append(scanner.next());
 			}
 			scanner.close();
-			
-			response = (JSONObject) JSONValue.parse(rawResponse.toString());
+			JsonParser jsonParser = new JsonParser();
+			response = (JsonObject) jsonParser.parse(rawResponse.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -72,7 +72,7 @@ public class APIRequest {
 	 * Get the API response
 	 * @return The API response
 	 */
-	public JSONObject getResponse() {
+	public JsonObject getResponse() {
 		return response;
 	}
 	
