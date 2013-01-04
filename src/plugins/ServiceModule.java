@@ -12,7 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ijg.darklight.core.Issue;
 import com.ijg.darklight.core.ScoreModule;
-import com.ijg.darklight.core.settings.ConfigParser;
+import com.ijg.darklight.core.settings.Settings;
 
 public class ServiceModule extends ScoreModule {
 
@@ -48,7 +48,7 @@ public class ServiceModule extends ScoreModule {
 	
 	@Override
 	protected void loadSettings() {
-		JsonObject moduleSettings = (JsonObject) ConfigParser.getConfig().get("ServiceModule");
+		JsonObject moduleSettings = Settings.getSubObject("ServiceModule");
 		
 		Iterator<Entry<String, JsonElement>> iter = moduleSettings.entrySet().iterator();
 		while (iter.hasNext()) {

@@ -18,7 +18,7 @@ public class SDKTest {
 
 	@Test
 	public void test() {
-		DarklightSDK sdk = new DarklightSDK(Settings.get("api.protocol"), Settings.get("api.server"), Long.parseLong(Settings.get("api.id")));
+		DarklightSDK sdk = new DarklightSDK(Settings.getProperty("api", "protocol"), Settings.getProperty("api", "server"), Settings.getPropertyAsInt("api", "id"));
 		
 		assertNotNull(sdk.api());
 		

@@ -11,7 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ijg.darklight.core.Issue;
 import com.ijg.darklight.core.ScoreModule;
-import com.ijg.darklight.core.settings.ConfigParser;
+import com.ijg.darklight.core.settings.Settings;
 
 /**
  * Proof of concept for dynamically loading module settings from the config.json file
@@ -60,7 +60,7 @@ public class FileModule extends ScoreModule {
 	 */
 	@Override
 	protected void loadSettings() {
-		JsonObject fileSettings = (JsonObject) ConfigParser.getConfig().get("FileModule");
+		JsonObject fileSettings = Settings.getSubObject("FileModule");
 		
 		Iterator<Entry<String, JsonElement>> iter = fileSettings.entrySet().iterator();
 		System.out.println("FileModule has loaded the following issues:");
