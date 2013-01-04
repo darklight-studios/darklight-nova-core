@@ -23,23 +23,23 @@ public class Engine implements Runnable {
 	private boolean bNotFinished;
 	
 	
-	public final String PROGRESS_FILE = Settings.get("progressfile");
+	public final String PROGRESS_FILE = Settings.getProperty("general", "progress");
 	
 	public ModuleHandler moduleHandler;
 	
-	private final boolean API_ACTIVE = Settings.getBool("api.active");
-	private final String API_PROTOCOL = Settings.get("api.protocol");
-	private final String API_SERVER = Settings.get("api.server");
+	private final boolean API_ACTIVE = Settings.getPropertyAsBool("api", "active");
+	private final String API_PROTOCOL = Settings.getProperty("api", "protocol");
+	private final String API_SERVER = Settings.getProperty("api", "server");
 	public String sessionKey;
 	
-	public final int API_SESSION_ID = Integer.parseInt(Settings.get("api.id"));
+	public final int API_SESSION_ID = Settings.getPropertyAsInt("api", "id");
 	
 	DarklightSDK sdk;
 	
 	Frontend frontend;
 	
 	
-	final private boolean TEAM_SESSION = (Settings.get("sessiontype").equals("individual")) ? false : true;
+	final private boolean TEAM_SESSION = (Settings.getProperty("general", "sessiontype").equals("individual")) ? false : true;
 	
 
 	/**
@@ -79,22 +79,22 @@ public class Engine implements Runnable {
 	private void printSettings() {
 		System.out.println("Running with the following settings:");
 		System.out
-				.println("Progress file: " + Settings.get("progressfile"));
-		System.out.println("Name file: " + Settings.get("namefile"));
+				.println("Progress file: " + Settings.getProperty("general", "progress"));
+		System.out.println("Name file: " + Settings.getProperty("api", "name"));
 		System.out
-				.println("Session type: " + Settings.get("sessiontype"));
+				.println("Session type: " + Settings.getProperty("general", "sessiontype"));
 		System.out
-				.println("API Active: " + Settings.getBool("api.active"));
-		System.out.println("API ID: " + Settings.get("api.id"));
+				.println("API Active: " + Settings.getPropertyAsBool("api", "active"));
+		System.out.println("API ID: " + Settings.getPropertyAsInt("api", "id"));
 		System.out
-				.println("API Protocol: " + Settings.get("api.protocol"));
-		System.out.println("API Server: " + Settings.get("api.server"));
+				.println("API Protocol: " + Settings.getProperty("api", "protocol"));
+		System.out.println("API Server: " + Settings.getProperty("api", "server"));
 		System.out.println("Name entry verification: "
-				+ Settings.getBool("verification.active"));
+				+ Settings.getPropertyAsBool("verification", "active"));
 		System.out.println("Verified names: "
-				+ Settings.getJSON("verification.names"));
+				+ Settings.getPropertyAsJsonArray("verification", "names"));
 		System.out.println("Verified team names: "
-				+ Settings.getJSON("verification.teams"));
+				+ Settings.getPropertyAsJsonArray("verification", "teams"));
 	}
 	
 	public void run() {

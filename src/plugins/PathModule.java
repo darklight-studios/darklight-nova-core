@@ -9,7 +9,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.ijg.darklight.core.Issue;
 import com.ijg.darklight.core.ScoreModule;
-import com.ijg.darklight.core.settings.ConfigParser;
+import com.ijg.darklight.core.settings.Settings;
 
 public class PathModule extends ScoreModule {
 
@@ -50,7 +50,7 @@ public class PathModule extends ScoreModule {
 
 	@Override
 	protected void loadSettings() {
-		JsonObject moduleSettings = (JsonObject) ConfigParser.getConfig().get("PathModule");
+		JsonObject moduleSettings = Settings.getSubObject("PathModule");
 		JsonArray rawBadPaths = (JsonArray) moduleSettings.get("bad paths");
 		badPaths = new String[rawBadPaths.size()];
 		System.out.println("PathModule loaded the following bad paths:");

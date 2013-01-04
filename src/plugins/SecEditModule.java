@@ -12,7 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ijg.darklight.core.Issue;
 import com.ijg.darklight.core.ScoreModule;
-import com.ijg.darklight.core.settings.ConfigParser;
+import com.ijg.darklight.core.settings.Settings;
 
 public class SecEditModule extends ScoreModule {
 	
@@ -95,8 +95,9 @@ public class SecEditModule extends ScoreModule {
 	
 	@Override
 	protected void loadSettings() {
-		JsonObject moduleSettings = (JsonObject) ConfigParser.getConfig().get("SecEditModule");
+		JsonObject moduleSettings = Settings.getSubObject("SecEditModule");
 		
+		System.out.println("SecEditModule loaded the following issues:");
 		Iterator<Entry<String, JsonElement>> iter = moduleSettings.entrySet().iterator();
 		while (iter.hasNext()) {
 			Entry<String, JsonElement> issue = iter.next();
@@ -110,20 +111,35 @@ public class SecEditModule extends ScoreModule {
 				String key = issueData.get("key").getAsString();
 				String value = issueData.get("value").getAsString();
 				String specifier = issueData.get("specifier").getAsString();
+				System.out.println(issueName + ": " + issueDescription);
 				issueMap.put(new Issue(issueName, issueDescription), new String[] { category, key, value, specifier });
 			} else {
 				if (KnownIssues.contains(issueName)) {
 					switch (issueName) {
 						case "Guest Disabled":
+							System.out
+									.println(KnownIssues.GUEST_ENABLED.name
+											+ ": "
+											+ KnownIssues.GUEST_ENABLED.description);
 							KnownIssues.GUEST_ENABLED.setUsed(true);
 							break;
 						case "Password Age":
+							System.out
+									.println(KnownIssues.PASSWORD_AGE.name
+											+ ": "
+											+ KnownIssues.PASSWORD_AGE.description);
 							KnownIssues.PASSWORD_AGE.setUsed(true);
 							break;
 						case "Password Requirements":
+							System.out
+									.println(KnownIssues.PASSWORD_REQUIREMENTS.name
+											+ ": "
+											+ KnownIssues.PASSWORD_REQUIREMENTS.description);
 							KnownIssues.PASSWORD_REQUIREMENTS.setUsed(true);
 							break;
 						case "Auditing":
+							System.out.println(KnownIssues.AUDITING.name + ": "
+									+ KnownIssues.AUDITING.description);
 							KnownIssues.AUDITING.setUsed(true);
 					}
 				}

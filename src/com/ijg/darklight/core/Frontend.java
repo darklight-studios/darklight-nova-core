@@ -26,9 +26,9 @@ import com.ijg.darklight.gui.GUI;
 public class Frontend {
 
 	private JsonArray validEntry;
-	final private boolean ENTERY_VERIFICATION = Settings.getBool("verification.active");
+	final private boolean ENTERY_VERIFICATION = Settings.getPropertyAsBool("verification", "active");
 	
-	final public String NAME_FILE = Settings.get("namefile");
+	final public String NAME_FILE = Settings.getProperty("api", "name");
 	
 	private String userName = "unset";
 	
@@ -75,7 +75,7 @@ public class Frontend {
 			}
 			
 			if (ENTERY_VERIFICATION) {
-				validEntry = (engine.teamSession()) ? Settings.getJSON("verification.teams") : Settings.getJSON("verification.names");
+				validEntry = (engine.teamSession()) ? Settings.getPropertyAsJsonArray("verification", "teams") : Settings.getPropertyAsJsonArray("verification", "names");
 				
 				Iterator<JsonElement> iterator = validEntry.iterator();
 				boolean promptForName = false;
