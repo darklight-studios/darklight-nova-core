@@ -42,7 +42,7 @@ public class ModuleHandler {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(2); //Trigger error code to indicate a file not found
+			System.exit(3); //Trigger error code to indicate a path not found
 		}
 		
 		for (ScoreModule module : modules) {
