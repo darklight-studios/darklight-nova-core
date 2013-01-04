@@ -46,5 +46,16 @@
         "Auditing": {
             "custom": "false"
         }
+    },
+
+    "ServiceModule": {
+        "Telnet Service": {
+            "description": "The telnet service has been disabled",
+            "service": "TlntSvr"
+        },
+        "Windows Update Service": {
+            "description": "The Windows Update service has been started",
+            "service": "wuauserv"
+        }
     }
 }
