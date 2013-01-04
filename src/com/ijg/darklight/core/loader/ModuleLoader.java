@@ -1,6 +1,8 @@
 package com.ijg.darklight.core.loader;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import com.ijg.darklight.core.ScoreModule;
 
@@ -18,7 +20,7 @@ public class ModuleLoader {
 	 * 
 	 * @return An array of loaded scoring modules or null if there was an error/plugins folder doesn't exist
 	 */
-	public static ScoreModule[] loadAllModules() {
+	public static ScoreModule[] loadAllModules() throws IOException {
 		File root = new File(new File("."), "plugins");
 		if (root.exists() && root.isDirectory()) {
 			ScoreModule[] modules = new ScoreModule[root.listFiles().length];
@@ -31,6 +33,6 @@ public class ModuleLoader {
 			}
 			return modules;
 		}
-		return null;
+		throw new FileNotFoundException("The plugins folder was not found. A plugins folder must be present in the same folder as Darklight to function.");
 	}
 }
