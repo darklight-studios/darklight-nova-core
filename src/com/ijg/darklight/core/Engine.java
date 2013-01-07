@@ -1,8 +1,11 @@
 package com.ijg.darklight.core;
 
+import java.io.IOException;
 import java.util.HashMap;
-import com.ijg.darklight.web.sdk.DarklightSDK;
+
+import com.ijg.darklight.core.loader.PluginLoader;
 import com.ijg.darklight.core.settings.Settings;
+import com.ijg.darklight.web.sdk.DarklightSDK;
 
 /**
  * Darklight Core<br />
@@ -26,6 +29,7 @@ public class Engine implements Runnable {
 	public final String PROGRESS_FILE = Settings.getProperty("general", "progress");
 	
 	public ModuleHandler moduleHandler;
+	public PluginHandler pluginHandler;
 	
 	private final boolean API_ACTIVE = Settings.getPropertyAsBool("api", "active");
 	private final String API_PROTOCOL = Settings.getProperty("api", "protocol");
@@ -52,7 +56,13 @@ public class Engine implements Runnable {
 	}
 
 	public Engine() {
-		moduleHandler = new ModuleHandler(this);
+		PluginLoader pluginLoader = new PluginLoader();
+		try {
+			moduleHandler = new ModuleHandler(this, pluginLoader.loadScoreModules());
+			pluginHandler = new PluginHandler(pluginLoader.loadPlugins());
+		} catch (IOException e) {
+			System.exit(3);
+		}
 		start();
 	}
 	
