@@ -20,6 +20,7 @@ All scoring modules you create must be in a package called **undecided.package.n
 An example of a valid module name is FirewallModule.
 
 So, to create a scoring module:
+
 1. Add DarklightSDK.jar to your buildpath
 2. Create package **undecided.package.name**
 3. Create a subclass of com.ijg.darklight.sdk.core.ScoreModule with a valid module name
@@ -41,6 +42,7 @@ So, to create a scoring module:
 All plugins must be in a package called **undecided.package.name**, are subclassed from com.ijg.darklight.sdk.core.Plugin, and have no naming conventions.
 
 To create a plugin:
+
 1. Add DarklightSDK.jar to your buildpath
 2. Create package **undecided.package.name**
 3. Create a subclass of com.ijg.darklight.sdk.core.Plugin
