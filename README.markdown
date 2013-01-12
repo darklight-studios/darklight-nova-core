@@ -36,6 +36,17 @@ So, to create a scoring module:
 }
 8. Compile as a jar, with the same name as your module
 
+##### Plugins
+
+All plugins must be in a package called **undecided.package.name**, are subclassed from com.ijg.darklight.sdk.core.Plugin, and have no naming conventions.
+
+To create a plugin:
+1. Add DarklightSDK.jar to your buildpath
+2. Create package **undecided.package.name**
+3. Create a subclass of com.ijg.darklight.sdk.core.Plugin
+4. Your plugin inherits '''protected void start()''' and '''protected void kill()''' from the Plugin superclass, the start method is what should initiate your plugin, and you should put anything needed to safely kill your plugin in the kill method
+5. Compile as a jar, with the same name as your plugin
+
 ### Code Contributions
 
 All code added and removed must be submitted via Pull Request. In addition, submitted code must follow the following:
