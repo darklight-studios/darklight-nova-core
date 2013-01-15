@@ -15,7 +15,7 @@ To start working with the Darklight SDK all you need to do is add DarklightSDK.j
 
 ##### Scoring Modules
 
-All scoring modules you create must be in a package called **undecided.package.name**, are subclassed from com.ijg.darklight.sdk.core.ScoreModule, and the class name must follow the convention:
+All scoring modules you create must be in a package called com.darklight.core.scoring, are subclassed from com.ijg.darklight.sdk.core.ScoreModule, and the class name must follow the convention:
 
 (function of the module)Module
 
@@ -23,12 +23,11 @@ An example of a valid module name is FirewallModule.
 
 So, to create a scoring module:
 
-1. Create package **undecided.package.name**
-2. Create a subclass of com.ijg.darklight.sdk.core.ScoreModule with a valid module name
-3. Write the your issue declarations at the top of the class
-4. In your constructor you should add all of your issues to the issues ArrayList by simply calling issues.add(<issueName>)
-5. Write methods to check if issues have been fixed or not
-6. Write your check method using the methods you wrote above (see below, issue1IsFixed() is an example method written in step 6)
+1. Create a subclass of com.ijg.darklight.sdk.core.ScoreModule with a valid module name, in the com.darklight.core.scoring package
+2. Write the your issue declarations at the top of the class
+3. In your constructor you should add all of your issues to the issues ArrayList by simply calling issues.add(<issueName>)
+4. Write methods to check if issues have been fixed or not
+5. Write your check method using the methods you wrote above (see below, issue1IsFixed() is an example method written in step 4)
 ```
 public ArrayList<Issue> check() {
 	if (issue1IsFixed()) {
@@ -38,18 +37,17 @@ public ArrayList<Issue> check() {
 	}
 }
 ```
-7. Compile as a jar, with the same name as your module
+6. Compile as a jar, with the same name as your module
 
 ##### Plugins
 
-All plugins must be in a package called **undecided.package.name**, are subclassed from com.ijg.darklight.sdk.core.Plugin, and have no naming conventions.
+All plugins must be in a package called com.darklight.core.plugins, are subclassed from com.ijg.darklight.sdk.core.Plugin, and have no naming conventions.
 
 To create a plugin:
 
-1. Create package **undecided.package.name**
-2. Create a subclass of com.ijg.darklight.sdk.core.Plugin
-3. Your plugin inherits protected void start() and protected void kill() from the Plugin superclass, the start method is what should initiate your plugin, and you should put anything needed to safely kill your plugin in the kill method
-4. Compile as a jar, with the same name as your plugin
+1. Create a subclass of com.ijg.darklight.sdk.core.Plugin in the com.darklight.core.plugins package
+2. Your plugin inherits protected void start() and protected void kill() from the Plugin superclass, the start method is what should initiate your plugin, and you should put anything needed to safely kill your plugin in the kill method
+3. Compile as a jar, with the same name as your plugin
 
 ### Code Contributions
 
