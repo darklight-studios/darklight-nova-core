@@ -25,16 +25,18 @@ So, to create a scoring module:
 2. Create package **undecided.package.name**
 3. Create a subclass of com.ijg.darklight.sdk.core.ScoreModule with a valid module name
 4. Write the your issue declarations at the top of the class
-5. In your constructor you should add all of your issues to the issues ArrayList by simply calling ```issues.add(<issueName>);```
+5. In your constructor you should add all of your issues to the issues ArrayList by simply calling issues.add(<issueName>)
 6. Write methods to check if issues have been fixed or not
 7. Write your check method using the methods you wrote above (see below, issue1IsFixed() is an example method written in step 6)
-```public ArrayList<Issue> check() {
+```java
+public ArrayList<Issue> check() {
 	if (issue1IsFixed()) {
 		add(issue1);
 	} else {
 		remove(issue1);
 	}
 }
+```
 8. Compile as a jar, with the same name as your module
 
 ##### Plugins
@@ -46,7 +48,7 @@ To create a plugin:
 1. Add DarklightSDK.jar to your buildpath
 2. Create package **undecided.package.name**
 3. Create a subclass of com.ijg.darklight.sdk.core.Plugin
-4. Your plugin inherits ```protected void start()``` and ```protected void kill()``` from the Plugin superclass, the start method is what should initiate your plugin, and you should put anything needed to safely kill your plugin in the kill method
+4. Your plugin inherits protected void start() and protected void kill() from the Plugin superclass, the start method is what should initiate your plugin, and you should put anything needed to safely kill your plugin in the kill method
 5. Compile as a jar, with the same name as your plugin
 
 ### Code Contributions
