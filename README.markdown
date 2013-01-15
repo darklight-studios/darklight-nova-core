@@ -16,7 +16,7 @@ To start working with the Darklight SDK all you need to do is add DarklightSDK.j
 ##### Scoring Modules
 
 All scoring modules you create must be in a package called **undecided.package.name**, are subclassed from com.ijg.darklight.sdk.core.ScoreModule, and the class name must follow the convention:
-<function of the module>Module
+'<function of the module>Module'
 An example of a valid module name is FirewallModule.
 
 So, to create a scoring module:
@@ -28,7 +28,7 @@ So, to create a scoring module:
 5. In your constructor you should add all of your issues to the issues ArrayList by simply calling issues.add(<issueName>)
 6. Write methods to check if issues have been fixed or not
 7. Write your check method using the methods you wrote above (see below, issue1IsFixed() is an example method written in step 6)
-```java
+```
 public ArrayList<Issue> check() {
 	if (issue1IsFixed()) {
 		add(issue1);
