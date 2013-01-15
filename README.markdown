@@ -17,7 +17,7 @@ To start working with the Darklight SDK all you need to do is add DarklightSDK.j
 
 All scoring modules you create must be in a package called **undecided.package.name**, are subclassed from com.ijg.darklight.sdk.core.ScoreModule, and the class name must follow the convention:
 
-'''<function of the module>Module'''
+(function of the module)Module
 
 An example of a valid module name is FirewallModule.
 
