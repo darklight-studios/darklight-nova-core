@@ -26,11 +26,18 @@ public class Frontend {
 	GUI gui;
 	CoreEngine engine;
 	
+	/**
+	 * Set this.engine and initiate the gui
+	 * @param engine
+	 */
 	public Frontend(CoreEngine engine) {
 		this.engine = engine;
 		gui = new GUI(engine);
 	}
 	
+	/**
+	 * Prompt for name to be used with Darklight Web
+	 */
 	public void promptForName() {
 		if (readName() != null) {
 			if (!userName.equals("unset")) {
@@ -94,6 +101,10 @@ public class Frontend {
 		}
 	}
 	
+	/**
+	 * Read name written to the name file
+	 * @return The name written to the name file, or null if the name file was not found
+	 */
 	private String readName() {
 		File f = new File(NAME_FILE);
 		try (Scanner s = new Scanner(f)) {
@@ -107,6 +118,11 @@ public class Frontend {
 		return null;
 	}
 	
+	/**
+	 * Write the name received from promptForName() to the name file
+	 * @return True if name was successfully written
+	 * @throws IOException If there was an error writing to the name file
+	 */
 	private boolean writeName() throws IOException {
 		if (!userName.equals("unset")) {
 			File f= new File(NAME_FILE);
@@ -125,11 +141,19 @@ public class Frontend {
 		throw new IOException("Could not write name to name file");
 	}
 	
+	/**
+	 * Set userName
+	 * @param name The name to be written to the name file
+	 */
 	private void setUserName(String name) {
 		System.out.println("Setting username: " + name);
 		userName = name;
 	}
 	
+	/**
+	 * Get userName
+	 * @return The name read from the name file
+	 */
 	public String getUserName() {
 		return userName;
 	}

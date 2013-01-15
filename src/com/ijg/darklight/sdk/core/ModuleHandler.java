@@ -25,6 +25,10 @@ public class ModuleHandler {
 		}
 	}
 	
+	/**
+	 * Transfer all the fixed issues from the array list to a hash map
+	 * @return A HashMap of all fixed issues
+	 */
 	public HashMap<String, String> getFixedIssues() {
 		HashMap<String, String> issuesMap = new HashMap<String, String>();
 		for (Issue issue : issues) {
@@ -33,6 +37,10 @@ public class ModuleHandler {
 		return issuesMap;
 	}
 	
+	/**
+	 * Check for what issues have been fixed and write a new output file if
+	 * any issues' fixed status has changed
+	 */
 	public void checkAllVulnerabilities() {
 		boolean changed = false;
 		for (ScoreModule module : modules) {
@@ -56,18 +64,34 @@ public class ModuleHandler {
 		}
 	}
 	
+	/**
+	 * Get array list of fixed issues
+	 * @return ArrayList of fixed issues
+	 */
 	public ArrayList<Issue> getIssues() {
 		return issues;
 	}
 	
+	/**
+	 * Get the number of total issues
+	 * @return The number of total issues
+	 */
 	public int getTotalIssueCount() {
 		return (int) total;
 	}
 	
+	/**
+	 * Get the number of fixed issues
+	 * @return The number of fixed issues
+	 */
 	public int getFixedIssueCount() {
 		return issues.size();
 	}
 	
+	/**
+	 * Get the percentage of issues fixed
+	 * @return The percentage of issues fixed
+	 */
 	public String getFixedIssuePercent() {
 		return "" + ((int) (((double) issues.size()) / total) * 100) + "%";
 	}

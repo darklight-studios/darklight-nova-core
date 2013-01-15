@@ -34,6 +34,10 @@ public class GUI {
 	 * GridBag layout
 	 */
 	
+	/**
+	 * Create and display GUI
+	 * @param engine CoreEngine instance to which this GUI belongs
+	 */
 	public GUI(CoreEngine engine) {
 		this.engine = engine;
 		
@@ -105,6 +109,9 @@ public class GUI {
 		update();
 	}
 	
+	/**
+	 * Update the display
+	 */
 	public void update() {
 		// Customizing the color based on completion status
 		if (engine.finished()) {

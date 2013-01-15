@@ -19,6 +19,13 @@ public class APIRequest {
 	
 	private JsonObject response;
 	
+	/**
+	 * 
+	 * @param protocol Protocol of the API server
+	 * @param server Web address of the API server
+	 * @param requestURL URL of the request
+	 * @param query The API query
+	 */
 	public APIRequest(String protocol, String server, String requestURL, String query) {
 		try {
 			requestURI = new URI(protocol, server, requestURL, query, null);
@@ -28,6 +35,9 @@ public class APIRequest {
 		}
 	}
 	
+	/**
+	 * Send this API request
+	 */
 	public void send() {
 		try {
 			connection = requestURL.openConnection();
@@ -46,10 +56,19 @@ public class APIRequest {
 		}
 	}
 	
+	/**
+	 * Get the response received from the server for this request
+	 * @return The response received from the server for this request
+	 */
 	public JsonObject getResponse() {
 		return response;
 	}
 	
+	/**
+	 * Query the response
+	 * @param query The data to get from the response
+	 * @return The value of the query
+	 */
 	public Object get(String query) {
 		return response.get(query);
 	}

@@ -29,6 +29,10 @@ public class CoreEngine implements Runnable {
 	
 	Frontend frontend;
 	
+	/**
+	 * Invokes the constructor
+	 * @param args unused
+	 */
 	public static void main(String[] args) {
 		new CoreEngine();
 	}
@@ -45,6 +49,10 @@ public class CoreEngine implements Runnable {
 		start();
 	}
 	
+	/**
+	 * Initiate the engine thread and the API related stuff
+	 * if applicable
+	 */
 	private void start() {
 		printSettings();
 		isFinished = false;
@@ -60,6 +68,9 @@ public class CoreEngine implements Runnable {
 		moduleHandler.checkAllVulnerabilities();
 	}
 	
+	/**
+	 * Print the basic settings loaded from the config file
+	 */
 	private void printSettings() {
 		System.out.println("Running with the following settings:");
 		System.out
@@ -93,26 +104,45 @@ public class CoreEngine implements Runnable {
 		System.exit(0);
 	}
 	
+	/**
+	 * Safely kill the engine
+	 */
 	public void finishSession() {
 		running = false;
 	}
 	
+	/**
+	 * Send an authentication request to the API
+	 */
 	public void authUser() {
 		if (API_ACTIVE) {
 			webSDK.auth(frontend.getUserName());
 		}
 	}
 	
+	/**
+	 * Send a score update request to the API
+	 * @param score The current score (number of fixed issues)
+	 * @param issues A hashmap of the fixed issues' names and descriptions
+	 */
 	public void sendUpdate(int score, HashMap<String, String> issues) {
 		if (API_ACTIVE) {
 			webSDK.update(score, issues);
 		}
 	}
 	
+	/**
+	 * Check if this is a team or individual session
+	 * @return False if "sessiontype" is set to "individual", true if it's "team"
+	 */
 	public boolean teamSession() {
 		return TEAM_SESSION;
 	}
 	
+	/**
+	 * Check if the session is over
+	 * @return True if isFinished has been set true
+	 */
 	public boolean finished() {
 		return isFinished;
 	}

@@ -9,18 +9,30 @@ public abstract class ScoreModule {
 	protected abstract void loadSettings();
 	public abstract ArrayList<Issue> check();
 	
+	/**
+	 * Update an issue in the ArrayList to be fixed
+	 * @param issue The issue to set as fixed
+	 */
 	protected void add(Issue issue) {
 		purgeIssue(issue);
 		if (!issue.getFixed()) issue.setFixed(true);
 		issues.add(issue);
 	}
 	
+	/**
+	 * Update an issue in the ArrayList to be set as not fixed
+	 * @param issue The issue to set as not fixed
+	 */
 	protected void remove(Issue issue) {
 		purgeIssue(issue);
 		if (issue.getFixed()) issue.setFixed(false);
 		issues.add(issue);
 	}
 	
+	/**
+	 * Remove an issue from the ArrayList to be updated and re-added
+	 * @param issue
+	 */
 	protected void purgeIssue(Issue issue) {
 		Iterator<Issue> i = issues.iterator();
 		
@@ -32,6 +44,10 @@ public abstract class ScoreModule {
 		}
 	}
 	
+	/**
+	 * Get the number of issues this module contains
+	 * @return The number of issues this module contains
+	 */
 	public int getIssueCount() {
 		return issues.size();
 	}
