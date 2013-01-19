@@ -3,85 +3,131 @@ package com.ijg.darklight.sdk.core;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 
-import com.google.gson.JsonArray;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
 public class Settings {
-	private static File configFile = new File(new File("."), "config.json");
-	private static JsonObject config;
-	private static boolean parsed = false;
+	private static File settingsFile = new File(new File("."), "config.json");
 	
-	/**
-	 * Load the config file as a JsonObject
-	 */
-	public static void parse() {
-		if (!parsed) {
-			JsonParser parser = new JsonParser();
-			try {
-				config = parser.parse(new FileReader(configFile)).getAsJsonObject();
-				parsed = true;
-			} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
-				System.err.println("Error parsing config file");
-				e.printStackTrace();
-			}
-		}
+	String progressFile = "C:\\Darklight Core\\progress.dat";
+	String nameFile = "C:\\Darklight Core\\name.dat";
+	String sessionType = "individual";
+	
+	boolean	apiEnabled = false;
+	int apiID = 0;
+	String apiProtocol = "http";
+	String apiServer = "";
+	
+	boolean	verificationEnabled = false;
+	ArrayList<String> verificationNames;
+	ArrayList<String> verificationTeams;
+	
+	public static void setSettingsFile(File settingsFile) {
+		Settings.settingsFile = settingsFile;
 	}
 	
-	/**
-	 * Get property value as a string
-	 * @param category Category of the property
-	 * @param key Property name
-	 * @return The value of the property
-	 */
-	public static String getProperty(String category, String key) {
-		parse();
-		return config.get(category).getAsJsonObject().get(key).getAsString();
+	public static Settings createInstance() throws JsonIOException, JsonSyntaxException, FileNotFoundException {
+		JsonParser jsonParser = new JsonParser();
+		JsonObject rawSettings = jsonParser.parse(new FileReader(Settings.settingsFile)).getAsJsonObject();
+		Gson gson = new Gson();
+		Settings settings = gson.fromJson(rawSettings, Settings.class);
+		return settings;
 	}
 	
-	/**
-	 * Get property value as a boolean
-	 * @param category Category of the property
-	 * @param key Property name
-	 * @return The value of the property
-	 */
-	public static boolean getPropertyAsBool(String category, String key) {
-		parse();
-		return config.get(category).getAsJsonObject().get(key).getAsBoolean();
+	public void serialize() throws IOException {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String json = gson.toJson(this);
+		FileWriter fw = new FileWriter(Settings.settingsFile);
+		fw.write(json);
+		fw.flush();
+		fw.close();
 	}
 	
-	/**
-	 * Get property value as an integer
-	 * @param category Category of the property
-	 * @param key Property name
-	 * @return The value of the property
-	 */
-	public static int getPropertyAsInt(String category, String key) {
-		parse();
-		return config.get(category).getAsJsonObject().get(key).getAsInt();
+	public String getProgressFile() {
+		return progressFile;
 	}
 	
-	/**
-	 * Get property value as a JsonArray
-	 * @param category Category of the property
-	 * @param key Property name
-	 * @return The value of the property
-	 */
-	public static JsonArray getPropertyAsJsonArray(String category, String key) {
-		parse();
-		return config.get(category).getAsJsonObject().get(key).getAsJsonArray();
+	public void setProgressFile(String progressFile) {
+		this.progressFile = progressFile;
 	}
 	
-	/**
-	 * Get a JsonObject from the config file
-	 * @param name The name of the JsonObject in the config file
-	 * @return The JsonObject with the given name
-	 */
-	public static JsonObject getSubObject(String name) {
-		parse();
-		return config.get(name).getAsJsonObject();
+	public String getNameFile() {
+		return nameFile;
+	}
+	
+	public void setNameFile(String nameFile) {
+		this.nameFile = nameFile;
+	}
+	
+	public String getSessionType() {
+		return sessionType;
+	}
+	
+	public void setSessionType(String sessionType) {
+		this.sessionType = sessionType;
+	}
+	
+	public boolean isApiEnabled() {
+		return apiEnabled;
+	}
+	
+	public void setApiEnabled(boolean apiEnabled) {
+		this.apiEnabled = apiEnabled;
+	}
+	
+	public int getApiID() {
+		return apiID;
+	}
+	
+	public void setApiID(int apiID) {
+		this.apiID = apiID;
+	}
+	
+	public String getApiProtocol() {
+		return apiProtocol;
+	}
+	
+	public void setApiProtocol(String apiProtocol) {
+		this.apiProtocol = apiProtocol;
+	}
+	
+	public String getApiServer() {
+		return apiServer;
+	}
+	
+	public void setApiServer(String apiServer) {
+		this.apiServer = apiServer;
+	}
+	
+	public boolean isVerificationEnabled() {
+		return verificationEnabled;
+	}
+	
+	public void setVerificationEnabled(boolean verificationEnabled) {
+		this.verificationEnabled = verificationEnabled;
+	}
+	
+	public ArrayList<String> getVerificationNames() {
+		return verificationNames;
+	}
+	
+	public void setVerificationNames(ArrayList<String> verificationNames) {
+		this.verificationNames = verificationNames;
+	}
+	
+	public ArrayList<String> getVerificationTeams() {
+		return verificationTeams;
+	}
+	
+	public void setVerificationTeams(ArrayList<String> verificationTeams) {
+		this.verificationTeams = verificationTeams;
 	}
 }
