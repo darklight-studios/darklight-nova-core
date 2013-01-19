@@ -17,18 +17,18 @@ import com.google.gson.JsonSyntaxException;
 public class Settings {
 	private static File settingsFile = new File(new File("."), "config.json");
 	
-	String progressFile = "C:\\Darklight Core\\progress.dat";
-	String nameFile = "C:\\Darklight Core\\name.dat";
-	String sessionType = "individual";
+	private String progressFile = "C:\\Darklight Core\\progress.dat";
+	private String nameFile = "C:\\Darklight Core\\name.dat";
+	private String sessionType = "individual";
 	
-	boolean	apiEnabled = false;
-	int apiID = 0;
-	String apiProtocol = "http";
-	String apiServer = "";
+	private boolean	apiEnabled = false;
+	private int apiID = 0;
+	private String apiProtocol = "http";
+	private String apiServer = "";
 	
-	boolean	verificationEnabled = false;
-	ArrayList<String> verificationNames;
-	ArrayList<String> verificationTeams;
+	private boolean	verificationEnabled = false;
+	private ArrayList<String> verificationNames;
+	private ArrayList<String> verificationTeams;
 	
 	public static void setSettingsFile(File settingsFile) {
 		Settings.settingsFile = settingsFile;
