@@ -1,8 +1,11 @@
 package com.ijg.darklight.sdk.core;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.ijg.darklight.sdk.loader.PluginLoader;
 import com.ijg.darklight.sdk.web.DarklightWebSDK;
 
@@ -11,23 +14,16 @@ public class CoreEngine implements Runnable {
 	private boolean running;
 	private boolean isFinished;
 	
-	public final String PROGRESS_FILE = Settings.getProperty("general", "progress");
-	
 	public ModuleHandler moduleHandler;
 	public PluginHandler pluginHandler;
 	
-	private final boolean API_ACTIVE = Settings.getPropertyAsBool("api", "active");
-	private final String API_PROTOCOL = Settings.getProperty("api", "protocol");
-	private final String API_SERVER = Settings.getProperty("api", "server");
-	private final boolean TEAM_SESSION = (Settings.getProperty("general", "sessiontype").equals("individual")) ? false : true;
-	
 	public String sessionKey;
-	
-	public final int API_SESSION_ID = Settings.getPropertyAsInt("api", "id");
 	
 	DarklightWebSDK webSDK;
 	
 	Frontend frontend;
+	
+	public Settings settings;
 	
 	/**
 	 * Invokes the constructor
@@ -37,7 +33,33 @@ public class CoreEngine implements Runnable {
 		new CoreEngine();
 	}
 	
+	/**
+	 * Initiate the settings, either by deserializing them from the config.json file,
+	 * or by initializing the class with the default settings and serializing it
+	 */
+	private void initSettings() {
+		try {
+			settings = Settings.createInstance();
+		} catch (JsonIOException | JsonSyntaxException e1) {
+			System.err.println("JSON error in config file, exiting...");
+			System.exit(87); // Parameter is incorrect exit code
+		} catch (FileNotFoundException e1) {
+			System.err
+					.println("Config file not found, creating default...");
+			settings = new Settings();
+			try {
+				settings.serialize();
+			} catch (IOException e) {
+				System.err.println("Error writing default config file");
+				e.printStackTrace();
+				System.exit(82); // The file cannot be created exit code
+			}
+		}
+	}
+	
 	public CoreEngine() {
+		initSettings();
+		
 		PluginLoader pluginLoader = new PluginLoader();
 		try {
 			moduleHandler = new ModuleHandler(this, pluginLoader.loadScoreModules());
@@ -61,11 +83,25 @@ public class CoreEngine implements Runnable {
 		pluginHandler.startAll();
 		Thread engine = new Thread(this, "engine");
 		engine.start();
-		if (API_ACTIVE) {
-			webSDK = new DarklightWebSDK(API_PROTOCOL, API_SERVER, API_SESSION_ID);
+		if (settings.isApiEnabled()) {
+			webSDK = new DarklightWebSDK(settings.getApiProtocol(), settings.getApiServer(), settings.getApiID());
 			frontend.promptForName();
 		}
 		moduleHandler.checkAllVulnerabilities();
+	}
+	
+	/**
+	 * Reload the settings class from the config file
+	 */
+	public void reloadSettings() {
+		try {
+			settings = Settings.createInstance();
+		} catch (JsonIOException | JsonSyntaxException e1) {
+			System.err.println("Error reloading settings: JSON error in config file, exiting...");
+		} catch (FileNotFoundException e1) {
+			System.err
+					.println("Error reloading settings: Config file not found");
+		}
 	}
 	
 	/**
@@ -74,22 +110,22 @@ public class CoreEngine implements Runnable {
 	private void printSettings() {
 		System.out.println("Running with the following settings:");
 		System.out
-				.println("Progress file: " + Settings.getProperty("general", "progress"));
-		System.out.println("Name file: " + Settings.getProperty("api", "name"));
+				.println("Progress file: " + settings.getProgressFile());
+		System.out.println("Name file: " + settings.getNameFile());
 		System.out
-				.println("Session type: " + Settings.getProperty("general", "sessiontype"));
+				.println("Session type: " + settings.getSessionType());
 		System.out
-				.println("API Active: " + Settings.getPropertyAsBool("api", "active"));
-		System.out.println("API ID: " + Settings.getPropertyAsInt("api", "id"));
+				.println("API Active: " + settings.isApiEnabled());
+		System.out.println("API ID: " + settings.getApiID());
 		System.out
-				.println("API Protocol: " + Settings.getProperty("api", "protocol"));
-		System.out.println("API Server: " + Settings.getProperty("api", "server"));
+				.println("API Protocol: " + settings.getApiProtocol());
+		System.out.println("API Server: " + settings.getApiServer());
 		System.out.println("Name entry verification: "
-				+ Settings.getPropertyAsBool("verification", "active"));
-		System.out.println("Verified names: "
-				+ Settings.getPropertyAsJsonArray("verification", "names"));
-		System.out.println("Verified team names: "
-				+ Settings.getPropertyAsJsonArray("verification", "teams"));
+				+ settings.isVerificationEnabled());
+		if (settings.getVerificationNames() != null) System.out.println("Verified names: "
+				+ settings.getVerificationNames().toString());
+		if (settings.getVerificationTeams() != null) System.out.println("Verified team names: "
+				+ settings.getVerificationTeams().toString());
 	}
 	
 	public void run() {
@@ -115,7 +151,7 @@ public class CoreEngine implements Runnable {
 	 * Send an authentication request to the API
 	 */
 	public void authUser() {
-		if (API_ACTIVE) {
+		if (settings.isApiEnabled()) {
 			webSDK.auth(frontend.getUserName());
 		}
 	}
@@ -126,7 +162,7 @@ public class CoreEngine implements Runnable {
 	 * @param issues A hashmap of the fixed issues' names and descriptions
 	 */
 	public void sendUpdate(int score, HashMap<String, String> issues) {
-		if (API_ACTIVE) {
+		if (settings.isApiEnabled()) {
 			webSDK.update(score, issues);
 		}
 	}
@@ -136,7 +172,10 @@ public class CoreEngine implements Runnable {
 	 * @return False if "sessiontype" is set to "individual", true if it's "team"
 	 */
 	public boolean teamSession() {
-		return TEAM_SESSION;
+		if (settings.getSessionType() == "team") {
+			return true;
+		}
+		return false;
 	}
 	
 	/**

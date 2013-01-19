@@ -4,22 +4,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.ijg.darklight.sdk.core.Settings;
 import com.ijg.darklight.sdk.core.gui.GUI;
 
 public class Frontend {
 	
-	private JsonArray validEntry;
-	
-	final private boolean ENTRY_VERIFICATION = Settings.getPropertyAsBool("verification", "active");
-	final public String NAME_FILE = Settings.getProperty("api", "name");
+	private ArrayList<String> validEntry;
 	
 	private String userName = "unset";
 	
@@ -65,16 +59,13 @@ public class Frontend {
 				return;
 			}
 			
-			if (ENTRY_VERIFICATION) {
-				validEntry = (engine.teamSession()) ? Settings.getPropertyAsJsonArray("verification", "teams") : Settings.getPropertyAsJsonArray("verification", "names");
+			if (engine.settings.isApiEnabled()) {
+				validEntry = (engine.teamSession()) ? engine.settings.getVerificationTeams() : engine.settings.getVerificationNames();
 				
-				Iterator<JsonElement> iterator = validEntry.iterator();
-				boolean promptForName = false;
-				while (iterator.hasNext()) {
-					JsonElement jsonElement = iterator.next();
-					
-					if (jsonElement.getAsString().contains(testName)) {
-						promptForName = true;
+				boolean promptForName = true;
+				for (String name : validEntry) {
+					if (name.toLowerCase().equals(testName.toLowerCase())) {
+						promptForName = false;
 					}
 				}
 				
@@ -106,14 +97,14 @@ public class Frontend {
 	 * @return The name written to the name file, or null if the name file was not found
 	 */
 	private String readName() {
-		File f = new File(NAME_FILE);
+		File f = new File(engine.settings.getNameFile());
 		try (Scanner s = new Scanner(f)) {
 			setUserName(s.nextLine().trim());
 			System.out.println("Found name file, contains: " + userName);
 			return userName;
 		} catch (FileNotFoundException e) {
 			System.err.println("Error: Name file not found, should be "
-					+ NAME_FILE);
+					+ engine.settings.getNameFile());
 		}
 		return null;
 	}
@@ -125,10 +116,10 @@ public class Frontend {
 	 */
 	private boolean writeName() throws IOException {
 		if (!userName.equals("unset")) {
-			File f= new File(NAME_FILE);
+			File f = new File(engine.settings.getNameFile());
 			if (!f.createNewFile()) {
 				System.out
-						.println("Can not create name file at: " + NAME_FILE + ", continuing anyways");
+						.println("Can not create name file at: " + engine.settings.getNameFile() + ", continuing anyways");
 				f.delete();
 				f.createNewFile();
 			}
