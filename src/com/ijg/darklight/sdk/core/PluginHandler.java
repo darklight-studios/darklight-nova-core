@@ -6,10 +6,18 @@ public class PluginHandler {
 	private ArrayList<Plugin> plugins;
 	public AccessHandler accessHandler;
 	
+	/**
+	 * 
+	 * @param engine Instance of engine the AccessHandler will use
+	 */
 	public PluginHandler(CoreEngine engine) {
 		accessHandler = new AccessHandler(engine);
 	}
 	
+	/**
+	 * 
+	 * @param plugins Loaded plugins
+	 */
 	void setPlugins(ArrayList<Plugin> plugins) {
 		this.plugins = plugins;
 	}
