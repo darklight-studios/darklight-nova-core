@@ -63,7 +63,8 @@ public class CoreEngine implements Runnable {
 		PluginLoader pluginLoader = new PluginLoader();
 		try {
 			moduleHandler = new ModuleHandler(this, pluginLoader.loadScoreModules());
-			pluginHandler = new PluginHandler(pluginLoader.loadPlugins());
+			pluginHandler = new PluginHandler(this);
+			pluginHandler.setPlugins(pluginLoader.loadPlugins(pluginHandler));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(3);
