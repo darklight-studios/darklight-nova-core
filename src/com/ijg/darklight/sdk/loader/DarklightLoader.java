@@ -39,6 +39,28 @@ public class DarklightLoader {
 	}
 	
 	/**
+	 * Load and instantiate a class form a jar file with constructor arguments
+	 * @param classToLoad Name of the class to load out of the jar
+	 * @param jarPath The path of the jar file
+	 * @param constructorArgs Arguments for the class constructor
+	 * @param constructorArgTypes The argument types for the constructor
+	 * @return A new instance of the class
+	 * @throws MalformedURLException
+	 * @throws ClassNotFoundException
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
+	public static Object loadAndInstantiateJar(String classToLoad, String jarPath, Object[] constructorArgs, Class<?>... constructorArgTypes) throws MalformedURLException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Class<?> loadedClass = loadClassFromJar(classToLoad, jarPath);
+		Constructor<?> classConstructor = loadedClass.getConstructor(constructorArgTypes);
+		return classConstructor.newInstance(constructorArgs);
+	}
+	
+	/**
 	 * Load a java class file
 	 * @param classToLoad Name of the class to load
 	 * @return The loaded class (uninstantiated)
