@@ -6,6 +6,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -15,6 +19,7 @@ import com.google.gson.JsonSyntaxException;
 
 public class Settings {
 	private static File settingsFile = new File(new File("."), "config.json");
+	private static HashMap<String, JsonObject> objectsToSerialize = new HashMap<String, JsonObject>();
 	
 	private String progressFile = "C:\\Darklight Core\\progress.dat";
 	private String nameFile = "C:\\Darklight Core\\name.dat";
@@ -47,9 +52,23 @@ public class Settings {
 		return rawSettings.get(object).getAsJsonObject();
 	}
 	
+	public static void addObjectToSerialize(String name, JsonObject object) {
+		objectsToSerialize.put(name, object);
+	}
+	
 	public void serialize() throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String json = gson.toJson(this);
+		JsonParser jsonParser = new JsonParser();
+		JsonObject jsonToWrite = jsonParser.parse(gson.toJson(this)).getAsJsonObject();
+		String json;
+		
+		Iterator<Entry<String, JsonObject>> iter = Settings.objectsToSerialize.entrySet().iterator();
+		while (iter.hasNext()) {
+			Entry<String, JsonObject> entry = iter.next();
+			jsonToWrite.add(entry.getKey(), entry.getValue());
+		}
+		json = gson.toJson(jsonToWrite);
+
 		FileWriter fw = new FileWriter(Settings.settingsFile);
 		fw.write(json);
 		fw.flush();
