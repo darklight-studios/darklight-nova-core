@@ -19,6 +19,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.util.Stack;
 
 import javax.swing.JButton;
@@ -36,6 +39,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.ijg.darklight.sdk.core.Settings;
+import com.ijg.darklight.sdk.loader.DarklightLoader;
 
 public class DarklightInstaller {
 	
@@ -125,6 +129,7 @@ public class DarklightInstaller {
 		copyJar(installConfig.get("jar").getAsString());
 		copyModules();
 		writeDefaultSettings();
+		installModules();
 		dumpErrorStack();
 	}
 	
@@ -223,6 +228,30 @@ public class DarklightInstaller {
 			settings.serialize();
 		} catch (IOException e) {
 			errorStack.add("Error serializing defautl settings");
+		}
+	}
+	
+	/**
+	 * Install scoring modules
+	 */
+	private void installModules() {
+		File root = new File(new File(installPath), "plugins");
+		if (root.exists() && root.isDirectory()) {
+			File[] fileList = root.getAbsoluteFile().listFiles();
+			for (File module : fileList) {
+				if (module.getName().contains("Module")) {
+					if (module.getName().endsWith(".jar")) {
+						String name = module.getName().substring(0, module.getName().indexOf("."));
+						try {
+							Class<?> moduleClass = DarklightLoader.loadClassFromJar("com.darklight.core.scoring." + name, module.getPath());
+							Method installModule = moduleClass.getMethod("install");
+							installModule.invoke(moduleClass, new Object[] {});
+						} catch (MalformedURLException | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
 		}
 	}
 	
@@ -483,6 +512,8 @@ public class DarklightInstaller {
 		progress.setValue(50);
 		copyModules();
 		progress.setValue(70);
+		installModules();
+		progress.setValue(85);
 		writeDefaultSettings();
 		progress.setValue(100);
 		next.setEnabled(true);
