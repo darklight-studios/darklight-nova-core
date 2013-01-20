@@ -35,6 +35,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.ijg.darklight.sdk.core.Settings;
 
 public class DarklightInstaller {
 	
@@ -123,6 +124,7 @@ public class DarklightInstaller {
 			createFileSystem();
 		copyJar(installConfig.get("jar").getAsString());
 		copyModules();
+		writeDefaultSettings();
 		dumpErrorStack();
 	}
 	
@@ -208,6 +210,19 @@ public class DarklightInstaller {
 		for (File module : modules) {
 			if (!module.renameTo(new File(new File(installPath, "plugins"), module.getName())))
 				errorStack.add("Error moving " + module.getName());
+		}
+	}
+	
+	/**
+	 * Serialize the default settings class
+	 */
+	private void writeDefaultSettings() {
+		Settings.setSettingsFile(new File(new File(installPath), "config.json"));
+		Settings settings = new Settings();
+		try {
+			settings.serialize();
+		} catch (IOException e) {
+			errorStack.add("Error serializing defautl settings");
 		}
 	}
 	
@@ -467,6 +482,8 @@ public class DarklightInstaller {
 		copyJar(installConfig.get("jar").getAsString());
 		progress.setValue(50);
 		copyModules();
+		progress.setValue(70);
+		writeDefaultSettings();
 		progress.setValue(100);
 		next.setEnabled(true);
 		dumpErrorStack();
