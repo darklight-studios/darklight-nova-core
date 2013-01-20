@@ -3,9 +3,11 @@ package com.ijg.darklight.sdk.loader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import com.ijg.darklight.sdk.core.Plugin;
+import com.ijg.darklight.sdk.core.PluginHandler;
 import com.ijg.darklight.sdk.core.ScoreModule;
 
 public class PluginLoader {
@@ -15,7 +17,7 @@ public class PluginLoader {
 	 * @return An ArrayList of the instantiated plugins
 	 * @throws IOException
 	 */
-	public ArrayList<Plugin> loadPlugins() throws IOException {
+	public ArrayList<Plugin> loadPlugins(PluginHandler pluginHandler) throws IOException {
 		File root = new File(new File("."), "plugins");
 		if (root.exists() && root.isDirectory()) {
 			File[] fileList = root.getAbsoluteFile().listFiles();
@@ -25,9 +27,11 @@ public class PluginLoader {
 					String name = plugin.getName().substring(0, plugin.getName().indexOf("."));
 					System.out.println("Loading plugin: " + name + "...");
 					try {
-						plugins.add((Plugin) DarklightLoader.loadAndInstantiateJar("com.darklight.core.plugins." + name, plugin.getPath()));
-					} catch (InstantiationException | IllegalAccessException
-							| ClassNotFoundException e) {
+						plugins.add((Plugin) DarklightLoader.loadAndInstantiateJar("com.darklight.core.plugins." + name, plugin.getPath(), new Object[] { pluginHandler }, PluginHandler.class));
+					} catch (ClassNotFoundException | NoSuchMethodException
+							| SecurityException | InstantiationException
+							| IllegalAccessException | IllegalArgumentException
+							| InvocationTargetException e) {
 						System.err.println("Error loading module \"" + name
 								+ "\" from jar: " + plugin.getPath());
 						e.printStackTrace();
