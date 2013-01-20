@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -40,6 +39,12 @@ public class Settings {
 		Gson gson = new Gson();
 		Settings settings = gson.fromJson(rawSettings, Settings.class);
 		return settings;
+	}
+	
+	public static JsonObject deseralizeObject(String object) throws JsonIOException, JsonSyntaxException, FileNotFoundException {
+		JsonParser jsonParser = new JsonParser();
+		JsonObject rawSettings = jsonParser.parse(new FileReader(Settings.settingsFile)).getAsJsonObject();
+		return rawSettings.get(object).getAsJsonObject();
 	}
 	
 	public void serialize() throws IOException {
