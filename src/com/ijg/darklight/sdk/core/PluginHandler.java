@@ -4,9 +4,14 @@ import java.util.ArrayList;
 
 public class PluginHandler {
 	private ArrayList<Plugin> plugins;
+	public AccessHandler accessHandler;
 	
-	public PluginHandler(ArrayList<Plugin> loadedPlugins) {
-		plugins = loadedPlugins;
+	public PluginHandler(CoreEngine engine) {
+		accessHandler = new AccessHandler(engine);
+	}
+	
+	void setPlugins(ArrayList<Plugin> plugins) {
+		this.plugins = plugins;
 	}
 	
 	/**
