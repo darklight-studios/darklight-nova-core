@@ -10,6 +10,11 @@ public abstract class ScoreModule {
 	public abstract ArrayList<Issue> check();
 	
 	/**
+	 * Method called on installation to create the issue
+	 */
+	public static void install() {}
+	
+	/**
 	 * Update an issue in the ArrayList to be fixed
 	 * @param issue The issue to set as fixed
 	 */
