@@ -59,7 +59,7 @@ public class Frontend {
 				return;
 			}
 			
-			if (engine.settings.isApiEnabled()) {
+			if (engine.settings.isVerificationEnabled()) {
 				validEntry = (engine.teamSession()) ? engine.settings.getVerificationTeams() : engine.settings.getVerificationNames();
 				
 				boolean promptForName = true;
