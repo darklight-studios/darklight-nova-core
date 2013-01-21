@@ -31,8 +31,8 @@ public class Settings {
 	private String apiServer = "";
 	
 	private boolean	verificationEnabled = false;
-	private ArrayList<String> verificationNames;
-	private ArrayList<String> verificationTeams;
+	private ArrayList<String> verificationNames = new ArrayList<String>();
+	private ArrayList<String> verificationTeams = new ArrayList<String>();
 	
 	public static void setSettingsFile(File settingsFile) {
 		Settings.settingsFile = settingsFile;
