@@ -66,9 +66,9 @@ public class DarklightWebSDK {
 		
 		lastRequestResponse = authRequest.getResponse();
 		
-		int statusCode = (int) authRequest.get("status");
+		int statusCode = authRequest.get("status").getAsInt();
 		if (statusCode == 200 || statusCode == 201) {
-			APISessionKey = (String) authRequest.get("sessionkey");
+			APISessionKey = authRequest.get("sessionkey").getAsString();
 			return true;
 		}
 		switch (statusCode) {
@@ -101,7 +101,7 @@ public class DarklightWebSDK {
 		
 		lastRequestResponse = updateRequest.getResponse();
 		
-		int statusCode = (int) updateRequest.get("status");
+		int statusCode = updateRequest.get("status").getAsInt();
 		if (statusCode == 200 || statusCode == 201) {
 			return true;
 		}
