@@ -2,7 +2,7 @@ package com.ijg.darklight.sdk.web.api;
 
 public enum APIEndpoint {
 	AUTH		("/api/auth"),
-	UPDATE		("/api/score"),
+	UPDATE		("/api/update"),
 	INDIVIDUAL 	("/session/individual/"),
 	TEAM		("/session/team/");
 	

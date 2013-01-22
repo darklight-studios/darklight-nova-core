@@ -24,9 +24,9 @@ public class DarklightWebAPI {
 	 * @param parameters Paremeters with wich this request will be formatted
 	 * @return The generated APIRequest
 	 */
-	public APIRequest individualSessionRequest(int sessionID, APIEndpoint endpoint, HashMap<String, String> parameters) {
+	public APIRequest individualSessionRequest(APIEndpoint endpoint, HashMap<String, String> parameters) {
 		String query = makeQueryString(parameters);
-		APIRequest request = new APIRequest(protocol, server, APIEndpoint.INDIVIDUAL.endpoint() + sessionID + endpoint.endpoint(), query);
+		APIRequest request = new APIRequest(protocol, server, APIEndpoint.INDIVIDUAL.endpoint() + endpoint.endpoint(), query);
 		return request;
 	}
 	
