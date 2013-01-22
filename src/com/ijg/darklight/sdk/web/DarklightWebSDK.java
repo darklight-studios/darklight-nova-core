@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.ijg.darklight.sdk.core.CoreEngine;
 import com.ijg.darklight.sdk.web.api.APIEndpoint;
 import com.ijg.darklight.sdk.web.api.APIRequest;
 import com.ijg.darklight.sdk.web.api.DarklightWebAPI;
@@ -20,19 +21,27 @@ public class DarklightWebSDK {
 	
 	JsonObject lastRequestResponse;
 	
+	CoreEngine engine;
+	
 	/**
 	 * Empty constructor, requires the APIProtocol, APIServer, and APISessionId to be set manually,
 	 * and then to initiate the API call createAPI()
+	 * 
+	 * @param engine The CoreEngine instance to which this WebSDK belongs
 	 */
-	public DarklightWebSDK() {}
+	public DarklightWebSDK(CoreEngine engine) {
+		this.engine = engine;
+	}
 	
 	/**
 	 * 
+	 * @param engine The CoreEngine instance to which this WebSDK belongs
 	 * @param APIProtocol Protocol the API server uses, usually http
 	 * @param APIServer Web address of the API server
 	 * @param APISessionId ID of the API session
 	 */
-	public DarklightWebSDK(String APIProtocol, String APIServer, int APISessionId) {
+	public DarklightWebSDK(CoreEngine engine, String APIProtocol, String APIServer, int APISessionId) {
+		this.engine = engine;
 		this.APIProtocol = APIProtocol;
 		this.APIServer = APIServer;
 		this.APISessionId = APISessionId;
@@ -100,6 +109,11 @@ public class DarklightWebSDK {
 		updateRequest.send();
 		
 		lastRequestResponse = updateRequest.getResponse();
+		
+		boolean kill = updateRequest.get("kill").getAsInt() == 0 ? false : true;
+		if (kill) {
+			engine.finishSession();
+		}
 		
 		int statusCode = updateRequest.get("status").getAsInt();
 		if (statusCode == 200 || statusCode == 201) {

@@ -2,8 +2,6 @@ package com.ijg.darklight.sdk.core;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
-
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.ijg.darklight.sdk.loader.PluginLoader;
@@ -85,10 +83,11 @@ public class CoreEngine implements Runnable {
 		Thread engine = new Thread(this, "engine");
 		engine.start();
 		if (settings.isApiEnabled()) {
-			webSDK = new DarklightWebSDK(settings.getApiProtocol(), settings.getApiServer(), settings.getApiID());
+			webSDK = new DarklightWebSDK(this, settings.getApiProtocol(), settings.getApiServer(), settings.getApiID());
 			frontend.promptForName();
 		}
 		moduleHandler.checkAllVulnerabilities();
+		sendUpdate();
 	}
 	
 	/**
@@ -162,9 +161,9 @@ public class CoreEngine implements Runnable {
 	 * @param score The current score (number of fixed issues)
 	 * @param issues A hashmap of the fixed issues' names and descriptions
 	 */
-	public void sendUpdate(int score, HashMap<String, String> issues) {
+	public void sendUpdate() {
 		if (settings.isApiEnabled()) {
-			webSDK.update(score, issues);
+			webSDK.update(moduleHandler.getFixedIssueCount(), moduleHandler.getFixedIssues());
 		}
 	}
 	

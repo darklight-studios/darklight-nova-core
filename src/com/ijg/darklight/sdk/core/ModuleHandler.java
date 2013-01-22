@@ -60,7 +60,7 @@ public class ModuleHandler {
 			outputManager.writeNewOutput();
 			
 			engine.authUser();
-			engine.sendUpdate(issues.size(), getFixedIssues());
+			engine.sendUpdate();
 		}
 	}
 	
