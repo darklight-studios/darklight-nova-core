@@ -32,7 +32,7 @@ public class PluginLoader {
 							| SecurityException | InstantiationException
 							| IllegalAccessException | IllegalArgumentException
 							| InvocationTargetException e) {
-						System.err.println("Error loading module \"" + name
+						System.err.println("Error loading plugin \"" + name
 								+ "\" from jar: " + plugin.getPath());
 						e.printStackTrace();
 					}
