@@ -23,7 +23,7 @@ public class PluginLoader {
 			File[] fileList = root.getAbsoluteFile().listFiles();
 			ArrayList<Plugin> plugins = new ArrayList<Plugin>();
 			for (File plugin : fileList) {
-				if (!plugin.getName().contains("Module")) {
+				if (plugin.getName().contains("Plugin")) {
 					String name = plugin.getName().substring(0, plugin.getName().indexOf("."));
 					System.out.println("Loading plugin: " + name + "...");
 					try {
