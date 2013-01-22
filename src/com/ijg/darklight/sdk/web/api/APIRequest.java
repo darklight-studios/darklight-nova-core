@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -69,7 +70,7 @@ public class APIRequest {
 	 * @param query The data to get from the response
 	 * @return The value of the query
 	 */
-	public Object get(String query) {
+	public JsonElement get(String query) {
 		return response.get(query);
 	}
 }
