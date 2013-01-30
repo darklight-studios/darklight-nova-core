@@ -18,23 +18,27 @@ public class PluginLoader {
 	 * @throws IOException
 	 */
 	public ArrayList<Plugin> loadPlugins(PluginHandler pluginHandler) throws IOException {
-		File root = new File(new File("."), "plugins");
+		//File root = new File(new File("."), "plugins");
+		File root = new File(new File("").getAbsolutePath()
+				+ System.getProperty("file.separator") + "plugins");
 		if (root.exists() && root.isDirectory()) {
 			File[] fileList = root.getAbsoluteFile().listFiles();
 			ArrayList<Plugin> plugins = new ArrayList<Plugin>();
 			for (File plugin : fileList) {
 				if (plugin.getName().contains("Plugin")) {
-					String name = plugin.getName().substring(0, plugin.getName().indexOf("."));
-					System.out.println("Loading plugin: " + name + "...");
-					try {
-						plugins.add((Plugin) DarklightLoader.loadAndInstantiateJar("com.darklight.core.plugins." + name, plugin.getPath(), new Object[] { pluginHandler }, PluginHandler.class));
-					} catch (ClassNotFoundException | NoSuchMethodException
-							| SecurityException | InstantiationException
-							| IllegalAccessException | IllegalArgumentException
-							| InvocationTargetException e) {
-						System.err.println("Error loading plugin \"" + name
-								+ "\" from jar: " + plugin.getPath());
-						e.printStackTrace();
+					if (plugin.getName().endsWith(".jar")) {
+						String name = plugin.getName().substring(0, plugin.getName().indexOf("."));
+						System.out.println("Loading plugin: " + name + "...");
+						try {
+							plugins.add((Plugin) DarklightLoader.loadAndInstantiateJar("com.darklight.core.plugins." + name, plugin.getPath(), new Object[] { pluginHandler }, PluginHandler.class));
+						} catch (ClassNotFoundException | NoSuchMethodException
+								| SecurityException | InstantiationException
+								| IllegalAccessException | IllegalArgumentException
+								| InvocationTargetException e) {
+							System.err.println("Error loading plugin \"" + name
+									+ "\" from jar: " + plugin.getPath());
+							e.printStackTrace();
+						}
 					}
 				}
 			}
