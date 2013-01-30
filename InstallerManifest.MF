@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.ijg.darklight.build.DarklightInstaller
+Class-Path: res/gson-2.2.2.jar
+
