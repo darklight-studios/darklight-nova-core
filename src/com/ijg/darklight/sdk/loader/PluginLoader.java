@@ -18,7 +18,6 @@ public class PluginLoader {
 	 * @throws IOException
 	 */
 	public ArrayList<Plugin> loadPlugins(PluginHandler pluginHandler) throws IOException {
-		//File root = new File(new File("."), "plugins");
 		File root = new File(new File("").getAbsolutePath()
 				+ System.getProperty("file.separator") + "plugins");
 		if (root.exists() && root.isDirectory()) {
@@ -53,7 +52,8 @@ public class PluginLoader {
 	 * @throws IOException
 	 */
 	public ArrayList<ScoreModule> loadScoreModules() throws IOException {
-		File root = new File(new File("."), "plugins");
+		File root = new File(new File("").getAbsolutePath()
+				+ System.getProperty("file.separator") + "plugins");
 		if (root.exists() && root.isDirectory()) {
 			File[] fileList = root.getAbsoluteFile().listFiles();
 			ArrayList<ScoreModule> modules = new ArrayList<ScoreModule>();
