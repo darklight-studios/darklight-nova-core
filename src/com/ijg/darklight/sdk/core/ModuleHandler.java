@@ -93,6 +93,6 @@ public class ModuleHandler {
 	 * @return The percentage of issues fixed
 	 */
 	public String getFixedIssuePercent() {
-		return "" + ((int) (((double) issues.size()) / total) * 100) + "%";
+		return "" + Math.round((issues.size() / total) * 100) + "%";
 	}
 }
