@@ -17,7 +17,7 @@ public class MouseListener implements java.awt.event.MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		if (button.contains(e.getPoint())) {
 			if (button.getActionCommand().equals("refresh")) {
-				gui.engine.moduleHandler.checkAllVulnerabilities();
+				gui.engine.update();
 				gui.update();
 			} else if (button.getActionCommand().equals("finish")) {
 				gui.engine.finishSession();

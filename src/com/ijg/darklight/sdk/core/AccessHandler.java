@@ -1,6 +1,6 @@
 package com.ijg.darklight.sdk.core;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AccessHandler {
 	private CoreEngine engine;
@@ -22,10 +22,10 @@ public class AccessHandler {
 	}
 	
 	/**
-	 * Get an ArrayList of fixed issues
-	 * @return An ArrayList of fixed issues
+	 * Get a HashMap of fixed issues
+	 * @return A HashMap of fixed issues, key is issue name, value is issue description
 	 */
-	public ArrayList<Issue> getFixedIssues() {
-		return engine.moduleHandler.getIssues();
+	public HashMap<String, String> getFixedIssues() {
+		return engine.issueHandler.getFixedIssues();
 	}
 }

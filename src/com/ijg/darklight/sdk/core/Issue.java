@@ -1,34 +1,24 @@
 package com.ijg.darklight.sdk.core;
 
-public class Issue {
+public abstract class Issue {
 	private String name;
 	private String description;
-	private boolean fixed;
 	
-	public Issue(String name, String description) {
+	private Issue(String name, String description) {
 		this.name = name;
 		this.description = description;
-		fixed = false;
 	}
 	
 	/**
-	 * Set whether or not this issue has been fixed
-	 * @param fixed If this issue has been fixed or not
+	 * Check whether or not this issue is fixed, the content
+	 * of this function will depend on how to check the status
+	 * of a given issue
+	 * @return If this issue has been fixed or not
 	 */
-	public void setFixed(boolean fixed) {
-		this.fixed = fixed;
-	}
+	public abstract boolean isFixed();
 	
 	/**
-	 * Check whether or not this issue has been fixed
-	 * @return True if this issue has been fixed
-	 */
-	public boolean getFixed() {
-		return fixed;
-	}
-	
-	/**
-	 * Get this issue's name
+	 * 
 	 * @return The name of this issue
 	 */
 	public String getName() {
@@ -36,7 +26,7 @@ public class Issue {
 	}
 	
 	/**
-	 * Get the issue's description
+	 * 
 	 * @return The description of this issue
 	 */
 	public String getDescription() {
