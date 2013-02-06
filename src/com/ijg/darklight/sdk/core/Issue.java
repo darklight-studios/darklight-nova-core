@@ -9,6 +9,19 @@ public abstract class Issue {
 		this.description = description;
 	}
 	
+	
+	/**
+	 * Method to install/create this issue on target machine,
+	 * should be overriden.
+	 */
+	public static void install() {}
+	
+	/**
+	 * If this issue implements any settings found in the config.json
+	 * file, then they are loaded here
+	 */
+	protected abstract void loadSettings();
+	
 	/**
 	 * Check whether or not this issue is fixed, the content
 	 * of this function will depend on how to check the status
