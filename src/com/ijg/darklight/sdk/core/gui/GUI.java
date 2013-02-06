@@ -57,7 +57,7 @@ public class GUI {
 		foundLabel = new JLabel(FOUND_TEXT);
 		percentLabel = new JLabel(PERCENT_TEXT);
 		
-		total = new JLabel("" + engine.moduleHandler.getTotalIssueCount());
+		total = new JLabel("" + engine.issueHandler.getTotalIssueCount());
 		found = new JLabel("0");
 		percent = new JLabel("0%");
 		
@@ -123,7 +123,7 @@ public class GUI {
 		}
 		
 		// Update numbers
-		found.setText("" + engine.moduleHandler.getFixedIssueCount());
-		percent.setText(engine.moduleHandler.getFixedIssuePercent());
+		found.setText("" + engine.issueHandler.getFixedIssueCount());
+		percent.setText(engine.issueHandler.getFixedIssuePercent());
 	}
 }

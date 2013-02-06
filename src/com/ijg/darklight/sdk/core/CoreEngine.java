@@ -18,7 +18,7 @@ public class CoreEngine implements Runnable {
 	private boolean running;
 	private boolean isFinished;
 	
-	public ModuleHandler moduleHandler;
+	public IssueHandler issueHandler;
 	public PluginHandler pluginHandler;
 	
 	public String sessionKey;
@@ -90,7 +90,7 @@ public class CoreEngine implements Runnable {
 		
 		PluginLoader pluginLoader = new PluginLoader();
 		try {
-			moduleHandler = new ModuleHandler(this, pluginLoader.loadScoreModules());
+			issueHandler = new IssueHandler(pluginLoader.loadIssues());
 			pluginHandler = new PluginHandler(this);
 			pluginHandler.setPlugins(pluginLoader.loadPlugins(pluginHandler));
 		} catch (IOException e) {
@@ -116,7 +116,7 @@ public class CoreEngine implements Runnable {
 			webSDK = new DarklightWebSDK(this, settings.getApiProtocol(), settings.getApiServer(), settings.getApiID());
 			frontend.promptForName();
 		}
-		moduleHandler.checkAllVulnerabilities();
+		issueHandler.checkAllIssues();
 		sendUpdate();
 	}
 	
@@ -170,6 +170,12 @@ public class CoreEngine implements Runnable {
 		System.exit(0);
 	}
 	
+	public void update() {
+		issueHandler.checkAllIssues();
+		authUser();
+		sendUpdate();
+	}
+	
 	/**
 	 * Safely kill the engine
 	 */
@@ -193,7 +199,7 @@ public class CoreEngine implements Runnable {
 	 */
 	public void sendUpdate() {
 		if (settings.isApiEnabled()) {
-			webSDK.update(moduleHandler.getFixedIssueCount(), moduleHandler.getFixedIssues());
+			webSDK.update(issueHandler.getFixedIssueCount(), issueHandler.getFixedIssues());
 		}
 	}
 	

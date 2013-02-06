@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+import com.ijg.darklight.sdk.core.Issue;
 import com.ijg.darklight.sdk.core.Plugin;
 import com.ijg.darklight.sdk.core.PluginHandler;
-import com.ijg.darklight.sdk.core.ScoreModule;
 
 public class PluginLoader {
 
@@ -47,23 +47,23 @@ public class PluginLoader {
 	}
 	
 	/**
-	 * Load scoring modules from the plugins folder
-	 * @return An ArrayList of loaded scoring modules
+	 * Load issues from the plugins folder
+	 * @return An ArrayList of loaded issues
 	 * @throws IOException
 	 */
-	public ArrayList<ScoreModule> loadScoreModules() throws IOException {
+	public ArrayList<Issue> loadIssues() throws IOException {
 		File root = new File(new File("").getAbsolutePath()
 				+ System.getProperty("file.separator") + "plugins");
 		if (root.exists() && root.isDirectory()) {
 			File[] fileList = root.getAbsoluteFile().listFiles();
-			ArrayList<ScoreModule> modules = new ArrayList<ScoreModule>();
+			ArrayList<Issue> issues = new ArrayList<Issue>();
 			for (File module : fileList) {
 				if (module.getName().contains("Module")) {
 					if (module.getName().endsWith(".jar")) {
 						String name = module.getName().substring(0, module.getName().indexOf("."));
 						System.out.println("Loading module: " + name + "...");
 						try {
-							modules.add((ScoreModule) DarklightLoader.loadAndInstantiateJar("com.darklight.core.scoring." + name, module.getPath()));
+							issues.add((Issue) DarklightLoader.loadAndInstantiateJar("com.darklight.core.scoring." + name, module.getPath()));
 						} catch (InstantiationException
 								| IllegalAccessException
 								| ClassNotFoundException e) {
@@ -74,7 +74,7 @@ public class PluginLoader {
 					}
 				}
 			}
-			return modules;
+			return issues;
 		}
 		throw new FileNotFoundException("The plugins folder was not found. A plugins folder must be present in the same folder as Darklight to function.");
 	}
