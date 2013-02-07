@@ -1,66 +1,42 @@
 Darklight Nova: Core
-====
+====================
 
-The Darklight Nova Core installation is an open source security vulnerability simulation platform. It's similar to CyberNEXS or the CyberPatriot Scoring System, though open source & free.
+The Darklight Nova Core installation is an open source security vulnerability simulation platform. It's similar to [CyberNEXS](https://www.saic.com/cyberNEXS/) or the CyberPatriot Competition System, though open source & free.
 
-The server is designed to operate on a smaller scale, potentially any number of clients sending updates to NodeJS powered web backend, which then parses the results and displays them in a variety of formats.
+The client informs the user of the current state of the simulation through a Java (Swing/AWT) graphical interface & generated HTML file.
 
-In addition, the client informs the user of the current state of the simulation through a Java graphical interface & generated HTML file, independently of the server. This can allow a server module to be entirely non-existent, while maintaining critical functionality.
+There is also a NodeJS server that the clients can be configured interface with, in order to be displayed on a leaderboard for whoever would like to see the status. For more information on that, see [this](https://github.com/nicatronTg/darklight-nova) repository.
 
-### SDK Usage
+# Engine Structure
 
-If you are here looking to develop a module or a plugin for the Darklight Core engine, just download the SDK jar [here](https://github.com/nicatronTg/darklight-nova-core).
+The scoring is based on the status of issues. An issue is a subclass of [com.ijg.darklight.sdk.core.Issue](https://github.com/nicatronTg/darklight-nova-core/blob/master/src/com/ijg/darklight/sdk/core/Issue.java), and their status is determined by the isFixed() function. When an issue is written, the isFixed method will determine the status of something, considered a vulnerability in the OS. For example if you're writing a Hosts file issue, the issue's isFixed method would check whether or not the Hosts file contains bad redirects, if it does, it would return false, if the bad redirects have been removed it would return true.
 
-To start working with the Darklight SDK all you need to do is add DarklightSDK.jar to your buildpath, and you have access to the entire codebase.
+# SDK Usage
 
-##### Scoring Modules
+If you are here looking to develop an issue or a plugin, first download the SDK jar [here](https://github.com/nicatronTg/darklight-nova-core).
 
-All scoring modules you create must be in a package called com.darklight.core.scoring, are subclassed from com.ijg.darklight.sdk.core.ScoreModule, and the class name must follow the convention:
+To start working with the Darklight SDK all you need to do is add DarklightSDK.jar to your classpath, and you have access to the entire codebase. For information on specific methods and classes, take a look at the javadoc.
 
-(function of the module)Module
+# Issues
 
-An example of a valid module name is FirewallModule.
+This section is in progress...
 
-So, to create a scoring module:
+# Plugins
 
-1. Create a subclass of com.ijg.darklight.sdk.core.ScoreModule with a valid module name, in the com.darklight.core.scoring package
-2. Write the your issue declarations at the top of the class
-3. In your constructor you should add all of your issues to the issues ArrayList by simply calling issues.add(<issueName>)
-4. Write methods to check if issues have been fixed or not
-5. Write your check method using the methods you wrote above (see below, issue1IsFixed() is an example method written in step 4)
-```
-public ArrayList<Issue> check() {
-	if (issue1IsFixed()) {
-		add(issue1);
-	} else {
-		remove(issue1);
-	}
-}
-```
-6. Compile as a jar, with the same name as your module
+This section is in progress...
 
-##### Plugins
-
-All plugins must be in a package called com.darklight.core.plugins, are subclassed from com.ijg.darklight.sdk.core.Plugin, and have no naming conventions.
-
-To create a plugin:
-
-1. Create a subclass of com.ijg.darklight.sdk.core.Plugin in the com.darklight.core.plugins package
-2. Your plugin inherits protected void start() and protected void kill() from the Plugin superclass, the start method is what should initiate your plugin, and you should put anything needed to safely kill your plugin in the kill method
-3. Compile as a jar, with the same name as your plugin
-
-### Code Contributions
+# Code Contributions
 
 All code added and removed must be submitted via Pull Request. In addition, submitted code must follow the following:
 
-* We use tabs, not spaces.
+* We use tabs, not spaces. (Tab size = 4)
 * We attempt to follow the [Java Coding Conventions](http://www.oracle.com/technetwork/java/codeconv-138413.html) as specified by Oracle.
 * We prefer our functions(like this) not functions (like this) or functions ( like this ).
-* Vulnerability modules should not be submitted to the core, instead, they should be linked to on the wiki on a separate Github repository.
+* Issues and plugins should not be submitted to the core, instead, they should be linked to on the wiki on a separate Github repository.
 * Added code should be documented using [JavaDoc](http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html).
 
-We will not accept code that provides no useful benefit or is implemented in an exceptionally roundabout way that could be improved.
+Any help is highly appreciated, though if submitted code appears very roundabout or innefficient, we will not hesitate to voice our concerns, or offer suggestions to improve it before merging it into the master branch.
 
-### Support
+# Support
 
 For the time being, submit support questions & inquiries through Github Issues, though in the future we'll be around via IRC during odd hours of the day for generic questions & getting started.
