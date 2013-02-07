@@ -21,7 +21,6 @@ public class Settings {
 	private static File settingsFile = new File(new File("."), "config.json");
 	private static HashMap<String, JsonObject> objectsToSerialize = new HashMap<String, JsonObject>();
 	
-	private String progressFile = "C:\\Darklight Core\\progress.dat";
 	private String nameFile = "C:\\Darklight Core\\name.dat";
 	private String sessionType = "individual";
 	
@@ -73,14 +72,6 @@ public class Settings {
 		fw.write(json);
 		fw.flush();
 		fw.close();
-	}
-	
-	public String getProgressFile() {
-		return progressFile;
-	}
-	
-	public void setProgressFile(String progressFile) {
-		this.progressFile = progressFile;
 	}
 	
 	public String getNameFile() {

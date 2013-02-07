@@ -109,8 +109,6 @@ public class CoreEngine implements Runnable {
 	 */
 	private void printSettings() {
 		System.out.println("Running with the following settings:");
-		System.out
-				.println("Progress file: " + settings.getProgressFile());
 		System.out.println("Name file: " + settings.getNameFile());
 		System.out
 				.println("Session type: " + settings.getSessionType());
