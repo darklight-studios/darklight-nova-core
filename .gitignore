@@ -3,3 +3,6 @@ bin
 *~
 errors.txt
 log.txt
+.classpath
+.project
+statics/scoreoutput.html
