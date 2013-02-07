@@ -1,15 +1,9 @@
 package com.ijg.darklight.sdk.core;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.ijg.darklight.sdk.loader.DarklightLoader;
 import com.ijg.darklight.sdk.loader.PluginLoader;
 import com.ijg.darklight.sdk.web.DarklightWebSDK;
 
@@ -34,31 +28,7 @@ public class CoreEngine implements Runnable {
 	 * @param args Command line arguments
 	 */
 	public static void main(String[] args) {
-		if (args.length == 1) {
-			if (args[0] == "-reloadmodules") {
-				File root = new File(new File("."), "plugins");
-				if (root.exists() && root.isDirectory()) {
-					File[] fileList = root.getAbsoluteFile().listFiles();
-					for (File module : fileList) {
-						if (module.getName().contains("Module")) {
-							if (module.getName().endsWith(".jar")) {
-								String name = module.getName().substring(0, module.getName().indexOf("."));
-								try {
-									Class<?> moduleClass = DarklightLoader.loadClassFromJar("com.darklight.core.scoring." + name, module.getPath());
-									Method installModule = moduleClass.getMethod("install");
-									installModule.invoke(moduleClass, new Object[] {});
-								} catch (MalformedURLException | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-									e.printStackTrace();
-								}
-								return;
-							}
-						}
-					}
-				}
-			}
-		} else {
-			new CoreEngine();
-		}
+		new CoreEngine();
 	}
 	
 	/**
