@@ -34,6 +34,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileFilter;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -119,16 +120,32 @@ public class DarklightInstaller {
 		try {
 			installConfig = parser.parse(new FileReader(buildFile)).getAsJsonObject();
 		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e1) {
+			errorStack.add("Error parsing install config file");
 			System.err.println("Error parsing install config file");
 			e1.printStackTrace();
 		}
+		JsonElement configFile = installConfig.get("config");
+		
 		installPath = installConfig.get("installpath").getAsString();
 		
 		if (!createFileSystem())
 			createFileSystem();
 		copyJar(installConfig.get("jar").getAsString());
 		copyModules();
-		writeDefaultSettings();
+		if (configFile == null) {
+			writeDefaultSettings();
+		} else {
+			File config = new File(configFile.getAsString());
+			if (config.exists()) {
+				if (config.isFile()) {
+					config.renameTo(new File(installPath, "config.json"));
+				} else {
+					errorStack.add("Specified config file is invalid");
+				}
+			} else {
+				errorStack.add("Specified config file does not exist");
+			}
+		}
 		installModules();
 		dumpErrorStack();
 	}
