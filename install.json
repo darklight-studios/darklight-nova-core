@@ -1,4 +1,8 @@
 {
+	"copy": {
+		"source": "F:\\EclipseWorkspace\\darklight-core\\DarklightSDK.lnk",
+		"destination": "F:\\Darklight-Nova\\Darklight.lnk"
+	},
 	"config": "F:\\EclipseWorkspace\\darklight-core\\config.json",
 	"installpath": "F:\\Darklight-Nova",
 	"jar": "Darklight.jar"
