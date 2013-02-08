@@ -42,7 +42,8 @@ Any help is highly appreciated, though if submitted code appears very roundabout
 For the time being, submit support questions & inquiries through Github Issues, though in the future we'll be around via IRC during odd hours of the day for generic questions & getting started.
 
 # Credit
-The original and current primary author of Darklight Nova is Isaac Grant, who is the copyright holder.
+Darklight Nova Core Copyright (C) 2013 Isaac Grant
+Isaac Grant is the primary author.
 
 ### Contributors
-Lucas Nicodemus
+* Lucas Nicodemus
