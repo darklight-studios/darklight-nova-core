@@ -43,6 +43,7 @@ For the time being, submit support questions & inquiries through Github Issues, 
 
 # Credit
 Darklight Nova Core Copyright (C) 2013 Isaac Grant
+
 Isaac Grant is the primary author.
 
 ### Contributors
