@@ -137,6 +137,7 @@ public class DarklightInstaller {
 		copyModules();
 		writeDefaultSettings();
 		installModules();
+		copyFiles();
 		dumpErrorStack();
 	}
 	
@@ -310,6 +311,27 @@ public class DarklightInstaller {
 						}
 					}
 				}
+			}
+		}
+	}
+	
+	/**
+	 * Meant for copying shortcuts, but can be used to any type of file
+	 */
+	private void copyFiles() {
+		JsonElement copyElement = installConfig.get("copy");
+		if (copyElement != null) {
+			JsonObject copyInfo = copyElement.getAsJsonObject();
+			File source = new File(copyInfo.get("source").getAsString());
+			File dest = new File(copyInfo.get("destination").getAsString());
+			if (source.exists() && source.isFile()) {
+				if (dest.isFile()) {
+					source.renameTo(dest);
+				} else {
+					errorStack.add("Invalid destination: Not a file!!");
+				}
+			} else {
+				errorStack.add("Invalid source file to copy");
 			}
 		}
 	}
@@ -570,12 +592,14 @@ public class DarklightInstaller {
 		copyJar(installConfig.get("jar").getAsString());
 		progress.setValue(50);
 		copyModules();
-		progress.setValue(65);
+		progress.setValue(60);
 		copyScoreOutputDirs();
-		progress.setValue(80);
+		progress.setValue(70);
 		installModules();
-		progress.setValue(90);
+		progress.setValue(80);
 		writeDefaultSettings();
+		progress.setValue(90);
+		copyFiles();
 		progress.setValue(100);
 		next.setEnabled(true);
 		dumpErrorStack();
