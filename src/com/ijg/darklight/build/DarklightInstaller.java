@@ -18,11 +18,16 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.util.Enumeration;
 import java.util.Stack;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -124,28 +129,13 @@ public class DarklightInstaller {
 			System.err.println("Error parsing install config file");
 			e1.printStackTrace();
 		}
-		JsonElement configFile = installConfig.get("config");
-		
-		installPath = installConfig.get("installpath").getAsString();
 		
 		if (!createFileSystem())
 			createFileSystem();
 		copyJar(installConfig.get("jar").getAsString());
+		copyScoreOutputDirs();
 		copyModules();
-		if (configFile == null) {
-			writeDefaultSettings();
-		} else {
-			File config = new File(configFile.getAsString());
-			if (config.exists()) {
-				if (config.isFile()) {
-					config.renameTo(new File(installPath, "config.json"));
-				} else {
-					errorStack.add("Specified config file is invalid");
-				}
-			} else {
-				errorStack.add("Specified config file does not exist");
-			}
-		}
+		writeDefaultSettings();
 		installModules();
 		dumpErrorStack();
 	}
@@ -222,6 +212,43 @@ public class DarklightInstaller {
 	}
 	
 	/**
+	 * Copy the directories pertaining to score output to the installation directory
+	 */
+	private void copyScoreOutputDirs() {
+		File staticsDest = new File(installPath, "statics");
+		File templatesDest = new File(installPath, "templates");
+		
+		staticsDest.mkdir();
+		templatesDest.mkdir();
+		
+		try {
+			JarFile jar = new JarFile(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+			Enumeration<JarEntry> jarEntries = jar.entries();
+			while (jarEntries.hasMoreElements()) {
+				JarEntry entry = jarEntries.nextElement();
+				if (!entry.isDirectory()) {
+					if (entry.getName().contains("statics/") || entry.getName().contains("templates/")) {
+						InputStream inputStream = jar.getInputStream(entry);
+						OutputStream outputStream = new FileOutputStream(new File(installPath, entry.getName().replace("/", "\\")));
+						byte[] buffer = new byte[4096];
+						int length;
+						while ((length = inputStream.read(buffer)) > 0) {
+							outputStream.write(buffer, 0, length);
+						}
+						outputStream.close();
+					}
+				} else if (entry.getName().contains("statics/") || entry.getName().contains("templates/")) {
+					File dir = new File(installPath, entry.getName().replace("/", "\\"));
+					dir.mkdir();
+				}
+			}
+			jar.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Copy the modules to be used into the plugins folder
 	 */
 	private void copyModules() {
@@ -239,12 +266,27 @@ public class DarklightInstaller {
 	 * Serialize the default settings class
 	 */
 	private void writeDefaultSettings() {
-		Settings.setSettingsFile(new File(new File(installPath), "config.json"));
-		Settings settings = new Settings();
-		try {
-			settings.serialize();
-		} catch (IOException e) {
-			errorStack.add("Error serializing defautl settings");
+		JsonElement configFile = installConfig.get("config");
+		
+		if (configFile == null) {
+			Settings.setSettingsFile(new File(installPath, "config.json"));
+			Settings settings = new Settings();
+			try {
+				settings.serialize();
+			} catch (IOException e) {
+				errorStack.add("Error serializing default settings");
+			}
+		} else {
+			File config = new File(configFile.getAsString());
+			if (config.exists()) {
+				if (config.isFile()) {
+					config.renameTo(new File(installPath, "config.json"));
+				} else {
+					errorStack.add("Specified config file is invalid");
+				}
+			} else {
+				errorStack.add("Specified config file does not exist");
+			}
 		}
 	}
 	
@@ -528,9 +570,11 @@ public class DarklightInstaller {
 		copyJar(installConfig.get("jar").getAsString());
 		progress.setValue(50);
 		copyModules();
-		progress.setValue(70);
+		progress.setValue(65);
+		copyScoreOutputDirs();
+		progress.setValue(80);
 		installModules();
-		progress.setValue(85);
+		progress.setValue(90);
 		writeDefaultSettings();
 		progress.setValue(100);
 		next.setEnabled(true);
