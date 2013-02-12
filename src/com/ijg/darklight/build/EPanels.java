@@ -1,0 +1,13 @@
+package com.ijg.darklight.build;
+
+public enum EPanels {
+	WELCOME,
+	TERMS,
+	OPTION_BUILD,
+	CHOOSE_BUILD,
+	CHOOSE_JAR,
+	OPTION_CONFIG,
+	CHOOSE_CONFIG,
+	CHOOSE_SHORTCUT,
+	INSTALL;
+}
