@@ -79,8 +79,37 @@ public class DarklightInstaller {
 		}
 	}
 	
+	private DarklightInstaller(String[] args) {
+		for (int i = 0; i < args.length; ++i) {
+			if (i + 1 < args.length) { 
+				if (args[i].equals("-build")) {
+					useConfig(new File(args[i+1]));
+				} else if (args[i].equals("-install")) {
+					setInstallPath(args[i+1]);
+				} else if (args[i].equals("-jar")) {
+					setJarToCopy(args[i+1]);
+				} else if (args[i].equals("-config")) {
+					setConfigFileToCopy(args[i+1]);
+				} else if (args[i].equals("-copy") && i + 2 < args.length) {
+					setCopyInfo(new File(args[i+1]), new File(args[i+2]));
+				}
+			}
+		}
+		createFileSystem();
+		copyJar();
+		copyModules();
+		copyScoreOutputDirs();
+		installIssues();
+		writeDefaultSettings();
+		copyFiles();
+	}
+	
 	public static void main(String[] args) {
-		new DarklightInstaller();
+		if (args.length == 0) {
+			new DarklightInstaller();
+		} else {
+			new DarklightInstaller(args);
+		}
 	}
 
 	public void setInstallPath(String installPath) {
