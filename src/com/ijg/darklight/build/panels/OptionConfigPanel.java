@@ -1,4 +1,4 @@
-package com.ijg.darklight.build;
+package com.ijg.darklight.build.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,6 +10,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+
+import com.ijg.darklight.build.InstallerFrame;
+import com.ijg.darklight.build.Utils;
 
 public class OptionConfigPanel extends JPanel {
 	private static final long serialVersionUID = -4343591283579567030L;

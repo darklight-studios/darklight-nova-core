@@ -4,16 +4,26 @@ import java.awt.Point;
 import java.io.File;
 
 import javax.swing.JFrame;
-
 import com.google.gson.JsonObject;
+import com.ijg.darklight.build.panels.ChooseBuildPanel;
+import com.ijg.darklight.build.panels.ChooseConfigPanel;
+import com.ijg.darklight.build.panels.ChooseInstallPanel;
+import com.ijg.darklight.build.panels.ChooseJarPanel;
+import com.ijg.darklight.build.panels.ChooseShortcutPanel;
+import com.ijg.darklight.build.panels.EPanels;
+import com.ijg.darklight.build.panels.InstallerPanel;
+import com.ijg.darklight.build.panels.OptionBuildPanel;
+import com.ijg.darklight.build.panels.OptionConfigPanel;
+import com.ijg.darklight.build.panels.TermsPanel;
+import com.ijg.darklight.build.panels.WelcomePanel;
 
 public class InstallerFrame extends JFrame {
 	private static final long serialVersionUID = 8468796890232401893L;
 	
-	private DarklightInstaller3 installer;
+	private DarklightInstaller installer;
 	private Point center;
 	
-	public InstallerFrame(String title, DarklightInstaller3 installer, Point center) {
+	public InstallerFrame(String title, DarklightInstaller installer, Point center) {
 		super(title);
 		this.installer = installer;
 		this.center = center;
@@ -24,7 +34,7 @@ public class InstallerFrame extends JFrame {
 		changePanel(EPanels.WELCOME);
 	}
 	
-	protected void changePanel(EPanels panel) {
+	public void changePanel(EPanels panel) {
 		switch (panel) {
 			case WELCOME:
 				setContentPane(new WelcomePanel(this));
@@ -37,6 +47,9 @@ public class InstallerFrame extends JFrame {
 				break;
 			case CHOOSE_BUILD:
 				setContentPane(new ChooseBuildPanel(this));
+				break;
+			case CHOOSE_INSTALL:
+				setContentPane(new ChooseInstallPanel(this));
 				break;
 			case CHOOSE_JAR:
 				setContentPane(new ChooseJarPanel(this));
@@ -51,8 +64,7 @@ public class InstallerFrame extends JFrame {
 				setContentPane(new ChooseShortcutPanel(this));
 				break;
 			case INSTALL:
-				break;
-			default:
+				setContentPane(new InstallerPanel(this));
 				break;
 		}
 		pack();
@@ -64,23 +76,44 @@ public class InstallerFrame extends JFrame {
 		System.exit(0);
 	}
 	
-	protected void setInstallPath(String installPath) {
+	public void install(InstallerPanel installerPanel) {
+		installer.createFileSystem();
+		installerPanel.setProgress(10);
+		installer.copyJar();
+		installerPanel.setProgress(30);
+		installer.copyModules();
+		installerPanel.setProgress(50);
+		installer.copyScoreOutputDirs();
+		installerPanel.setProgress(60);
+		installer.installIssues();
+		installerPanel.setProgress(70);
+		installer.writeDefaultSettings();
+		installerPanel.setProgress(80);
+		installer.copyFiles();
+		installerPanel.setProgress(100);
+	}
+	
+	public void setInstallPath(String installPath) {
 		installer.setInstallPath(installPath);
 	}
 	
-	protected void setJarToCopy(String jarToCopy) {
+	public void setJarToCopy(String jarToCopy) {
 		installer.setJarToCopy(jarToCopy);
 	}
 	
-	protected void setConfigFileToCopy(String configFileToCopy) {
+	public void setConfigFileToCopy(String configFileToCopy) {
 		installer.setConfigFileToCopy(configFileToCopy);
 	}
 	
-	protected void setCopyInfo(JsonObject copyInfo) {
+	public void setCopyInfo(JsonObject copyInfo) {
 		installer.setCopyInfo(copyInfo);
 	}
 	
-	protected void useConfig(File configFile) {
+	public void setCopyInfo(String shortcut, String destination) {
+		installer.setCopyInfo(new File(shortcut), new File(destination));
+	}
+	
+	public void useConfig(File configFile) {
 		installer.useConfig(configFile);
 	}
 }

@@ -8,6 +8,8 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.filechooser.FileFilter;
 
+import com.ijg.darklight.build.panels.EPanels;
+
 public class Utils {
 	public static JButton genericButton(String content) {
 		JButton button = new JButton(content);

@@ -1,4 +1,4 @@
-package com.ijg.darklight.build;
+package com.ijg.darklight.build.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,6 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import com.ijg.darklight.build.InstallerFrame;
+import com.ijg.darklight.build.Utils;
 
 public class TermsPanel extends JPanel {
 	private static final long serialVersionUID = -6076724638000425752L;
@@ -23,6 +26,7 @@ public class TermsPanel extends JPanel {
 		
 		next = Utils.genericButton("Next");
 		Utils.addPanelSwitchActionListener(next, EPanels.OPTION_BUILD, parent);
+		next.setEnabled(false);
 		
 		close = Utils.genericButton("Quit");
 		Utils.addKillActionListener(close, parent);

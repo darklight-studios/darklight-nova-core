@@ -1,4 +1,4 @@
-package com.ijg.darklight.build;
+package com.ijg.darklight.build.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,6 +15,8 @@ import javax.swing.JTextField;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.ijg.darklight.build.InstallerFrame;
+import com.ijg.darklight.build.Utils;
 
 public class ChooseShortcutPanel extends JPanel {
 	private static final long serialVersionUID = 3889298921544574966L;
@@ -29,9 +31,14 @@ public class ChooseShortcutPanel extends JPanel {
 		
 		description = new JLabel("Select the shortcut file and the folder to which it will be copied.");
 		
+		selectedShortcutText = new JTextField(30);
+		selectedDestinationText = new JTextField(30);
+		
 		next = Utils.genericButton("Next");
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println(selectedShortcutText.getText());
+				System.out.println(selectedDestinationText.getText());
 				JsonObject copyInfo = new JsonObject();
 				copyInfo.add("source", new JsonPrimitive(selectedShortcutText.getText()));
 				copyInfo.add("destination", new JsonPrimitive(selectedDestinationText.getText()));
@@ -61,9 +68,6 @@ public class ChooseShortcutPanel extends JPanel {
 					selectedDestinationText.setText(destChooser.getSelectedFile().getAbsolutePath());
 			}
 		});
-		
-		selectedShortcutText = new JTextField(30);
-		selectedDestinationText = new JTextField(30);
 		
 		shortcutChooser = new JFileChooser(new File("."));
 		if (System.getProperty("os.name").toLowerCase().contains("win")) {

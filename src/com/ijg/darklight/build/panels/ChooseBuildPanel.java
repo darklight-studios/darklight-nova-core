@@ -1,4 +1,4 @@
-package com.ijg.darklight.build;
+package com.ijg.darklight.build.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,6 +12,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import com.ijg.darklight.build.InstallerFrame;
+import com.ijg.darklight.build.Utils;
 
 public class ChooseBuildPanel extends JPanel {
 	private static final long serialVersionUID = 7615173687915813215L;
@@ -64,11 +67,9 @@ public class ChooseBuildPanel extends JPanel {
 		add(description, c);
 		
 		c.gridy = 1;
-		c.gridwidth = 2;
 		add(browse, c);
 		
 		c.gridy = 2;
-		c.gridwidth = 2;
 		c.insets = new Insets(0, 5, 5, 5);
 		add(selectedFileText, c);
 		

@@ -1,4 +1,4 @@
-package com.ijg.darklight.build;
+package com.ijg.darklight.build.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,24 +13,27 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class ChooseJarPanel extends JPanel {
-	private static final long serialVersionUID = -6761028575354309461L;
+import com.ijg.darklight.build.InstallerFrame;
+import com.ijg.darklight.build.Utils;
+
+public class ChooseInstallPanel extends JPanel {
+	private static final long serialVersionUID = -9217125500045152935L;
 
 	private JLabel description;
-	private JTextField selectedFileText;
+	private JTextField installPath;
 	private JButton browse, next, back;
 	private JFileChooser fileChooser;
 	
-	public ChooseJarPanel(final InstallerFrame parent) {
+	public ChooseInstallPanel(final InstallerFrame parent) {
 		super();
 		
-		description = new JLabel("Click \"Browse\" to select the Darklight Nova Core jar file.");
+		description = new JLabel("Click \"Browse\" to select the directory where Darklight Nova Core will be installed");
 		
 		next = Utils.genericButton("Next");
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				parent.setJarToCopy(selectedFileText.getText());
-				parent.changePanel(EPanels.OPTION_CONFIG);
+				parent.setInstallPath(installPath.getText());
+				parent.changePanel(EPanels.CHOOSE_JAR);
 			}
 		});
 		
@@ -42,15 +45,14 @@ public class ChooseJarPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int status = fileChooser.showOpenDialog(null);
 				if (status == JFileChooser.APPROVE_OPTION)
-					selectedFileText.setText(fileChooser.getSelectedFile().getAbsolutePath());
+					installPath.setText(fileChooser.getSelectedFile().getAbsolutePath());
 			}
 		});
 		
-		selectedFileText = new JTextField(25);
+		installPath = new JTextField(40);
 		
 		fileChooser = new JFileChooser(new File("."));
-		fileChooser.setSelectedFile(new File(".", "Darklight.jar"));
-		fileChooser.setFileFilter(Utils.generateFileFilter("jar"));
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fileChooser.setMultiSelectionEnabled(false);
 		
 		setLayout(new GridBagLayout());
@@ -67,9 +69,10 @@ public class ChooseJarPanel extends JPanel {
 		
 		c.gridy = 2;
 		c.insets = new Insets(0, 5, 5, 5);
-		add(selectedFileText, c);
+		add(installPath, c);
 		
 		c.gridy = 3;
+		c.gridwidth = 1;
 		c.insets = new Insets(0, 5, 5, 0);
 		c.anchor = GridBagConstraints.WEST;
 		add(back, c);

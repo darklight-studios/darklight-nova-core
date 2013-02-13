@@ -1,4 +1,4 @@
-package com.ijg.darklight.build;
+package com.ijg.darklight.build.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,29 +13,32 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class ChooseConfigPanel extends JPanel {
-	private static final long serialVersionUID = -2947939792731357739L;
+import com.ijg.darklight.build.InstallerFrame;
+import com.ijg.darklight.build.Utils;
+
+public class ChooseJarPanel extends JPanel {
+	private static final long serialVersionUID = -6761028575354309461L;
 
 	private JLabel description;
 	private JTextField selectedFileText;
 	private JButton browse, next, back;
 	private JFileChooser fileChooser;
 	
-	public ChooseConfigPanel(final InstallerFrame parent) {
+	public ChooseJarPanel(final InstallerFrame parent) {
 		super();
 		
-		description = new JLabel("Click \"Browse\" to select the config.json file to use with the Darklight Nova Core installation");
+		description = new JLabel("Click \"Browse\" to select the Darklight Nova Core jar file.");
 		
 		next = Utils.genericButton("Next");
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				parent.setConfigFileToCopy(selectedFileText.getText());
-				parent.changePanel(EPanels.CHOOSE_SHORTCUT);
+				parent.setJarToCopy(selectedFileText.getText());
+				parent.changePanel(EPanels.OPTION_CONFIG);
 			}
 		});
 		
 		back = Utils.genericButton("Back");
-		Utils.addPanelSwitchActionListener(back, EPanels.OPTION_CONFIG, parent);
+		Utils.addPanelSwitchActionListener(back, EPanels.OPTION_BUILD, parent);
 		
 		browse = Utils.genericButton("Browse");
 		browse.addActionListener(new ActionListener() {
@@ -46,11 +49,11 @@ public class ChooseConfigPanel extends JPanel {
 			}
 		});
 		
-		selectedFileText = new JTextField(40);
+		selectedFileText = new JTextField(25);
 		
 		fileChooser = new JFileChooser(new File("."));
-		fileChooser.setSelectedFile(new File(".", "config.json"));
-		fileChooser.setFileFilter(Utils.generateFileFilter("json"));
+		fileChooser.setSelectedFile(new File(".", "Darklight.jar"));
+		fileChooser.setFileFilter(Utils.generateFileFilter("jar"));
 		fileChooser.setMultiSelectionEnabled(false);
 		
 		setLayout(new GridBagLayout());
@@ -63,7 +66,6 @@ public class ChooseConfigPanel extends JPanel {
 		add(description, c);
 		
 		c.gridy = 1;
-		c.gridwidth = 2;
 		add(browse, c);
 		
 		c.gridy = 2;

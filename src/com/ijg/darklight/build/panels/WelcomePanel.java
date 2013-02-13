@@ -1,4 +1,4 @@
-package com.ijg.darklight.build;
+package com.ijg.darklight.build.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -6,6 +6,9 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.ijg.darklight.build.InstallerFrame;
+import com.ijg.darklight.build.Utils;
 
 public class WelcomePanel extends JPanel {
 	private static final long serialVersionUID = -1411206033690589925L;

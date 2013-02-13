@@ -1,4 +1,4 @@
-package com.ijg.darklight.build;
+package com.ijg.darklight.build.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,6 +10,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+
+import com.ijg.darklight.build.InstallerFrame;
+import com.ijg.darklight.build.Utils;
 
 public class OptionBuildPanel extends JPanel {
 	private static final long serialVersionUID = -5317185056383324444L;
@@ -26,7 +29,7 @@ public class OptionBuildPanel extends JPanel {
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (choose.isSelected()) {
-					parent.changePanel(EPanels.CHOOSE_JAR);
+					parent.changePanel(EPanels.CHOOSE_INSTALL);
 				} else if (useBuild.isSelected()) {
 					parent.changePanel(EPanels.CHOOSE_BUILD);
 				}
