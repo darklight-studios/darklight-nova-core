@@ -115,7 +115,7 @@ public class DarklightWebSDK {
 	/**
 	 * Send a score update to the server
 	 * @param score The updated score
-	 * @param desc HashMap of fixed issues
+	 * @param issues HashMap of fixed issues
 	 * @return True if request returns with a 200 status code
 	 */
 	public boolean update(int score, HashMap<String, String> issues) {

@@ -38,7 +38,6 @@ public class DarklightWebAPI {
 	
 	/**
 	 * Create an individual session request
-	 * @param sessionID ID of API session
 	 * @param endpoint Endpoint to which this request will be sent
 	 * @param parameters Paremeters with wich this request will be formatted
 	 * @return The generated APIRequest
