@@ -188,8 +188,6 @@ public class CoreEngine implements Runnable {
 	
 	/**
 	 * Send a score update request to the API
-	 * @param score The current score (number of fixed issues)
-	 * @param issues A hashmap of the fixed issues' names and descriptions
 	 */
 	public void sendUpdate() {
 		if (settings.isApiEnabled()) {
