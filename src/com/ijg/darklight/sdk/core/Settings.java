@@ -52,10 +52,22 @@ public class Settings {
 	private ArrayList<String> verificationNames = new ArrayList<String>();
 	private ArrayList<String> verificationTeams = new ArrayList<String>();
 	
+	/**
+	 * Set config.json file this class uses to both read settings from, and write new settings to
+	 * @param settingsFile The config.json file to use
+	 */
 	public static void setSettingsFile(File settingsFile) {
 		Settings.settingsFile = settingsFile;
 	}
 	
+	/**
+	 * Create an instance of this class with the settings read from the settings file
+	 * @see #setSettingsFile(File)
+	 * @return An instance of this class with the settings read from the settings file
+	 * @throws JsonIOException
+	 * @throws JsonSyntaxException
+	 * @throws FileNotFoundException
+	 */
 	public static Settings createInstance() throws JsonIOException, JsonSyntaxException, FileNotFoundException {
 		JsonParser jsonParser = new JsonParser();
 		JsonObject rawSettings = jsonParser.parse(new FileReader(Settings.settingsFile)).getAsJsonObject();
@@ -64,16 +76,37 @@ public class Settings {
 		return settings;
 	}
 	
+	/**
+	 * Deserialize an object from the settings file into a JsonObject
+	 * @param object The name of the object to deserialize
+	 * @return The serialized JsonObject
+	 * @throws JsonIOException
+	 * @throws JsonSyntaxException
+	 * @throws FileNotFoundException
+	 */
 	public static JsonObject deseralizeObject(String object) throws JsonIOException, JsonSyntaxException, FileNotFoundException {
 		JsonParser jsonParser = new JsonParser();
 		JsonObject rawSettings = jsonParser.parse(new FileReader(Settings.settingsFile)).getAsJsonObject();
 		return rawSettings.get(object).getAsJsonObject();
 	}
 	
+	/**
+	 * Adds a JsonObject to the static HashMap<java.lang.String, com.google.gson.JsonObject> 
+	 * of objects that will be serialized 
+	 * when serialize() is called on an instance of this class
+	 * @see #serialize()
+	 * @param name The name of the object
+	 * @param object The JsonObject to serialize
+	 */
 	public static void addObjectToSerialize(String name, JsonObject object) {
 		objectsToSerialize.put(name, object);
 	}
 	
+	/**
+	 * Serialize the current instance, along with any objects added with addObjectToSerialize
+	 * @see #addObjectToSerialize(String, JsonObject) 
+	 * @throws IOException
+	 */
 	public void serialize() throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		JsonParser jsonParser = new JsonParser();
@@ -93,74 +126,132 @@ public class Settings {
 		fw.close();
 	}
 	
+	/**
+	 * @return The name file specified in this instance
+	 */
 	public String getNameFile() {
 		return nameFile;
 	}
 	
+	/**
+	 * @param nameFile The desired name file
+	 */
 	public void setNameFile(String nameFile) {
 		this.nameFile = nameFile;
 	}
 	
+	/**
+	 * @return The current session type
+	 */
 	public String getSessionType() {
 		return sessionType;
 	}
 	
+	/**
+	 * @param sessionType The desired session type (individual or team)
+	 */
 	public void setSessionType(String sessionType) {
 		this.sessionType = sessionType;
 	}
 	
+	/**
+	 * @return Whether or not Darklight Nova Web functionality is enabled
+	 */
 	public boolean isApiEnabled() {
 		return apiEnabled;
 	}
 	
+	/**
+	 * @param apiEnabled Enable or disable Darklight Nova Web functionality
+	 */
 	public void setApiEnabled(boolean apiEnabled) {
 		this.apiEnabled = apiEnabled;
 	}
 	
+	/**
+	 * @return The session ID used for the Darklight Nova Web API
+	 */
 	public int getApiID() {
 		return apiID;
 	}
 	
+	/**
+	 * @param apiID The desired session ID to use for the Darklight Nova Web API
+	 */
 	public void setApiID(int apiID) {
 		this.apiID = apiID;
 	}
 	
+	/**
+	 * @return The web protocol used by the Darklight Nova Web server
+	 */
 	public String getApiProtocol() {
 		return apiProtocol;
 	}
 	
+	/**
+	 * @param apiProtocol The desired web protocol used by the Darklight Nova Web server (usually http)
+	 */
 	public void setApiProtocol(String apiProtocol) {
 		this.apiProtocol = apiProtocol;
 	}
 	
+	/**
+	 * @return The URL of the Darklight Nova Web server
+	 */
 	public String getApiServer() {
 		return apiServer;
 	}
 	
+	/**
+	 * @param apiServer The desired URL of the Darklight Nova Web server
+	 */
 	public void setApiServer(String apiServer) {
 		this.apiServer = apiServer;
 	}
 	
+	/**
+	 * @return Whether or not name verification is enabled
+	 */
 	public boolean isVerificationEnabled() {
 		return verificationEnabled;
 	}
 	
+	/**
+	 * @param verificationEnabled Enable or disable name verification
+	 */
 	public void setVerificationEnabled(boolean verificationEnabled) {
 		this.verificationEnabled = verificationEnabled;
 	}
 	
+	/**
+	 * @return ArrayList of names that an input name is checked against if verification is enabled
+	 * @see #isVerificationEnabled()
+	 */
 	public ArrayList<String> getVerificationNames() {
 		return verificationNames;
 	}
 	
+	/**
+	 * @param verificationNames The names that will be used for verification
+	 * @see #setVerificationEnabled(boolean) 
+	 */
 	public void setVerificationNames(ArrayList<String> verificationNames) {
 		this.verificationNames = verificationNames;
 	}
 	
+	/**
+	 * Same as {@link #setVerificationEnabled(boolean)}, except for a team session
+	 * @return ArrayList of teams that an input team is checked against if verification is enabled
+	 */
 	public ArrayList<String> getVerificationTeams() {
 		return verificationTeams;
 	}
 	
+	/**
+	 * Same as {@link #setVerificationNames(ArrayList)}, except for a team session
+	 * @param verificationTeams The team names that will be used for verification 
+	 */
 	public void setVerificationTeams(ArrayList<String> verificationTeams) {
 		this.verificationTeams = verificationTeams;
 	}
