@@ -19,11 +19,19 @@ package com.ijg.darklight.sdk.core;
  * along with the Darklight Nova Core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Issues should be subclassed from this, and implement the following methods:<br />
+ * <ul><li>install</li><li>isFixed</li></ul>
+ * loadSettings may also be implemented <strong>IF</strong> the issue being created
+ * will load settings from the config.json file, and should be designed accordingly.
+ * @author Isaac Grant
+ */
+
 public abstract class Issue {
 	private String name;
 	private String description;
 	
-	private Issue(String name, String description) {
+	protected Issue(String name, String description) {
 		this.name = name;
 		this.description = description;
 	}
@@ -38,6 +46,7 @@ public abstract class Issue {
 	/**
 	 * If this issue implements any settings found in the config.json
 	 * file, then they are loaded here
+	 * @see com.ijg.darklight.sdk.core.Settings
 	 */
 	protected abstract void loadSettings();
 	
