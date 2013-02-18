@@ -2,6 +2,8 @@ package com.ijg.darklight.sdk.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -60,6 +62,22 @@ public class FileLoader {
 		}
 		
 		return tokens;
+	}
+	
+	/**
+	 * Load data from an InputStream and return as a String
+	 * @param is InputStream to retrieve data from
+	 * @return The loaded data compiled into a single string
+	 * @throws IOException
+	 */
+	public static String loadFromInputStream(InputStream is) throws IOException {
+		String data = "";
+		byte[] buffer = new byte[4096];
+		int length = buffer.length;
+		while ((length = is.read(buffer, 0, length)) > 0) {
+			data += new String(removeZeroBytesAndCompact(buffer));
+		}
+		return data;
 	}
 	
 	/**
