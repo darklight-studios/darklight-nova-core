@@ -70,7 +70,7 @@ public class UATools {
 	 * @param account The account to check
 	 * @return True if the account is active
 	 */
-	public boolean accountActive(String account) {
+	public static boolean accountActive(String account) {
 		if (getAccountProperty(account, "Account active").equals("Yes"))
 			return true;
 		return false;
