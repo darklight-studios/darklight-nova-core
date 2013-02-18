@@ -62,6 +62,17 @@ public abstract class Issue {
 	public abstract boolean isFixed();
 	
 	/**
+	 * Protected setter for issue description, so that issues that are
+	 * defined by loaded settings can call super(name, description) in
+	 * the constructor as required, then change the description after 
+	 * the settings have been loaded
+	 * @param description The desired description of this issue
+	 */
+	protected void setDescription(String description) {
+		this.description = description;
+	}
+	
+	/**
 	 * @return The name of this issue
 	 */
 	public String getName() {
