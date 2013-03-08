@@ -177,9 +177,11 @@ public class DarklightInstaller {
 	public void copyScoreOutputDirs() {
 		File staticsDest = new File(installPath, "statics");
 		File templatesDest = new File(installPath, "templates");
+		File resDest = new File(installPath, "res");
 		
 		staticsDest.mkdir();
 		templatesDest.mkdir();
+		resDest.mkdir();
 		
 		try {
 			JarFile jar = new JarFile(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
@@ -187,7 +189,7 @@ public class DarklightInstaller {
 			while (jarEntries.hasMoreElements()) {
 				JarEntry entry = jarEntries.nextElement();
 				if (!entry.isDirectory()) {
-					if (entry.getName().contains("statics/") || entry.getName().contains("templates/")) {
+					if (entry.getName().contains("statics/") || entry.getName().contains("templates/") || entry.getName().contains("res/")) {
 						InputStream inputStream = jar.getInputStream(entry);
 						OutputStream outputStream = new FileOutputStream(new File(installPath, entry.getName().replace("/", "\\")));
 						byte[] buffer = new byte[4096];
@@ -198,7 +200,7 @@ public class DarklightInstaller {
 						inputStream.close();
 						outputStream.close();
 					}
-				} else if (entry.getName().contains("statics/") || entry.getName().contains("templates/")) {
+				} else if (entry.getName().contains("statics/") || entry.getName().contains("templates/") || entry.getName().contains("res/")) {
 					File dir = new File(installPath, entry.getName().replace("/", "\\"));
 					dir.mkdir();
 				}
