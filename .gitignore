@@ -7,3 +7,4 @@ log.txt
 .project
 statics/scoreoutput.html
 doc
+*.jar
