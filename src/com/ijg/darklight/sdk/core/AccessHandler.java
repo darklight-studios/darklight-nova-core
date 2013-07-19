@@ -34,14 +34,6 @@ public class AccessHandler {
 	}
 	
 	/**
-	 * Get the instance of Settings currently used by the CoreEngine
-	 * @return The instance of Settings currently being used
-	 */
-	public Settings getSettings() {
-		return engine.settings;
-	}
-	
-	/**
 	 * Get a HashMap of fixed issues
 	 * @return A HashMap of fixed issues, key is issue name, value is issue description
 	 */
