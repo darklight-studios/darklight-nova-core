@@ -2,8 +2,6 @@ package com.ijg.darklight.sdk.core;
 
 import java.util.HashMap;
 
-import me.shanked.nicatronTg.darklight.view.VulnerabilityOutput;
-
 /*
  * Copyright (C) 2013  Isaac Grant
  * 
@@ -24,9 +22,8 @@ import me.shanked.nicatronTg.darklight.view.VulnerabilityOutput;
  */
 
 /**
- * Handles issues, and the generation of a status file
+ * Handles issues
  * 
- * @see me.shanked.nicatronTg.darklight.view.VulnerabilityOutput
  * @author Isaac Grant
  *
  */
@@ -35,21 +32,15 @@ public class IssueHandler {
 	private HashMap<String, String> fixedIssues = new HashMap<String, String>();
 	private Issue[] issues;
 	
-	private VulnerabilityOutput outputManager;
-	
 	/**
-	 * Initiates a {@link VulnerabilityOutput} instance to handle
-	 * writing the fixed issues to a template file
 	 * @param loadedIssues Issues to monitor
 	 */
 	public IssueHandler(Issue[] loadedIssues) {
-		outputManager = new VulnerabilityOutput(this);
 		issues = loadedIssues;
 	}
 	
 	/**
 	 * Check for the status of all the monitored issues
-	 * and call {@link VulnerabilityOutput#writeNewOutput()}
 	 */
 	public void checkAllIssues() {
 		for (Issue issue : issues) {
@@ -63,7 +54,6 @@ public class IssueHandler {
 				}
 			}
 		}
-		outputManager.writeNewOutput();
 	}
 	
 	/**

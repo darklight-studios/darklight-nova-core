@@ -1,5 +1,7 @@
 package com.ijg.darklight.sdk.core;
 
+import me.shanked.nicatronTg.darklight.view.VulnerabilityOutput;
+
 /*
  * Darklight Nova Core, a computer vulnerability simulation, designed to train and teach students about general cyber security
  * Copyright (C) 2013  Isaac Grant
@@ -34,6 +36,8 @@ public class CoreEngine implements Runnable {
 	public IssueHandler issueHandler;
 	public PluginHandler pluginHandler;
 	
+	private VulnerabilityOutput outputManager;
+	
 	private long lastUpdate = 0L;
 	private final long UPDATE_INTERVAL = 60000L; // 60 seconds
 	
@@ -48,6 +52,7 @@ public class CoreEngine implements Runnable {
 	public CoreEngine() {
 		Issue[] issues = new Issue[] {}; // place initialized issues here
 		issueHandler = new IssueHandler(issues);
+		outputManager = new VulnerabilityOutput(issueHandler);
 		pluginHandler = new PluginHandler(this);
 		Plugin[] plugins = new Plugin[] {}; // place initialized plugins here
 		pluginHandler.setPlugins(plugins);
@@ -87,6 +92,7 @@ public class CoreEngine implements Runnable {
 	 */
 	public void update() {
 		issueHandler.checkAllIssues();
+		outputManager.writeNewOutput();
 		lastUpdate = System.currentTimeMillis();
 	}
 	
