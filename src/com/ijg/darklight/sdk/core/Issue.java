@@ -22,8 +22,6 @@ package com.ijg.darklight.sdk.core;
 /**
  * Issues should be subclassed from this, and implement the following methods:<br />
  * <ul><li>void {@link #install()}</li><li>boolean {@link #isFixed()}</li></ul>
- * {@link #loadSettings()} may also be implemented <strong>only if</strong> the issue being created
- * will load settings from the config.json file, and should be designed accordingly.
  * @author Isaac Grant
  */
 
@@ -39,17 +37,13 @@ public abstract class Issue {
 	
 	/**
 	 * Method to install/create this issue on target machine,
-	 * should be overriden.
+	 * should be overridden.
 	 */
 	public static void install() {}
 	
 	/**
-	 * If this issue implements any settings found in the config.json
-	 * file, then they are loaded here.<br />
-	 * Example to load a string named "foo" from FooBar settings:
-	 * <pre>JsonObject fooBarSettings = Settings.deserializeObject("FooBar");
-	 *String foo = fooBarSettings.get("foo").getAsString();</pre>
-	 * @see com.ijg.darklight.sdk.core.Settings
+	 * If this issue implements any external settings
+	 * then they should be loaded here.<br />
 	 */
 	protected abstract void loadSettings();
 	

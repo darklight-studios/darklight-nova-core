@@ -37,12 +37,20 @@ public class IssueHandler {
 	
 	private VulnerabilityOutput outputManager;
 	
+	/**
+	 * Initiates a {@link VulnerabilityOutput} instance to handle
+	 * writing the fixed issues to a template file
+	 * @param loadedIssues Issues to monitor
+	 */
 	public IssueHandler(Issue[] loadedIssues) {
 		outputManager = new VulnerabilityOutput(this);
-		
 		issues = loadedIssues;
 	}
 	
+	/**
+	 * Check for the status of all the monitored issues
+	 * and call {@link VulnerabilityOutput#writeNewOutput()}
+	 */
 	public void checkAllIssues() {
 		for (Issue issue : issues) {
 			if (issue.isFixed()) {

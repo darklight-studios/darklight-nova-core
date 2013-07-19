@@ -24,15 +24,13 @@ public class PluginHandler {
 	public AccessHandler accessHandler;
 	
 	/**
-	 * 
-	 * @param engine Instance of engine the AccessHandler will use
+	 * @param engine Instance of {@link CoreEngine} the {@link AccessHandler} will use
 	 */
 	public PluginHandler(CoreEngine engine) {
 		accessHandler = new AccessHandler(engine);
 	}
 	
 	/**
-	 * 
 	 * @param plugins Loaded plugins
 	 */
 	void setPlugins(Plugin[] plugins) {

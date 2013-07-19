@@ -26,8 +26,7 @@ public class AccessHandler {
 	private CoreEngine engine;
 	
 	/**
-	 * 
-	 * @param engine The instance of CoreEngine this AccessHandler will use
+	 * @param engine The instance of {@link CoreEngine} this AccessHandler will use
 	 */
 	public AccessHandler(CoreEngine engine) {
 		this.engine = engine;

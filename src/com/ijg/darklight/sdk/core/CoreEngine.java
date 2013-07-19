@@ -52,8 +52,8 @@ public class CoreEngine implements Runnable {
 	}
 	
 	/**
-	 * Initiate the engine thread and the API related stuff
-	 * if applicable
+	 * Initiate isFinished and running booleans, start plugins
+	 * start the main thread, and do an initial issue check
 	 */
 	private void start() {
 		isFinished = false;
@@ -76,6 +76,9 @@ public class CoreEngine implements Runnable {
 		System.exit(0);
 	}
 	
+	/**
+	 * Check for any changes in found issues
+	 */
 	public void update() {
 		issueHandler.checkAllIssues();
 	}
@@ -88,7 +91,7 @@ public class CoreEngine implements Runnable {
 	}
 	
 	/**
-	 * Check if the session is over
+	 * Check if the all issues have been found
 	 * @return True if isFinished has been set true
 	 */
 	public boolean finished() {
