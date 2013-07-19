@@ -1,7 +1,5 @@
 package com.ijg.darklight.sdk.core;
 
-import java.util.ArrayList;
-
 /*
  * Copyright (C) 2013  Isaac Grant
  * 
@@ -22,7 +20,7 @@ import java.util.ArrayList;
  */
 
 public class PluginHandler {
-	private ArrayList<Plugin> plugins;
+	private Plugin[] plugins;
 	public AccessHandler accessHandler;
 	
 	/**
@@ -37,7 +35,7 @@ public class PluginHandler {
 	 * 
 	 * @param plugins Loaded plugins
 	 */
-	void setPlugins(ArrayList<Plugin> plugins) {
+	void setPlugins(Plugin[] plugins) {
 		this.plugins = plugins;
 	}
 	

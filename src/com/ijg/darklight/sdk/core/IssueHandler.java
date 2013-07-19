@@ -1,6 +1,5 @@
 package com.ijg.darklight.sdk.core;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import me.shanked.nicatronTg.darklight.view.VulnerabilityOutput;
@@ -34,11 +33,11 @@ import me.shanked.nicatronTg.darklight.view.VulnerabilityOutput;
 
 public class IssueHandler {
 	private HashMap<String, String> fixedIssues = new HashMap<String, String>();
-	private ArrayList<Issue> issues;
+	private Issue[] issues;
 	
 	private VulnerabilityOutput outputManager;
 	
-	public IssueHandler(ArrayList<Issue> loadedIssues) {
+	public IssueHandler(Issue[] loadedIssues) {
 		outputManager = new VulnerabilityOutput(this);
 		
 		issues = loadedIssues;
@@ -70,7 +69,7 @@ public class IssueHandler {
 	 * @return Total number of issues
 	 */
 	public int getTotalIssueCount() {
-		return issues.size();
+		return issues.length;
 	}
 	
 	/**
@@ -84,6 +83,6 @@ public class IssueHandler {
 	 * @return The percentage of issues fixed as a string
 	 */
 	public String getFixedIssuePercent() {
-		return "" + Math.round((fixedIssues.size() / ((double) issues.size()) * 100)) + "%";
+		return "" + Math.round((fixedIssues.size() / ((double) issues.length) * 100)) + "%";
 	}
 }
