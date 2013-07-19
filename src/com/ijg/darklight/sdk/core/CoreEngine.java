@@ -46,10 +46,10 @@ public class CoreEngine implements Runnable {
 	}
 	
 	public CoreEngine() {
-		Issue[] issues = new Issue[] {}; // place issues here
-		Plugin[] plugins = new Plugin[] {}; // place plugins here
+		Issue[] issues = new Issue[] {}; // place initialized issues here
 		issueHandler = new IssueHandler(issues);
 		pluginHandler = new PluginHandler(this);
+		Plugin[] plugins = new Plugin[] {}; // place initialized plugins here
 		pluginHandler.setPlugins(plugins);
 		start();
 	}
