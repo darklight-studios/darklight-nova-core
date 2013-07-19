@@ -3,19 +3,15 @@ Darklight Nova: Core
 
 The Darklight Nova Core installation is an open source security vulnerability simulation platform. It's similar to [CyberNEXS](https://www.saic.com/cyberNEXS/) or the CyberPatriot Competition System, though open source & free.
 
-The client informs the user of the current state of the simulation through a Java (Swing/AWT) graphical interface & generated HTML file.
-
-There is also a NodeJS server that the clients can be configured interface with, in order to be displayed on a leaderboard for whoever would like to see the status. For more information on that, see [this](https://github.com/nicatronTg/darklight-nova) repository.
+The client informs the user of the current state of the simulation through a generated HTML file.
 
 # Engine Structure
 
-The scoring is based on the status of issues. An issue is a subclass of [com.ijg.darklight.sdk.core.Issue](https://github.com/nicatronTg/darklight-nova-core/blob/master/src/com/ijg/darklight/sdk/core/Issue.java), and their status is determined by the isFixed() function. When an issue is written, the isFixed method will determine the status of something, considered a vulnerability in the OS. For example if you're writing a Hosts file issue, the issue's isFixed method would check whether or not the Hosts file contains bad redirects, if it does, it would return false, if the bad redirects have been removed it would return true.
+The scoring is based on the status of issues. An issue is a subclass of [com.ijg.darklight.sdk.core.Issue](https://github.com/IsaacJG/darklight-nova-core/blob/master/src/com/ijg/darklight/sdk/core/Issue.java), and their status is determined by the isFixed() function. When an issue is written, the isFixed method will determine the status of something, considered a vulnerability in the OS. For example if you're writing a Hosts file issue, the issue's isFixed method would check whether or not the Hosts file contains bad redirects, if it does, it would return false, if the bad redirects have been removed it would return true.
 
 # SDK Usage
 
-If you are here looking to develop an issue or a plugin, first download the SDK jar [here](https://github.com/nicatronTg/darklight-nova-core).
-
-To start working with the Darklight SDK all you need to do is add DarklightSDK.jar to your classpath, and you have access to the entire codebase. For information on specific methods and classes, take a look at the javadoc.
+This section is in progress...
 
 # Issues
 
@@ -27,7 +23,7 @@ This section is in progress...
 
 # Code Contributions
 
-All code added and removed must be submitted via Pull Request. In addition, submitted code must follow the following:
+All code added and removed must be submitted via Pull Request. In addition, submitted code must meet the following requirements:
 
 * We use tabs, not spaces. (Tab size = 4)
 * We attempt to follow the [Java Coding Conventions](http://www.oracle.com/technetwork/java/codeconv-138413.html) as specified by Oracle.
