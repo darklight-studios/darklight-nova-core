@@ -1,4 +1,3 @@
 Manifest-Version: 1.0
 Main-Class: com.ijg.darklight.sdk.core.CoreEngine
-Class-Path: res/gson-2.2.2.jar
 
