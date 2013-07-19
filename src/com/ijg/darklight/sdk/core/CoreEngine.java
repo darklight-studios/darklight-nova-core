@@ -45,8 +45,6 @@ public class CoreEngine implements Runnable {
 	
 	DarklightWebSDK webSDK;
 	
-	Frontend frontend;
-	
 	public Settings settings;
 	
 	/**
