@@ -34,6 +34,9 @@ public class CoreEngine implements Runnable {
 	public IssueHandler issueHandler;
 	public PluginHandler pluginHandler;
 	
+	private long lastUpdate = 0L;
+	private final long UPDATE_INTERVAL = 60000L; // 60 seconds
+	
 	/**
 	 * Invokes the constructor
 	 * @param args Command line arguments
@@ -66,6 +69,9 @@ public class CoreEngine implements Runnable {
 	
 	public void run() {
 		while (running) {
+			if (System.currentTimeMillis() - lastUpdate > UPDATE_INTERVAL) {
+				update();
+			}
 			try {
 				Thread.sleep(20);
 			} catch (InterruptedException e) {
@@ -81,6 +87,7 @@ public class CoreEngine implements Runnable {
 	 */
 	public void update() {
 		issueHandler.checkAllIssues();
+		lastUpdate = System.currentTimeMillis();
 	}
 	
 	/**
