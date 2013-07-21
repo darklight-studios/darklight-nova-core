@@ -67,7 +67,7 @@ public class IssueHandler {
 	 * @return Total number of issues
 	 */
 	public int getTotalIssueCount() {
-		return issues.length;
+		return issues.length | 0;
 	}
 	
 	/**
