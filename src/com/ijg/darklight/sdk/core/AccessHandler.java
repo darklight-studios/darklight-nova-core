@@ -33,10 +33,59 @@ public class AccessHandler {
 	}
 	
 	/**
+	 * @return Finished status of the session
+	 */
+	public boolean isFinished() {
+		return engine.finished();
+	}
+	
+	/**
+	 * @return The total number of issues
+	 */
+	public int getTotalIssueCount() {
+		return engine.issueHandler.getTotalIssueCount();
+	}
+	
+	/**
+	 * @return The number of fixed issues
+	 */
+	public int getFixedIssueCount() {
+		return engine.issueHandler.getFixedIssueCount();
+	}
+	
+	/**
+	 * @return The percent complete (percent of issues fixed)
+	 */
+	public String getPercentComplete() {
+		return engine.issueHandler.getFixedIssuePercent();
+	}
+	
+	/**
 	 * Get a HashMap of fixed issues
 	 * @return A HashMap of fixed issues, key is issue name, value is issue description
 	 */
 	public HashMap<String, String> getFixedIssues() {
 		return engine.issueHandler.getFixedIssues();
+	}
+	
+	/**
+	 * Finish the session
+	 */
+	public void finishSession() {
+		engine.finishSession();
+	}
+	
+	/**
+	 * Call CoreEngine.update()
+	 */
+	public void checkIssues() {
+		engine.update();
+	}
+	
+	/**
+	 * @param autoUpdate Whether or not the CoreEngine should automatically call CoreEngine.update()
+	 */
+	public void setAutoUpdate(boolean autoUpdate) {
+		engine.setAutoUpdate(autoUpdate);
 	}
 }

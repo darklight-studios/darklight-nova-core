@@ -41,6 +41,8 @@ public class CoreEngine implements Runnable {
 	private long lastUpdate = 0L;
 	private final long UPDATE_INTERVAL = 60000L; // 60 seconds
 	
+	private boolean autoUpdate = true;
+	
 	/**
 	 * Invokes the constructor
 	 * @param args Command line arguments
@@ -74,7 +76,7 @@ public class CoreEngine implements Runnable {
 	
 	public void run() {
 		while (running) {
-			if (System.currentTimeMillis() - lastUpdate > UPDATE_INTERVAL) {
+			if (autoUpdate && System.currentTimeMillis() - lastUpdate > UPDATE_INTERVAL) {
 				update();
 			}
 			try {
@@ -109,5 +111,9 @@ public class CoreEngine implements Runnable {
 	 */
 	public boolean finished() {
 		return isFinished;
+	}
+	
+	public void setAutoUpdate(boolean autoUpdate) {
+		this.autoUpdate = autoUpdate;
 	}
 }
