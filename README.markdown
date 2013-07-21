@@ -7,7 +7,7 @@ The client informs the user of the current state of the simulation through a gen
 
 # Engine Structure
 
-The scoring is based on the status of issues. An issue is a subclass of [com.ijg.darklight.sdk.core.Issue](https://github.com/IsaacJG/darklight-nova-core/blob/master/src/com/ijg/darklight/sdk/core/Issue.java), and their status is determined by the isFixed() function. When an issue is written, the isFixed method will determine the status of something, considered a vulnerability in the OS. For example if you're writing a Hosts file issue, the issue's isFixed method would check whether or not the Hosts file contains bad redirects, if it does, it would return false, if the bad redirects have been removed it would return true.
+The scoring is based on the status of issues. An issue is a subclass of [com.ijg.darklight.sdk.core.Issue](https://github.com/darklight-studios/darklight-nova-core/blob/master/src/com/ijg/darklight/sdk/core/Issue.java), and their status is determined by the isFixed() function. When an issue is written, the isFixed method will determine the status of something, considered a vulnerability in the OS. For example if you're writing a Hosts file issue, the issue's isFixed method would check whether or not the Hosts file contains bad redirects, if it does, it would return false, if the bad redirects have been removed it would return true.
 
 # SDK Usage
 
