@@ -20,7 +20,7 @@ package com.ijg.darklight.sdk.core;
  */
 
 public class Plugin {
-	protected PluginHandler pluginHandler;
+	public PluginHandler pluginHandler;
 	
 	public Plugin(PluginHandler pluginHandler) {
 		this.pluginHandler = pluginHandler;
