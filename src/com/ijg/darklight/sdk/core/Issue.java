@@ -43,9 +43,9 @@ public abstract class Issue {
 	
 	/**
 	 * If this issue implements any external settings
-	 * then they should be loaded here.<br />
+	 * then this method should be overridden
 	 */
-	protected abstract void loadSettings();
+	protected void loadSettings() {}
 	
 	/**
 	 * Check whether or not this issue is fixed, the content
