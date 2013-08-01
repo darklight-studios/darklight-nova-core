@@ -33,10 +33,10 @@ public class CoreEngine implements Runnable {
 	private boolean running;
 	private boolean isFinished;
 	
-	public IssueHandler issueHandler;
-	public PluginHandler pluginHandler;
+	protected IssueHandler issueHandler;
+	protected PluginHandler pluginHandler;
 	
-	private VulnerabilityOutput outputManager;
+	protected VulnerabilityOutput outputManager;
 	
 	private long lastUpdate = 0L;
 	private final long UPDATE_INTERVAL = 60000L; // 60 seconds
