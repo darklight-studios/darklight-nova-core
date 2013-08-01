@@ -5,6 +5,6 @@ errors.txt
 log.txt
 .classpath
 .project
-statics/scoreoutput.html
+statics
 doc
 *.jar
