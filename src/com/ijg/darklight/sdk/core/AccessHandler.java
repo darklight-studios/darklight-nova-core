@@ -88,4 +88,20 @@ public class AccessHandler {
 	public void setAutoUpdate(boolean autoUpdate) {
 		engine.setAutoUpdate(autoUpdate);
 	}
+	
+	/**
+	 * Change the template used to create the score output
+	 * @param file The template file to be used
+	 */
+	public void setTemplateFile(String file) {
+		engine.outputManager.setTemplateName(file);
+	}
+	
+	/**
+	 * Change the extension of the score output file
+	 * @param extension Extension to be used (txt, html, etc)
+	 */
+	public void setOutputFileExtension(String extension) {
+		engine.outputManager.setOutputExt(extension);
+	}
 }
