@@ -1,8 +1,3 @@
-com.ijg.darklight.build
-com.ijg.darklight.build.panels
 com.ijg.darklight.sdk.core
-com.ijg.darklight.sdk.core.gui
-com.ijg.darklight.sdk.loader
-com.ijg.darklight.sdk.web
-com.ijg.darklight.sdk.web.api
+com.ijg.darklight.sdk.utils
 me.shanked.nicatronTg.darklight.view
