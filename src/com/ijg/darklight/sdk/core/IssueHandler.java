@@ -1,6 +1,6 @@
 package com.ijg.darklight.sdk.core;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /*
  * Copyright (C) 2013  Isaac Grant
@@ -29,7 +29,7 @@ import java.util.HashMap;
  */
 
 public class IssueHandler {
-	private HashMap<String, String> fixedIssues = new HashMap<String, String>();
+	private ArrayList<IssueData> fixedIssues = new ArrayList<IssueData>();
 	private Issue[] issues;
 	
 	/**
@@ -45,22 +45,22 @@ public class IssueHandler {
 	public void checkAllIssues() {
 		for (Issue issue : issues) {
 			if (issue.isFixed()) {
-				if (!fixedIssues.containsKey(issue.getName())) {
-					fixedIssues.put(issue.getName(), issue.getDescription());
+				if (!fixedIssues.contains(issue.getData())) {
+					fixedIssues.add(issue.getData());
 				}
 			} else {
-				if (fixedIssues.containsKey(issue.getName())) {
-					fixedIssues.remove(issue.getName());
+				if (fixedIssues.contains(issue.getData())) {
+					fixedIssues.remove(issue.getData());
 				}
 			}
 		}
 	}
 	
 	/**
-	 * @return HashMap of fixed issues, key is issue name, value is issue description
+	 * @return An array of fixed issues' IssueData
 	 */
-	public HashMap<String, String> getFixedIssues() {
-		return fixedIssues;
+	public IssueData[] getFixedIssues() {
+		return IssueData[].class.cast(fixedIssues.toArray());
 	}
 	
 	/**

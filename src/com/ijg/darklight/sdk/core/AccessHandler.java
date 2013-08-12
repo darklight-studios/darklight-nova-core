@@ -1,7 +1,5 @@
 package com.ijg.darklight.sdk.core;
 
-import java.util.HashMap;
-
 /*
  * Copyright (C) 2013  Isaac Grant
  * 
@@ -61,10 +59,10 @@ public class AccessHandler {
 	}
 	
 	/**
-	 * Get a HashMap of fixed issues
+	 * Get an array of fixed issues' IssueData
 	 * @return A HashMap of fixed issues, key is issue name, value is issue description
 	 */
-	public HashMap<String, String> getFixedIssues() {
+	public IssueData[] getFixedIssues() {
 		return engine.issueHandler.getFixedIssues();
 	}
 	

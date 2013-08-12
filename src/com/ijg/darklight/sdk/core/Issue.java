@@ -26,12 +26,10 @@ package com.ijg.darklight.sdk.core;
  */
 
 public abstract class Issue {
-	private String name;
-	private String description;
+	private IssueData data;
 	
 	protected Issue(String name, String description) {
-		this.name = name;
-		this.description = description;
+		data = new IssueData(name, description);
 	}
 	
 	
@@ -63,20 +61,27 @@ public abstract class Issue {
 	 * @param description The desired description of this issue
 	 */
 	protected void setDescription(String description) {
-		this.description = description;
+		data.setDescription(description);
 	}
 	
 	/**
 	 * @return The name of this issue
 	 */
 	public String getName() {
-		return name;
+		return data.getName();
 	}
 	
 	/**
 	 * @return The description of this issue
 	 */
 	public String getDescription() {
-		return description;
+		return data.getDescription();
+	}
+	
+	/**
+	 * @return The IssueData belonging to this issue
+	 */
+	public IssueData getData() {
+		return data;
 	}
 }
