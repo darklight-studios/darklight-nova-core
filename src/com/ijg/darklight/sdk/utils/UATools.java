@@ -58,9 +58,11 @@ public class UATools {
 			String output = FileLoader.loadFromInputStream(p.getInputStream());
 			
 			int propIndex = output.indexOf(property);
-			String line = output.substring(propIndex, output.substring(propIndex).indexOf("\n") + propIndex);
-			String value = line.substring(property.length()).trim();
-			return value;
+			if (propIndex > -1) {
+				String line = output.substring(propIndex, output.substring(propIndex).indexOf("\n") + propIndex);
+				String value = line.substring(property.length()).trim();
+				return value;
+			}
 		} catch (IOException | InterruptedException e) {}
 		return "";
 	}
