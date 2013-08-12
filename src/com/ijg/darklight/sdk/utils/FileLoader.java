@@ -57,8 +57,8 @@ public class FileLoader {
 				indexesToRemove.add(i);
 			}
 		}
-		for (int index : indexesToRemove) {
-			tokens.remove(index);
+		for (int i = indexesToRemove.size()-1; i >= 0; i--) {
+			tokens.remove(indexesToRemove.get(i));
 		}
 		
 		return tokens;
