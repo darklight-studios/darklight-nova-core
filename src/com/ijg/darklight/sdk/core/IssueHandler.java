@@ -60,7 +60,9 @@ public class IssueHandler {
 	 * @return An array of fixed issues' IssueData
 	 */
 	public IssueData[] getFixedIssues() {
-		return IssueData[].class.cast(fixedIssues.toArray());
+		IssueData[] dataArray = new IssueData[fixedIssues.size()];
+		fixedIssues.toArray(dataArray);
+		return dataArray;
 	}
 	
 	/**
