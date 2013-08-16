@@ -55,7 +55,8 @@ public class CoreEngine implements Runnable {
 		Issue[] issues = new Issue[] {}; // place initialized issues here
 		issueHandler = new IssueHandler(issues);
 		outputManager = new VulnerabilityOutput(issueHandler);
-		pluginHandler = new PluginHandler(this);
+		pluginHandler = new PluginHandler();
+		AccessHandler accessHandler = new AccessHandler(this);
 		Plugin[] plugins = new Plugin[] {}; // place initialized plugins here
 		pluginHandler.setPlugins(plugins);
 		start();

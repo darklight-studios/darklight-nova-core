@@ -20,10 +20,11 @@ package com.ijg.darklight.sdk.core;
  */
 
 public class Plugin {
-	public PluginHandler pluginHandler;
 	
-	public Plugin(PluginHandler pluginHandler) {
-		this.pluginHandler = pluginHandler;
+	protected AccessHandler accessHandler;
+	
+	public Plugin(AccessHandler accessHandler) {
+		this.accessHandler = accessHandler;
 	}
 	
 	/**

@@ -21,14 +21,6 @@ package com.ijg.darklight.sdk.core;
 
 public class PluginHandler {
 	private Plugin[] plugins;
-	public AccessHandler accessHandler;
-	
-	/**
-	 * @param engine Instance of {@link CoreEngine} the {@link AccessHandler} will use
-	 */
-	public PluginHandler(CoreEngine engine) {
-		accessHandler = new AccessHandler(engine);
-	}
 	
 	/**
 	 * @param plugins Loaded plugins
