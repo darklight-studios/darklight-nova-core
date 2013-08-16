@@ -8,3 +8,5 @@ log.txt
 statics
 doc
 *.jar
+.idea
+*.iml
