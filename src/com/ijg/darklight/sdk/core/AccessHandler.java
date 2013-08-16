@@ -96,10 +96,26 @@ public class AccessHandler {
 	}
 	
 	/**
+	 * Change the file the score report is written to
+	 * @param file The file to write the score report to
+	 */
+	public void setOutputFile(String file) {
+		engine.outputManager.setOutputFile(file);
+	}
+	
+	/**
 	 * Change the extension of the score output file
 	 * @param extension Extension to be used (txt, html, etc)
 	 */
 	public void setOutputFileExtension(String extension) {
 		engine.outputManager.setOutputExt(extension);
+	}
+	
+	/**
+	 * Change the string used to format individual IssueData for the score report
+	 * @param formatter The string to format IssueData for the score report
+	 */
+	public void setIssueDataOutputFormatterString(String formatter) {
+		engine.outputManager.setIssueFormatter(formatter);
 	}
 }
