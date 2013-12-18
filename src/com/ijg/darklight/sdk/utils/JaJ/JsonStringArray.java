@@ -20,33 +20,37 @@ import java.util.ArrayList;
  */
 
 public class JsonStringArray extends JsonArray<String> {
-	
-	public static JsonStringArray parse(String json) {
-		JsonStringArray stringArray;
-		String[] tokens = json.split(":");
-		ArrayList<String> data = new ArrayList<String>();
-		for (String token : tokens[1].split(",")) {
-			data.add(token.trim().replace("\"", "").replace("[", "").replace("]", ""));
-		}
-		stringArray = new JsonStringArray(tokens[0].trim().replace("\"", ""), data);
-		return stringArray;
-	}
-	
-	public JsonStringArray(String name) {
-		super(name);
-	}
-	
-	public JsonStringArray(String name, ArrayList<String> data) {
-		super(name, data);
-	}
+    /**
+     * Parse a string of JSON
+     * @param json the JSON to parse
+     * @return a new JsonStringArray containing parsed array data
+     */
+    public static JsonStringArray parse(String json) {
+        JsonStringArray stringArray;
+        String[] tokens = json.split(":");
+        ArrayList<String> data = new ArrayList<String>();
+        for (String token : tokens[1].split(",")) {
+            data.add(token.trim().replace("\"", "").replace("[", "").replace("]", ""));
+        }
+        stringArray = new JsonStringArray(tokens[0].trim().replace("\"", ""), data);
+        return stringArray;
+    }
 
-	@Override
-	public String jsonify() {
-		String json = "\"" + getName() + "\": [";
-		for (int i = 0; i < data.size() - 1; i++) {
-			json += "\"" + data.get(i) + "\", ";
-		}
-		json += "\"" + data.get(data.size() - 1) + "\"]";
-		return json;
-	}
+    public JsonStringArray(String name) {
+        super(name);
+    }
+
+    public JsonStringArray(String name, ArrayList<String> data) {
+        super(name, data);
+    }
+
+    @Override
+    public String jsonify() {
+        String json = "\"" + getName() + "\": [";
+        for (int i = 0; i < data.size() - 1; i++) {
+            json += "\"" + data.get(i) + "\", ";
+        }
+        json += "\"" + data.get(data.size() - 1) + "\"]";
+        return json;
+    }
 }

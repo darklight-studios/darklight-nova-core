@@ -20,25 +20,29 @@ import java.util.ArrayList;
  */
 
 public class JsonIntArray extends JsonArray<Long> {
+    /**
+     * Parse a string of JSON
+     * @param json the string of JSON
+     * @return a JsonIntArray object containing the parsed int array
+     */
+    public static JsonIntArray parse(String json) {
+        JsonIntArray intArray;
+        String[] tokens = json.split(":");
+        ArrayList<Long> data = new ArrayList<Long>();
+        for (String token : tokens[1].split(",")) {
+            token = token.replace("[", "").replace("]", "").trim();
+            if (!token.isEmpty())
+                data.add(Long.parseLong(token));
+        }
+        intArray = new JsonIntArray(tokens[0].trim().replace("\"", ""), data);
+        return intArray;
+    }
 
-	public static JsonIntArray parse(String json) {
-		JsonIntArray intArray;
-		String[] tokens = json.split(":");
-		ArrayList<Long> data = new ArrayList<Long>();
-		for (String token : tokens[1].split(",")) {
-			token = token.replace("[", "").replace("]", "").trim();
-			if (!token.isEmpty())
-				data.add(Long.parseLong(token));
-		}
-		intArray = new JsonIntArray(tokens[0].trim().replace("\"", ""), data);
-		return intArray;
-	}
-	
-	public JsonIntArray(String name) {
-		super(name);
-	}
-	
-	public JsonIntArray(String name, ArrayList<Long> data) {
-		super(name, data);
-	}
+    public JsonIntArray(String name) {
+        super(name);
+    }
+
+    public JsonIntArray(String name, ArrayList<Long> data) {
+        super(name, data);
+    }
 }

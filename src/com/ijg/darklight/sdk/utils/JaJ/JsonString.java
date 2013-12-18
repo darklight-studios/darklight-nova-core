@@ -17,24 +17,32 @@ package com.ijg.darklight.sdk.utils.JaJ;
  * along with JaJ.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Json String type
+ * Holds data in a String
+ */
 public class JsonString extends JsonData {
-	private String data;
-	
-	public static JsonString parse(String json) {
-		JsonString string;
-		String[] tokens = json.split(":");
-		String data = tokens[1].trim().replace("\"", "");
-		if (data.endsWith(",")) data = data.substring(0, data.length() - 2);
-		string = new JsonString(tokens[0].trim().replace("\"", ""), data);
-		return string;
-	}
-	
-	public JsonString(String name, String data) {
-		super(name);
-		this.data = data;
-	}
-	
-	public String jsonify() {
-		return "\"" + getName() + "\": \"" + data + "\"";
-	}
+    private String data;
+
+    public static JsonString parse(String json) {
+        JsonString string;
+        String[] tokens = json.split(":");
+        String data = tokens[1].trim().replace("\"", "");
+        if (data.endsWith(",")) data = data.substring(0, data.length() - 2);
+        string = new JsonString(tokens[0].trim().replace("\"", ""), data);
+        return string;
+    }
+
+    public JsonString(String name, String data) {
+        super(name);
+        this.data = data;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public String jsonify() {
+        return "\"" + getName() + "\": \"" + data + "\"";
+    }
 }

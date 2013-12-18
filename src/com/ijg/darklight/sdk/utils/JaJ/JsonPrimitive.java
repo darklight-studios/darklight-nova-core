@@ -17,22 +17,30 @@ package com.ijg.darklight.sdk.utils.JaJ;
  * along with JaJ.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * This data type is used for JSON ints/numbers
+ * Data is held in a long int
+ */
 public class JsonPrimitive extends JsonData {
-	private long data;
-	
-	public static JsonPrimitive parse(String json) {
-		JsonPrimitive primitive;
-		String[] tokens = json.split(":");
-		primitive = new JsonPrimitive(tokens[0].trim().replace("\"", ""), Long.parseLong(tokens[1].trim().replace(",", "")));
-		return primitive;
-	}
-	
-	public JsonPrimitive(String name, long data) {
-		super(name);
-		this.data = data;
-	}
-	
-	public String jsonify() {
-		return "\"" + getName() + "\": " + data;
-	}
+    private long data;
+
+    public static JsonPrimitive parse(String json) {
+        JsonPrimitive primitive;
+        String[] tokens = json.split(":");
+        primitive = new JsonPrimitive(tokens[0].trim().replace("\"", ""), Long.parseLong(tokens[1].trim().replace(",", "")));
+        return primitive;
+    }
+
+    public JsonPrimitive(String name, long data) {
+        super(name);
+        this.data = data;
+    }
+
+    public long getData() {
+        return data;
+    }
+
+    public String jsonify() {
+        return "\"" + getName() + "\": " + data;
+    }
 }
