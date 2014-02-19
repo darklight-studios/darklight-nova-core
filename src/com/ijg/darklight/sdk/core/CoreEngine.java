@@ -31,7 +31,6 @@ import me.shanked.nicatronTg.darklight.view.VulnerabilityOutput;
 public class CoreEngine implements Runnable {
 	
 	private boolean running;
-	private boolean isFinished;
 	
 	protected IssueHandler issueHandler;
 	protected PluginHandler pluginHandler;
@@ -67,7 +66,6 @@ public class CoreEngine implements Runnable {
 	 * start the main thread, and do an initial issue check
 	 */
 	private void start() {
-		isFinished = false;
 		running = true;
 		pluginHandler.startAll();
 		Thread engine = new Thread(this, "engine");
@@ -104,14 +102,6 @@ public class CoreEngine implements Runnable {
 	 */
 	public void finishSession() {
 		running = false;
-	}
-	
-	/**
-	 * Check if the all issues have been found
-	 * @return True if isFinished has been set true
-	 */
-	public boolean finished() {
-		return isFinished;
 	}
 	
 	public void setAutoUpdate(boolean autoUpdate) {
